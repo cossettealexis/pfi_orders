@@ -1,10 +1,16 @@
 from django.db import models
 
 class Region(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     class Meta:
         db_table = 'region'
+        verbose_name = 'Region'
+        verbose_name_plural = 'Regions'
+
+    def __str__(self):
+        return self.name
+
 
 class Province(models.Model):
     name = models.CharField(max_length=100)
@@ -12,6 +18,13 @@ class Province(models.Model):
 
     class Meta:
         db_table = 'province'
+        verbose_name = 'Province'
+        verbose_name_plural = 'Provinces'
+        unique_together = ('name', 'region')
+
+    def __str__(self):
+        return self.name
+
 
 class Barangay(models.Model):
     name = models.CharField(max_length=100)
@@ -19,3 +32,9 @@ class Barangay(models.Model):
 
     class Meta:
         db_table = 'barangay'
+        verbose_name = 'Barangay'
+        verbose_name_plural = 'Barangays'
+        unique_together = ('name', 'province')
+
+    def __str__(self):
+        return self.name
