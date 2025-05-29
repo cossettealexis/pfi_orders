@@ -1,4 +1,10 @@
 <h1>Orders</h1>
+
+<form method="GET">
+    <input type="text" name="search" placeholder="Search by customer or status" value="{{ request.GET.search }}">
+    <button type="submit">Search</button>
+</form>
+
 <table>
     <thead>
         <tr>

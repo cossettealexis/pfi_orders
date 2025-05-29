@@ -1,4 +1,18 @@
 <h1>Dashboard</h1>
+
+<h2>Summary</h2>
+<ul>
+    <li>Total Orders: {{ total_orders }}</li>
+    <li>Pending Orders: {{ pending_orders }}</li>
+    <li>Accepted Orders: {{ accepted_orders }}</li>
+</ul>
+
+<h2>Actions</h2>
+<ul>
+    <li><a href="{% url 'order_list' %}">View Orders</a></li>
+    <li><a href="{% url 'order_create' %}">Create New Order</a></li>
+</ul>
+
 <h2>Orders</h2>
 <table>
     <thead>

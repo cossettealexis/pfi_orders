@@ -22,12 +22,20 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     if request.user.role == 'AGENT':
-        orders = Order.objects.filter(agent=request.user)
-        customers = Customer.objects.filter(orders__agent=request.user).distinct()
+        # Filter orders based on the agent's assigned regions
+        orders = Order.objects.filter(customer__barangay__province__region__in=request.user.regions.all())
     elif request.user.role == 'STAFF':
         orders = Order.objects.all()
-        customers = Customer.objects.all()
     else:
-        orders = []
-        customers = []
-    return render(request, 'users/dashboard.html', {'orders': orders, 'customers': customers})
+        orders = Order.objects.none()
+
+    total_orders = orders.count()
+    pending_orders = orders.filter(status__name='Pending').count()
+    accepted_orders = orders.filter(status__name='Accepted').count()
+
+    return render(request, 'users/dashboard.html', {
+        'orders': orders,
+        'total_orders': total_orders,
+        'pending_orders': pending_orders,
+        'accepted_orders': accepted_orders,
+    })

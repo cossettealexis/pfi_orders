@@ -1,4 +1,21 @@
-venv/
 __pycache__/
 *.sqlite3
 .env
+
+# Node modules
+node_modules/
+
+# Tailwind generated CSS
+static/css/output.css
+
+# Logs
+.npm/_logs/
+
+# Python virtual environment
+venv/
+
+# macOS system files
+.DS_Store
+postcss.config.js
+package-lock.json
+package.json

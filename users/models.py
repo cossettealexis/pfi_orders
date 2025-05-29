@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
+from core.models import Region
 
 class User(AbstractUser):
     ROLE_CHOICES = [
@@ -7,6 +8,7 @@ class User(AbstractUser):
         ('STAFF', 'Staff'),
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    regions = models.ManyToManyField(Region, related_name='agents', blank=True)  # Agents assigned to regions
 
     # Resolve related_name conflicts
     groups = models.ManyToManyField(
@@ -21,7 +23,7 @@ class User(AbstractUser):
     )
 
     class Meta:
-        db_table = 'user'
+        db_table = 'auth_user'  # Use the same table as the default User model
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
