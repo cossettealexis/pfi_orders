@@ -1,44 +1,30 @@
 from django.db import models
-from django.contrib.auth.models import User
+from users.models import User
 from customers.models import Customer
 from products.models import Product
-from core.models import Region
 
-class AgentRegion(models.Model):
-    agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_regions')
-    region = models.ForeignKey(Region, on_delete=models.CASCADE, related_name='agents')
+class OrderStatus(models.Model):
+    name = models.CharField(max_length=50)
 
-    def __str__(self):
-        return f"{self.agent.username} - {self.region.name}"
+    class Meta:
+        db_table = 'order_status'
 
 class Order(models.Model):
-    STATUS_PENDING = 'PENDING'
-    STATUS_APPROVED = 'APPROVED'
-    STATUS_DISPATCHED = 'DISPATCHED'
-    STATUS_DELIVERED = 'DELIVERED'
-    STATUS_CANCELLED = 'CANCELLED'
-
-    STATUS_CHOICES = [
-        (STATUS_PENDING, 'Pending'),
-        (STATUS_APPROVED, 'Approved'),
-        (STATUS_DISPATCHED, 'Dispatched'),
-        (STATUS_DELIVERED, 'Delivered'),
-        (STATUS_CANCELLED, 'Cancelled'),
-    ]
-
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name='orders')
     agent = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_PENDING)
+    status = models.ForeignKey(OrderStatus, on_delete=models.CASCADE, related_name='orders')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    expected_delivery_date = models.DateField(blank=True, null=True)
 
-    def __str__(self):
-        return f"Order #{self.id} - {self.customer.name}"
+    class Meta:
+        db_table = 'order'
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items')
     quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    def __str__(self):
-        return f"{self.product.name} x {self.quantity}"
+    class Meta:
+        db_table = 'order_item'
