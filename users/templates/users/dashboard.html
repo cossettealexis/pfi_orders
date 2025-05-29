@@ -1,0 +1,29 @@
+<h1>Dashboard</h1>
+<h2>Orders</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Status</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.customer.name }}</td>
+            <td>{{ order.status.name }}</td>
+            <td>{{ order.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Customers</h2>
+<ul>
+    {% for customer in customers %}
+    <li>{{ customer.name }} - {{ customer.email }}</li>
+    {% endfor %}
+</ul>

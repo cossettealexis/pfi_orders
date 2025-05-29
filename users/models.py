@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
 class User(AbstractUser):
@@ -7,6 +7,18 @@ class User(AbstractUser):
         ('STAFF', 'Staff'),
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+
+    # Resolve related_name conflicts
+    groups = models.ManyToManyField(
+        Group,
+        related_name="custom_user_groups",  # Custom related_name to avoid conflict
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name="custom_user_permissions",  # Custom related_name to avoid conflict
+        blank=True
+    )
 
     class Meta:
         db_table = 'user'
