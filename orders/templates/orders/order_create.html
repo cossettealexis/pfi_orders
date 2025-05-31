@@ -1,7 +1,255 @@
-<h1>Create New Order</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Order</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #F8F9FA;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        form {
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* Labels in the first column, inputs in the second */
+            gap: 15px 20px; /* Row and column spacing */
+            align-items: center; /* Align labels and inputs vertically */
+        }
+        label {
+            font-weight: bold;
+            text-align: right; /* Align label text to the right */
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #1E90FF;
+            outline: none;
+        }
+        .form-actions {
+            grid-column: span 2; /* Make the button span both columns */
+            text-align: center;
+        }
+        button {
+            background-color: #1E90FF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Order</button>
-</form>
+        /* Align Selected Products and Total Amount */
+        #selected-products {
+            width: 100%; /* Match the width of other inputs */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            font-size: 16px; /* Match font size with other inputs */
+        }
+
+        #product-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #product-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        #product-list li input {
+            width: 60px;
+            margin-left: 10px;
+        }
+
+        #product-list li button {
+            margin-left: 10px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        #product-list li button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h1>Create New Order</h1>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Agent Selection -->
+            <label for="agent">Agent:</label>
+            <select id="agent" name="agent">
+                <option value="" {% if not logged_in_agent %}selected{% endif %}>Select an Agent</option>
+                {% for agent in agents %}
+                <option value="{{ agent.id }}" {% if logged_in_agent and agent.id == logged_in_agent.id %}selected{% endif %}>
+                    {{ agent.username }}
+                </option>
+                {% endfor %}
+            </select>
+            
+            <!-- Customer Selection -->
+            <label for="customer">Customer:</label>
+            <select id="customer" name="customer">
+                {% for customer in customers %}
+                <option value="{{ customer.id }}">{{ customer.name }}</option>
+                {% endfor %}
+            </select>
+            
+            <!-- Product Dropdown -->
+            <label for="products">Select Products:</label>
+            <select id="products" name="products" onchange="addProduct()">
+                <option value="" selected>Select a Product</option>
+                {% for product in products %}
+                <option value="{{ product.id }}" data-name="{{ product.name }}" data-price="{{ product.price }}">
+                    {{ product.name }} (₱{{ product.price }})
+                </option>
+                {% endfor %}
+            </select>
+            
+            <!-- Selected Products -->
+            <label for="selected-products">Selected Products:</label>
+            <div id="selected-products">
+                <ul id="product-list"></ul>
+            </div>
+            
+            <!-- Total Amount -->
+            <label for="total_amount">Total Amount:</label>
+            <input type="number" id="total_amount" name="total_amount" step="0.01" min="0" readonly>
+            
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit">Create Order</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const selectedProducts = [];
+        const productList = document.getElementById('product-list');
+        const totalAmountInput = document.getElementById('total_amount');
+
+        function addProduct() {
+            const productDropdown = document.getElementById('products');
+            const selectedOption = productDropdown.options[productDropdown.selectedIndex];
+            const productId = selectedOption.value;
+            const productName = selectedOption.getAttribute('data-name');
+            const productPrice = parseFloat(selectedOption.getAttribute('data-price'));
+
+            if (!productId) return;
+
+            // Check if the product is already added
+            if (selectedProducts.some(product => product.id === productId)) {
+                alert('Product already added!');
+                return;
+            }
+
+            // Add product to the list
+            const product = { id: productId, name: productName, price: productPrice, quantity: 1 };
+            selectedProducts.push(product);
+
+            // Render the product list and update total amount
+            renderProductList();
+            calculateTotal();
+        }
+
+        function removeProduct(productId) {
+            // Remove product from the list
+            const index = selectedProducts.findIndex(product => product.id === productId);
+            if (index !== -1) {
+                selectedProducts.splice(index, 1);
+            }
+
+            // Reset the product dropdown to the default option
+            const productDropdown = document.getElementById('products');
+            productDropdown.value = "";
+
+            // Render the product list and update total amount
+            renderProductList();
+            calculateTotal();
+        }
+
+        function updateQuantity(productId, quantity) {
+            // Update product quantity
+            const product = selectedProducts.find(product => product.id === productId);
+            if (product) {
+                product.quantity = parseInt(quantity) || 1;
+            }
+
+            // Update total amount
+            calculateTotal();
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Render the product list on initial page load
+            renderProductList();
+        });
+
+        function renderProductList() {
+            productList.innerHTML = '';
+
+            if (selectedProducts.length === 0) {
+                // Show a message when no products are selected
+                productList.innerHTML = '<li style="text-align: center; color: #888;">No products selected</li>';
+                return;
+            }
+
+            selectedProducts.forEach(product => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <span>${product.name} (₱${product.price})</span>
+                    <input type="number" min="1" value="${product.quantity}" onchange="updateQuantity('${product.id}', this.value)">
+                    <button type="button" onclick="removeProduct('${product.id}')">Remove</button>
+                `;
+                productList.appendChild(listItem);
+            });
+        }
+
+        function calculateTotal() {
+            let total = 0;
+
+            selectedProducts.forEach(product => {
+                total += product.price * product.quantity;
+            });
+
+            totalAmountInput.value = total.toFixed(2);
+        }
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
--- Insert complete list of regions in the Philippines
+-- Insert regions if they don't already exist
 INSERT INTO region (name) VALUES 
 ('National Capital Region'),
 ('Cordillera Administrative Region'),
@@ -16,9 +16,10 @@ INSERT INTO region (name) VALUES
 ('Davao Region'),
 ('SOCCSKSARGEN'),
 ('Caraga'),
-('Bangsamoro Autonomous Region in Muslim Mindanao');
+('Bangsamoro Autonomous Region in Muslim Mindanao')
+ON CONFLICT (name) DO NOTHING;
 
--- Insert complete list of provinces in the Philippines
+-- Insert provinces if they don't already exist
 INSERT INTO province (name, region_id) VALUES 
 ('Metro Manila', (SELECT id FROM region WHERE name = 'National Capital Region')),
 ('Abra', (SELECT id FROM region WHERE name = 'Cordillera Administrative Region')),
@@ -93,8 +94,10 @@ INSERT INTO province (name, region_id) VALUES
 ('Lanao del Sur', (SELECT id FROM region WHERE name = 'Bangsamoro Autonomous Region in Muslim Mindanao')),
 ('Sulu', (SELECT id FROM region WHERE name = 'Bangsamoro Autonomous Region in Muslim Mindanao')),
 ('Tawi-Tawi', (SELECT id FROM region WHERE name = 'Bangsamoro Autonomous Region in Muslim Mindanao')),
-('Basilan', (SELECT id FROM region WHERE name = 'Bangsamoro Autonomous Region in Muslim Mindanao'));
+('Basilan', (SELECT id FROM region WHERE name = 'Bangsamoro Autonomous Region in Muslim Mindanao'))
+ON CONFLICT (name, region_id) DO NOTHING;
 
+-- Insert barangays if they don't already exist
 INSERT INTO barangay (name, province_id) VALUES 
 ('Agtangao', (SELECT id FROM province WHERE name = 'Abra')),
 ('Angad', (SELECT id FROM province WHERE name = 'Abra')),
@@ -170,7 +173,119 @@ INSERT INTO barangay (name, province_id) VALUES
 ('Danglas', (SELECT id FROM province WHERE name = 'Abra')),
 ('Nagaparan', (SELECT id FROM province WHERE name = 'Abra')),
 ('Padangitan', (SELECT id FROM province WHERE name = 'Abra')),
-('Pangal', (SELECT id FROM province WHERE name = 'Abra'));
+('Pangal', (SELECT id FROM province WHERE name = 'Abra')),
+
+('Abilan', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Agong-ong', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Alubijid', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Guinabsan', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Lower Olave', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Macalang', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Malapong', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Malpoc', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Manapa', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Matabao', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 1', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 10', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 2', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 3', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 4', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 5', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 6', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 7', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 8', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion 9', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Rizal', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Sacol', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Sangay', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Simbalan', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Talo-ao', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Antonio Luna', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Bay-ang', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Bayabas', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Caasinan', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Cabinet', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Calamba', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Calibunan', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Comagascas', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Concepcion', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Del Pilar', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Katugasan', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Kauswagan', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('La Union', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Mabini', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Mahaba', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Puting Bato', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Sanghan', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Soriano', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Tolosa', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Cahayagan', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Gosoon', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Manoligao', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Poblacion', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Rojales', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('San Agustin', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Tagcatong', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Vinapor', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('A. Beltran', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Baleguian', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Bangonay', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Bunga', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Colorado', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Cuyago', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Libas', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Magdagooc', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Magsaysay', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Maraiging', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('San Jose', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('San Pablo', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('San Vicente', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+('Santo Niño', (SELECT id FROM province WHERE name = 'Agusan del Norte')),
+
+('Berseba', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Bucac', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Cagbas', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Calaitan', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Canayugan', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Charito', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Claro Cortez', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Fili', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Gamao', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Getsemane', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Grace Estate', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Hamogaway', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Katipunan', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Mabuhay', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Magkiangkang', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Mahayag', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Marcelina', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Maygatasan', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Montivesta', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Mt. Ararat', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Mt. Carmel', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Mt. Olive', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('New Salem', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Noli', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Osmeña', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Panaytay', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Pinagalaan', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Poblacion', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Sagmone', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Saguma', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Salvacion', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('San Agustin', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('San Isidro', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('San Juan', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Santa Irene', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Santa Teresita', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Santo Niño', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Taglatawan', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Taglibas', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Tagubay', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Verdu', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Villa Undayon', (SELECT id FROM province WHERE name = 'Agusan del Sur')),
+('Wawa', (SELECT id FROM province WHERE name = 'Agusan del Sur'))
+ON CONFLICT (name, province_id) DO NOTHING;
 
 -- Insert initial data for order statuses
 INSERT INTO order_status (name) VALUES 
@@ -179,4 +294,5 @@ INSERT INTO order_status (name) VALUES
 ('Dispatched'),    -- When the order is sent out for delivery
 ('Delivered'),     -- When the order is successfully delivered
 ('Fulfilled'),     -- When the order is completed and marked as fulfilled
-('Cancelled');     -- When the order is rejected or canceled
+('Cancelled')      -- When the order is rejected or canceled
+ON CONFLICT (name) DO NOTHING;

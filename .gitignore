@@ -2,6 +2,9 @@ __pycache__/
 *.sqlite3
 .env
 
+# Static files
+staticfiles/
+
 # Node modules
 node_modules/
 
@@ -16,6 +19,8 @@ venv/
 
 # macOS system files
 .DS_Store
+
 postcss.config.js
 package-lock.json
 package.json
+.vscode/launch.json

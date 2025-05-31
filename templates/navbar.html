@@ -1,0 +1,11 @@
+<!-- filepath: /Users/cossettealexisgabuya/Documents/Projects/pfi_orders/templates/navbar.html -->
+<nav class="bg-primary text-white p-4 flex justify-between items-center shadow-md">
+    <div class="text-2xl font-bold">
+        <a href="{% url 'dashboard' %}" class="hover:underline">Order Management</a>
+    </div>
+    <div class="flex space-x-4">
+        <a href="{% url 'order_list' %}" class="hover:underline">Orders</a>
+        <a href="{% url 'order_create' %}" class="hover:underline">Create Order</a>
+        <a href="{% url 'logout' %}" class="hover:underline">Logout</a>
+    </div>
+</nav>

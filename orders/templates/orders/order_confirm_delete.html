@@ -1,0 +1,23 @@
+<!-- filepath: /Users/cossettealexisgabuya/Documents/Projects/pfi_orders/orders/templates/orders/order_confirm_delete.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Delete</title>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h2>Confirm Delete</h2>
+        <p>Are you sure you want to delete Order #{{ order.id }}?</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Delete</button>
+            <a href="{% url 'order_list' %}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</a>
+        </form>
+    </div>
+</body>
+</html>

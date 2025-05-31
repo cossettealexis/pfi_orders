@@ -1,7 +1,7 @@
 from django.db import models
 
 class Region(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True)  # Ensure name is unique
 
     class Meta:
         db_table = 'region'
@@ -20,7 +20,7 @@ class Province(models.Model):
         db_table = 'province'
         verbose_name = 'Province'
         verbose_name_plural = 'Provinces'
-        unique_together = ('name', 'region')
+        unique_together = ('name', 'region')  # Add unique constraint for name and region
 
     def __str__(self):
         return self.name
@@ -34,7 +34,7 @@ class Barangay(models.Model):
         db_table = 'barangay'
         verbose_name = 'Barangay'
         verbose_name_plural = 'Barangays'
-        unique_together = ('name', 'province')
+        unique_together = ('name', 'province')  # Add unique constraint for name and province
 
     def __str__(self):
         return self.name
