@@ -1,11 +1,13 @@
 from django.db import models
-from core.models import Barangay
+from core.models import Barangay, Province, Region
 
 class Customer(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     barangay = models.ForeignKey(Barangay, on_delete=models.SET_NULL, null=True, related_name='customers')
+    province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True, related_name='customers')
+    region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, related_name='customers')
 
     class Meta:
         db_table = 'customer'

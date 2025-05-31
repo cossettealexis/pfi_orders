@@ -81,6 +81,9 @@
         <div class="actions">
             <a href="{% url 'order_list' %}">View Orders</a>
             <a href="{% url 'order_create' %}">Create New Order</a>
+            {% if request.user.role == "AGENT" %}
+                <a href="{% url 'customer_add' %}" class="actions">Add Customer</a>
+            {% endif %}
         </div>
     </div>
 </body>

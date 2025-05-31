@@ -6,6 +6,10 @@
     <div class="flex space-x-4">
         <a href="{% url 'order_list' %}" class="hover:underline">Orders</a>
         <a href="{% url 'order_create' %}" class="hover:underline">Create Order</a>
+        <a href="{% url 'order_history' %}" class="hover:underline">Order History</a>
         <a href="{% url 'logout' %}" class="hover:underline">Logout</a>
+        {% if request.user.role == "AGENT" %}
+            <a href="{% url 'customer_add' %}" class="hover:underline">Add Customer</a>
+        {% endif %}
     </div>
 </nav>

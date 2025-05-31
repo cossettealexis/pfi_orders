@@ -44,6 +44,15 @@
         table tr:hover {
             background-color: #f1f1f1;
         }
+        .actions {
+            display: flex; /* Use flexbox for horizontal alignment */
+            gap: 10px; /* Add spacing between buttons */
+        }
+
+        .actions a, .actions form {
+            display: inline-block; /* Ensure buttons and forms are inline */
+        }
+
         .actions a {
             display: inline-block;
             margin: 5px;
@@ -157,6 +166,19 @@
         .btn-secondary:hover {
             background-color: #5a6268; /* Darker gray for hover */
         }
+        table td ul {
+            list-style-type: disc; /* Ensure bullet points */
+            padding-left: 20px; /* Add indentation */
+            margin: 0; /* Remove extra margin */
+        }
+
+        table td ul li {
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Hide overflowing text */
+            text-overflow: ellipsis; /* Add ellipsis for truncated text */
+            max-width: 200px; /* Set a maximum width for the text */
+            display: block; /* Ensure each product is displayed as a block */
+        }
     </style>
 </head>
 <body>
@@ -172,8 +194,12 @@
                 <tr>
                     <th>Order ID</th>
                     <th>Customer</th>
+                    <th>Agent</th>
                     <th>Status</th>
+                    <th>Products</th>
+                    <th>Total Amount</th>
                     <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -183,10 +209,23 @@
                     <tr>
                         <td>{{ order.id }}</td>
                         <td>{{ order.customer.name }}</td>
+                        <td>{{ order.agent.username }}</td>
                         <td>{{ order.status.name }}</td>
+                        <td>
+                            <ul style="list-style-type: disc; padding-left: 20px;">
+                                {% for order_product in order.order_products.all|slice:":3" %}
+                                <li>{{ order_product.product.name }} (x{{ order_product.quantity }})</li>
+                                {% endfor %}
+                                {% if order.order_products.count > 3 %}
+                                <li>... and {{ order.order_products.count|add:"-3" }} more</li>
+                                {% endif %}
+                            </ul>
+                        </td>
+                        <td>₱{{ order.total_amount }}</td>
                         <td>{{ order.created_at }}</td>
+                        <td>{{ order.updated_at }}</td>
                         <td class="actions">
-                            <a href="{% url 'order_detail' order.id %}" class="view-button">View</a>
+                            <a href="{% url 'order_detail' order.id %}?next=order_list" class="view-button">View</a>
                             <a href="{% url 'order_edit' order.id %}" class="edit-button">Edit</a>
                             <form style="display: inline;">
                                 <button type="button" class="delete-button" onclick="openModal('{% url 'order_delete' order.id %}')">Delete</button>
@@ -196,7 +235,7 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="5" style="text-align: center; color: #888; padding: 20px;">No records found</td>
+                        <td colspan="8" style="text-align: center; color: #888; padding: 20px;">No records found</td>
                     </tr>
                 {% endif %}
             </tbody>
