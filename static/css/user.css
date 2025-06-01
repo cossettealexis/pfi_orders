@@ -100,7 +100,7 @@ table tr:hover {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     height: 100%;
 }
@@ -197,13 +197,6 @@ table td ul li {
     justify-content: space-between;
     margin-bottom: 12px;
 }
-.product-detail-card .label {
-    color: #888;
-    font-weight: bold;
-}
-.product-detail-card .value {
-    color: #222;
-}
 .status-badge {
     display: inline-block;
     padding: 6px 18px;
@@ -213,22 +206,6 @@ table td ul li {
     color: white;
     background-color: #1E90FF;
     margin-bottom: 18px;
-}
-.products-section {
-    margin-top: 30px;
-}
-.products-section h4 {
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 1.2rem;
-}
-.products-list {
-    list-style-type: disc;
-    padding-left: 28px;
-}
-.products-list li {
-    margin-bottom: 6px;
-    color: #444;
 }
 .actions {
     margin-top: 24px;
@@ -278,109 +255,6 @@ table td ul li {
     color: #856404;
 }
 
-/* --- product List Table Actions --- */
-.product-list-actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    padding: 12px; /* Match your td padding */
-    /* Remove min-width! */
-    /* Remove fixed padding if you want to match other cells */
-}
-.product-list-actions a,
-.product-list-actions form {
-    margin: 0 4px 0 0;
-    display: inline-block;
-    align-items: center;
-    padding: 8px 12px;
-    /* No width or height set */
-}
-.product-list-actions .view-button,
-.product-list-actions .edit-button,
-.product-list-actions .delete-button {
-    padding: 8px 12px;
-    border-radius: 5px;
-    border: none;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
-.product-list-actions .view-button {
-    background-color: #007bff;
-    color: white;
-}
-.product-list-actions .view-button:hover {
-    background-color: #0056b3;
-}
-.product-list-actions .edit-button {
-    background-color: #ffc107;
-    color: black;
-}
-.product-list-actions .edit-button:hover {
-    background-color: #e0a800;
-    color: #fff;
-}
-.product-list-actions .delete-button {
-    background-color: #dc3545;
-    color: white;
-}
-.product-list-actions .delete-button:hover {
-    background-color: #c82333;
-}
-
-/* --- Order Detail Actions --- */
-.product-detail-actions {
-    margin-top: 24px;
-}
-.product-detail-actions .edit-detail-button {
-    background-color: #1E90FF;
-    color: #fff;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-.product-detail-actions .edit-detail-button:hover {
-    background-color: #0056b3;
-}
-.product-detail-actions .back-btn {
-    background-color: #1E90FF;
-    color: #fff;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    margin-left: 8px;
-    transition: background-color 0.3s;
-}
-.product-detail-actions .back-btn:hover {
-    background-color: #0056b3;
-}
-.add-product-btn {
-    background-color: #1E90FF;
-    color: #fff;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: background-color 0.2s;
-    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
-    white-space: nowrap;
-    margin-left: 16px;
-    margin-right: 16px;
-}
-.add-product-btn:hover {
-    background-color: #0056b3;
-}
 .search-btn {
     background-color: #1E90FF;
     color: #fff;
@@ -397,73 +271,27 @@ table td ul li {
     background-color: #0056b3;
     color: #fff;
 }
-.product-search-form {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 0 auto;
-    flex-shrink: 1;
-}
 
 .search-input {
-    width: 180px;
-    max-width: 240px;
-    flex: 1;
-    padding: 10px 14px;
+    padding: 8px 12px;
     border: 1px solid #d1d5db;
     border-radius: 5px;
     font-size: 1rem;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    background: #fff;
-    color: #222;
+    width: 100%;
 }
 
-.search-input:focus {
-    border-color: #1E90FF;
-    box-shadow: 0 0 0 2px rgba(30,144,255,0.15);
+.search-btn {
+    background: #1E90FF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
 }
-.product-list-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-}
-
-.product-list-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-    flex-shrink: 0;
-}
-.product-detail-container {
-    max-width: 700px;
-    margin: 40px auto;
-    padding: 0 16px;
-}
-.product-detail-container .messages {
-    margin-bottom: 18px;
-}
-
-/* Edit product Page Styles */
-/* product Create/Edit Container */
-.product-edit-container {
-    max-width: 700px;
-    margin: 40px auto;
-    padding: 24px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-}
-
-/* Form Layout */
-#product-create-form,
-#product-edit-form {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 15px 20px;
-    align-items: center;
+.search-btn:hover {
+    background: #0056b3;
 }
 
 /* Form Actions */
@@ -653,4 +481,364 @@ th a:hover {
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s;
+}
+
+h2 {
+    text-align: center;
+    color: #333333;
+    margin-bottom: 20px;
+}
+form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px 20px;
+    align-items: center;
+}
+label {
+    font-weight: bold;
+    text-align: right;
+}
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+input:focus, select:focus, textarea:focus {
+    border-color: #1E90FF;
+    outline: none;
+}
+.form-actions {
+    grid-column: span 2;
+    text-align: center;
+    margin-top: 20px;
+}
+button, .cancel-btn {
+    display: inline-block;
+    background-color: #1E90FF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+}
+button:hover, .cancel-btn:hover {
+    background-color: #0056b3;
+}
+.cancel-btn {
+    background-color: #ff4d4d;
+}
+.cancel-btn:hover {
+    background-color: #d11a2a;
+}
+.customer-list-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+.customer-list-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 24px;
+}
+
+.customer-table {
+    width: 100%;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    margin-top: 0;
+    background: #fff;
+}
+
+/* Remove all borders from table, rows, headers, and cells */
+.customer-table,
+.customer-table * {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Optional: Remove outline on focus for a cleaner look */
+.customer-table th:focus,
+.customer-table td:focus {
+    outline: none !important;
+}
+
+.customer-table th, .customer-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border: none !important;   /* <-- Add this line */
+}
+
+/* Remove border from table header if present */
+.customer-table th {
+    background-color: #1E90FF !important;
+    color: #fff !important;
+    font-weight: 600;
+    padding: 12px 10px;
+    border-bottom: none !important;  /* <-- Add this line */
+    text-align: left;
+}
+
+.customer-table tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+.customer-table tr:last-child td {
+    border-bottom: none;
+}
+
+.order-list-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    gap: 12px;
+}
+
+.order-list-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1E293b;
+}
+
+.order-search-form {
+    display: flex;
+    gap: 8px;
+    flex: 1 1 300px;
+    max-width: 400px;
+}
+
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.search-btn {
+    background: #1E90FF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.search-btn:hover {
+    background: #0056b3;
+}
+
+/* Add Customer button: blue, matches order list */
+.add-order-btn {
+    background-color: #1E90FF !important;
+    color: #fff !important;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
+    white-space: nowrap;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+.add-order-btn:hover {
+    background-color: #0056b3 !important;
+    color: #fff !important;
+}
+
+.order-list-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.view-button, .edit-button, .delete-button {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 5px;
+    font-size: 0.98rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.view-button {
+    background-color: #1E90FF !important;
+    color: #fff !important;
+}
+.view-button:hover {
+    background-color: #0056b3 !important;
+    color: #fff !important;
+}
+.edit-button {
+    background-color: #ffc107 !important;
+    color: #222 !important;
+}
+.edit-button:hover {
+    background-color: #e0a800 !important;
+    color: #fff !important;
+}
+.delete-button {
+    background-color: #dc2626 !important; /* Red */
+    color: #fff !important;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 14px;
+    font-size: 0.98rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.delete-button:hover {
+    background-color: #b91c1c !important; /* Darker red */
+    color: #fff !important;
+}
+.form-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 18px;
+    gap: 16px;
+}
+.form-row label {
+    min-width: 120px;
+    padding-top: 6px;
+    font-weight: 500;
+}
+.form-input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.field-error {
+    color: #d32f2f;
+    font-size: 0.95em;
+    margin-top: 2px;
+    min-height: 18px;
+}
+
+/* Add this to customer.css */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    min-width: 300px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.btn {
+    padding: 0.5em 1.5em;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+}
+.btn-danger {
+    background: #d9534f;
+    color: #fff;
+}
+.btn-secondary {
+    background: #6c757d;
+    color: #fff;
+}
+.btn:hover {
+    opacity: 0.9;
+}
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+    margin-top: 1.5em;
+}
+.user-list-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    gap: 12px;
+}
+.user-list-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1E293b;
+}
+.user-list-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+.user-list-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 24px;
+}
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+    background: #fff;
+}
+.user-table th, .user-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border: none;
+}
+.user-table th {
+    background-color: #1E90FF;
+    color: #fff;
+    font-weight: 600;
+}
+.user-table tr:nth-child(even) {
+    background: #f9fafb;
+}
+.user-table tr:hover {
+    background-color: #f1f1f1;
+}
+.add-user-btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
+    white-space: nowrap;
+    margin-bottom: 18px;
+    display: inline-block;
+}
+.add-user-btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+.user-actions {
+    display: flex;
+    gap: 8px;
 }

@@ -1,7 +1,8 @@
 from django.db import models
 
 class Region(models.Model):
-    name = models.CharField(max_length=100, unique=True)  # Ensure name is unique
+    name = models.CharField(max_length=255)  # Increased max_length to 255
+    is_active = models.BooleanField(default=True)  # Add this line
 
     class Meta:
         db_table = 'region'

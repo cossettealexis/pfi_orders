@@ -3,20 +3,20 @@
 {% block title %}User List{% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/user.css' %}">
+<link rel="stylesheet" href="{% static 'css/order.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="user-list-header">
+<div class="order-list-header">
     <h2>User List</h2>
-    <a href="{% url 'user_add' %}" class="add-user-btn">+ Add User</a>
-    <form method="get" class="user-search-form">
+    <a href="{% url 'user_add' %}" class="add-order-btn">+ Add User</a>
+    <form method="get" class="order-search-form">
         <input type="text" name="search" placeholder="Search by username or email" value="{{ request.GET.search }}" class="search-input">
         <button type="submit" class="search-btn">Search</button>
     </form>
 </div>
-<div class="user-list-card">
-    <table class="user-table">
+<div class="customer-list-card">
+    <table class="customer-table">
         <thead>
             <tr>
                 <th>
@@ -43,7 +43,6 @@
                         {% endif %}
                     </a>
                 </th>
-                <th>Region</th>
                 <th>
                     <a href="?sort=is_active&dir={% if request.GET.sort == 'is_active' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
                         Active
@@ -60,13 +59,10 @@
             <tr>
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.get_role_display }}</td>
                 <td>
-                    {% for region in user.regions.all %}
-                        {{ region }}{% if not forloop.last %}, {% endif %}
-                    {% empty %}
-                        <span style="color: #888;">—</span>
-                    {% endfor %}
+                    <span>
+                        {{ user.get_role_display }}
+                    </span>
                 </td>
                 <td>
                     {% if user.is_active %}
@@ -86,7 +82,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6" class="text-center" style="color: #888; padding: 24px;">No users found.</td>
+                <td colspan="5" class="text-center" style="color: #888; padding: 24px;">No users found.</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ action }} Region{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/customer.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 style="text-align:center; margin-bottom: 24px;">{{ action }} Region</h2>
+    <div id="form-error" class="form-error" style="text-align:center; margin-bottom: 18px;">
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    {{ error }}<br>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                {{ error }}<br>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
+
+        {% if form.non_field_errors %}
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        {% endfor %}
+        <div class="form-actions" style="display: flex; justify-content: center; gap: 12px; margin-top: 28px;">
+            <button type="submit" class="submit-btn">
+                {% if action == "Edit" %}
+                    Save Changes
+                {% else %}
+                    Save
+                {% endif %}
+            </button>
+            <a href="{% url 'region_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

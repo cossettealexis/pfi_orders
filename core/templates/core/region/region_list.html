@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Region List{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/order.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Region List</h2>
+    <a href="{% url 'region_add' %}" class="add-product-btn">+ Add Region</a>
+    <table class="customer-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for region in regions %}
+            <tr>
+                <td>{{ region.id }}</td>
+                <td>{{ region.name }}</td>
+                <td>
+                    {% if region.is_active %}
+                        <span style="color: #198754; font-weight: 500;">Yes</span>
+                    {% else %}
+                        <span style="color: #dc3545; font-weight: 500;">No</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'region_edit' region.id %}" class="edit-button">Edit</a>
+                    <form method="post" action="{% url 'region_delete' region.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No regions found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

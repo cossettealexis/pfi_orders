@@ -17,10 +17,10 @@
         {% endif %}
 
         <!-- Data Management (ADMIN only) -->
-        {% comment %} {% if request.user.role == "ADMIN" %}
+        {% if request.user.role == "ADMIN" %}
             <a href="{% url 'region_list' %}" style="padding-left: 20px;">Regions</a>
-            <a href="{% url 'province_list' %}" style="padding-left: 20px;">Provinces</a>
-            <a href="{% url 'barangay_list' %}" style="padding-left: 20px;">Barangays</a>
-        {% endif %} {% endcomment %}
+            {% comment %} <a href="{% url 'province_list' %}" style="padding-left: 20px;">Provinces</a> {% endcomment %}
+            {% comment %} <a href="{% url 'barangay_list' %}" style="padding-left: 20px;">Barangays</a> {% endcomment %}
+        {% endif %}
     </nav>
 </aside>
