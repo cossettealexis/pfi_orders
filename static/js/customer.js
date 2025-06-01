@@ -41,4 +41,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    const form = document.querySelector('form');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+        let error = '';
+        if (!form.name.value.trim()) {
+            error = 'Name is required.';
+        } else if (!form.email.value.trim()) {
+            error = 'Email is required.';
+        } else if (!form.region.value) {
+            error = 'Region is required.';
+        } else if (!form.province.value) {
+            error = 'Province is required.';
+        } else if (!form.barangay.value) {
+            error = 'Barangay is required.';
+        }
+
+        if (error) {
+            const errorDiv = document.getElementById('form-error');
+            if (errorDiv) errorDiv.textContent = error;
+            e.preventDefault();
+        }
+    });
 });

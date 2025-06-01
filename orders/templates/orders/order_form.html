@@ -56,14 +56,16 @@
                 <option value="" selected>Select a Customer</option>
                 {% for customer in customers %}
                 <option value="{{ customer.id }}"
-                    {% if order and customer.id == order.customer.id %}
+                    {% if selected_customer_id and customer.id|stringformat:"s" == selected_customer_id|stringformat:"s" %}
+                        selected
+                    {% elif order and customer.id == order.customer.id %}
                         selected
                     {% endif %}
                 >{{ customer.name }}</option>
                 {% endfor %}
             </select>
             {% if request.user.role == "AGENT" %}
-                <a href="{% url 'customer_add' %}?next=order_create" title="Add a new customer" class="add-customer-btn">+</a>
+                <a href="{% url 'customer_add' %}?next={% if order %}order_edit:{{ order.id }}{% else %}order_create{% endif %}" title="Add a new customer" class="add-customer-btn">+</a>
             {% endif %}
         </div>
         
@@ -94,6 +96,7 @@
             <button type="submit">
                 {% if action == "Edit" %}Save Changes{% else %}Create Order{% endif %}
             </button>
+            <a href="{% url 'order_list' %}" class="cancel-btn">Cancel</a>
         </div>
 
         <input type="hidden" id="form-products" name="products">

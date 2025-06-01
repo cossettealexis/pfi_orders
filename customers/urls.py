@@ -6,5 +6,4 @@ urlpatterns = [
     path('add/', views.customer_create, name='customer_add'),
     path('<int:pk>/', views.customer_detail, name='customer_detail'),
     path('<int:customer_id>/edit/', views.customer_edit, name='customer_edit'),
-    path('<int:customer_id>/delete/', views.customer_delete, name='customer_delete'),  # <-- Add this line
 ]

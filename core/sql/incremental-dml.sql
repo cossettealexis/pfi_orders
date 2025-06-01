@@ -452,10 +452,44 @@ INSERT INTO barangay (name, province_id) VALUES
 ('San Vicente, Baclayon', (SELECT id FROM province WHERE name = 'Bohol')),
 ('Santa Cruz, Baclayon', (SELECT id FROM province WHERE name = 'Bohol')),
 ('Taguihon, Baclayon', (SELECT id FROM province WHERE name = 'Bohol')),
-('Tanday, Baclayon', (SELECT id FROM province WHERE name = 'Bohol'))
+('Tanday, Baclayon', (SELECT id FROM province WHERE name = 'Bohol')),
 
--- Insert here
+-- Barangays for Quezon Province
 
+('Binagbag, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Dayap, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Ibabang Kinagunan, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Ilayang Kinagunan, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Kanlurang Calutan, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Kanlurang Maligaya, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Poblacion I, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Poblacion II, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Salvacion, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Silangang Calutan, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Silangang Maligaya, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+('Sildora, Agdangan', (SELECT id FROM province WHERE name = 'Quezon')),
+
+('Angeles, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Bacong, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Balungay, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Barangay 1, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Barangay 2, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Barangay 3, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Barangay 4, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Barangay 5, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Buenavista, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Caglate, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Camagong, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Gordon, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Pambilan Norte, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Pambilan Sur, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Villa Esperanza, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Villa Jesus Este, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Villa Jesus Weste, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Villa Norte, Alabat', (SELECT id FROM province WHERE name = 'Quezon')),
+('Villa Victoria, Alabat', (SELECT id FROM province WHERE name = 'Quezon'))
+
+-- Place this block before:
 ON CONFLICT (name, province_id) DO NOTHING;
 
 -- Insert initial data for order statuses

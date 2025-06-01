@@ -222,3 +222,25 @@ button:hover, .cancel-btn:hover {
     background-color: #b91c1c !important; /* Darker red */
     color: #fff !important;
 }
+.form-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 18px;
+    gap: 16px;
+}
+.form-row label {
+    min-width: 120px;
+    padding-top: 6px;
+    font-weight: 500;
+}
+.form-input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.field-error {
+    color: #d32f2f;
+    font-size: 0.95em;
+    margin-top: 2px;
+    min-height: 18px;
+}

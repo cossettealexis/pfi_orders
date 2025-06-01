@@ -6,6 +6,7 @@ class User(AbstractUser):
     ROLE_CHOICES = [
         ('AGENT', 'Agent'),
         ('STAFF', 'Staff'),
+        ('ADMIN', 'Admin'),  # <-- Add this line
     ]
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     regions = models.ManyToManyField(Region, related_name='agents', blank=True)  # Agents assigned to regions

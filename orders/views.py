@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from datetime import date
 from django.db.models import F, Q
+from collections import defaultdict
 
 from core import models
 from customers.models import Customer
@@ -61,6 +62,7 @@ def order_detail(request, order_id):
 
 @login_required
 def order_create(request):
+    customer_id = request.GET.get('customer_id')
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
@@ -82,6 +84,13 @@ def order_create(request):
 
             order.total_amount = total
             order.save()
+
+            OrderHistory.objects.create(
+                order=order,
+                user=request.user,
+                action="Order created",
+                notes=""
+            )
 
             return redirect('order_list')
         else:
@@ -111,11 +120,13 @@ def order_create(request):
         'statuses': statuses,
         'logged_in_agent': logged_in_agent,
         'action': 'Add',
+        'selected_customer_id': customer_id,
     })
 
 @login_required
 def order_edit(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+    customer_id = request.GET.get('customer_id')
 
     # Only allow agents to edit if order is pending
     if request.user.role == 'AGENT':
@@ -137,6 +148,48 @@ def order_edit(request, order_id):
     if request.method == 'POST':
         form = OrderForm(request.POST, instance=order)
         if form.is_valid():
+            changes = []
+            old_order = Order.objects.get(pk=order.pk)  # get current DB values
+
+            # Compare fields you care about
+            if old_order.status_id != int(form.cleaned_data['status'].id):
+                changes.append(f"Status: {old_order.status.name} → {form.cleaned_data['status'].name}")
+            if old_order.customer_id != int(form.cleaned_data['customer'].id):
+                changes.append(f"Customer: {old_order.customer.name} → {form.cleaned_data['customer'].name}")
+            if old_order.agent_id != int(form.cleaned_data['agent'].id):
+                changes.append(f"Agent: {old_order.agent.username} → {form.cleaned_data['agent'].username}")
+
+            # Build old and new product dicts: {product_id: quantity}
+            old_products = {op.product_id: op.quantity for op in old_order.order_products.all()}
+            new_products = {}
+            product_ids = request.POST.get('products', '').split(',')
+            quantities = request.POST.get('quantities', '').split(',')
+            for product_id, qty in zip(product_ids, quantities):
+                if product_id and qty:
+                    new_products[int(product_id)] = int(qty)
+
+            # Find added, removed, and changed products
+            product_changes = []
+            for pid, qty in new_products.items():
+                if pid not in old_products:
+                    product = Product.objects.get(id=pid)
+                    product_changes.append(f"Added {product.name} (x{qty})")
+                elif old_products[pid] != qty:
+                    product = Product.objects.get(id=pid)
+                    product_changes.append(f"Changed {product.name} quantity: {old_products[pid]} → {qty}")
+            for pid, qty in old_products.items():
+                if pid not in new_products:
+                    product = Product.objects.get(id=pid)
+                    product_changes.append(f"Removed {product.name} (was x{qty})")
+
+            if product_changes:
+                changes.append("Products/quantities: " + "; ".join(product_changes))
+
+            if not changes:
+                messages.info(request, "No changes detected. Nothing was updated.")
+                return redirect('order_detail', order_id=order.id)
+
+            # Save the order
             order = form.save(commit=False)
             order.agent = form.cleaned_data.get('agent')
             order.save()
@@ -164,16 +217,25 @@ def order_edit(request, order_id):
             order.save()
             # --- End handle products and quantities ---
 
+            # Save history with details
+            OrderHistory.objects.create(
+                order=order,
+                user=request.user,
+                action="Order updated",
+                notes="; ".join(changes)
+            )
+
             return redirect('order_list')
     else:
         form = OrderForm(instance=order)
 
+    # Pass selected_customer_id to template
     return render(request, 'orders/order_form.html', {
-        'form': form,
         'order': order,
-        'agents': agents,
         'customers': customers,
         'products': products,
+        'selected_customer_id': customer_id or (order.customer.id if order.customer else None),
+        'agents': agents,
         'statuses': statuses,
         'logged_in_agent': logged_in_agent,
         'action': 'Edit',
@@ -191,7 +253,7 @@ def order_delete(request, order_id):
 def order_history(request):
     if request.user.role == 'AGENT':
         orders = Order.objects.filter(agent=request.user).order_by('-created_at')
-    elif request.user.role == 'STAFF':
+    elif request.user.role == 'STAFF' or request.user.is_superuser:
         orders = Order.objects.all().order_by('-created_at')
     else:
         orders = Order.objects.none()

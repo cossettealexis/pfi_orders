@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Customer
 from .forms import CustomerForm
+from django.urls import reverse
 
 @login_required
 def customer_create(request):
@@ -11,10 +12,13 @@ def customer_create(request):
         form = CustomerForm(request.POST, user=request.user)
         if form.is_valid():
             customer = form.save(commit=False)
-            customer.region = request.user.regions.first()  # or let agent pick from their regions
+            customer.region = request.user.regions.first()
             customer.save()
             if next_url == 'order_create':
-                return redirect('order_create')
+                return redirect(f"{reverse('order_create')}?customer_id={customer.id}")
+            elif next_url and next_url.startswith('order_edit:'):
+                order_id = next_url.split(':')[1]
+                return redirect(f"{reverse('order_edit', args=[order_id])}?customer_id={customer.id}")
             else:
                 return redirect('customer_list')
     else:
@@ -43,8 +47,12 @@ def customer_edit(request, customer_id):
         'customer': customer,
     })
 
+@login_required
 def customer_list(request):
-    user = request.user
+    customers = Customer.objects.all()
+    if request.user.role == 'AGENT':
+        customers = customers.filter(region__in=request.user.regions.all())
+
     sort = request.GET.get('sort', 'created_at')
     direction = request.GET.get('dir', 'desc')
     search = request.GET.get('search', '').strip()
@@ -57,12 +65,6 @@ def customer_list(request):
     }
     sort_field = sort_map.get(sort, 'created_at')
     order_by = sort_field if direction == 'asc' else f'-{sort_field}'
-
-    # Base queryset
-    if hasattr(user, 'role') and user.role == 'AGENT':
-        customers = Customer.objects.filter(region__in=user.regions.all())
-    else:
-        customers = Customer.objects.all()
 
     # Apply search filter (now includes address fields)
     if search:
