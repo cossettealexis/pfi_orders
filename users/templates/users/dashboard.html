@@ -13,7 +13,10 @@
     <div class="grid">
         <div class="card">
             <h3>Total Orders</h3>
-            <p>{{ total_orders }}</p>
+            <p>
+                <a href="{% url 'order_list' %}" class="status-link">{{ total_orders }}</a>
+            </p>
+            
         </div>
         <div class="card">
             <h3>Pending Orders</h3>

@@ -53,7 +53,8 @@ def order_list(request):
         sort_field = '-' + sort_field
 
     orders = orders.order_by(sort_field)
-    return render(request, 'orders/order_list.html', {'orders': orders})
+    statuses = OrderStatus.objects.all()
+    return render(request, 'orders/order_list.html', {'orders': orders, 'statuses': statuses})
 
 @login_required
 def order_detail(request, order_id):

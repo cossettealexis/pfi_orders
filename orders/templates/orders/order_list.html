@@ -12,6 +12,17 @@
     <h2>Order List</h2>
     <a href="{% url 'order_create' %}" class="add-order-btn">+ Add New Order</a>
     <form method="GET" class="order-search-form">
+        <!-- Status dropdown added here -->
+        <select name="status"
+            class="search-select px-3 py-2 rounded-md border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+            onchange="this.form.submit()">
+            <option value="">All Statuses</option>
+            {% for status in statuses %}
+                <option value="{{ status.name }}" {% if request.GET.status == status.name %}selected{% endif %}>
+                    {{ status.name }}
+                </option>
+            {% endfor %}
+        </select>
         <input type="text" name="search" placeholder="Search by customer or status" value="{{ request.GET.search }}" class="search-input">
         <button type="submit" class="search-btn">Search</button>
     </form>
