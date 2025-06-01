@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-greeting" style="margin-bottom: 2.5rem; text-align: center;">
+        <h2 style="margin-bottom: 0.5rem; font-size: 1rem; font-weight: 700;">
+            Hi, {{ request.user.get_full_name|default:request.user.username }}
+        </h2>
+        <div style="color: #666; font-size: 1rem;">
+            You are logged in as <strong style="color: #1E90FF;">{{ request.user.role|default:"User" }}</strong>
+        </div>
+    </div>
+    <h2 class="dashboard-title">Summary</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Total Orders</h3>
+            <p>
+                <a href="{% url 'order_list' %}" class="status-link">{{ total_orders }}</a>
+            </p>
+            
+        </div>
+        <div class="card">
+            <h3>Pending Orders</h3>
+            <p>
+                <a href="{% url 'order_list' %}?status=Pending" class="status-link">{{ pending_orders }}</a>
+            </p>
+        </div>
+        <div class="card">
+            <h3>Accepted Orders</h3>
+            <p>
+                <a href="{% url 'order_list' %}?status=Accepted" class="status-link">{{ accepted_orders }}</a>
+            </p>
+        </div>
+        <div class="card">
+            <h3>Cancelled Orders</h3>
+            <p>
+                <a href="{% url 'order_list' %}?status=Cancelled" class="status-link">{{ cancelled_orders }}</a>
+            </p>
+        </div>
+        <div class="card">
+            <h3>Delivered Orders</h3>
+            <p>
+                <a href="{% url 'order_list' %}?status=Delivered" class="status-link">{{ delivered_orders }}</a>
+            </p>
+        </div>
+        <div class="card">
+            <h3>Rejected Orders</h3>
+            <p>
+                <a href="{% url 'order_list' %}?status=Rejected" class="status-link">{{ rejected_orders }}</a>
+            </p>
+        </div>
+        <div class="card">
+            <h3>Dispatched Orders</h3>
+            <p>
+                <a href="{% url 'order_list' %}?status=Dispatched" class="status-link">{{ dispatched_orders }}</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -1,0 +1,305 @@
+.user-list-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+.user-list-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 24px;
+}
+
+/* Header */
+.user-list-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    gap: 12px;
+}
+.user-list-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1E293b;
+}
+
+/* Add User Button */
+.add-user-btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
+    white-space: nowrap;
+    margin-left: 16px;
+    margin-right: 16px;
+    display: inline-block;
+}
+.add-user-btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+/* Search Form */
+.user-search-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 0 auto;
+    flex-shrink: 1;
+    max-width: 400px;
+}
+.user-search-form .search-input {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+.user-search-form .search-btn {
+    background: #1E90FF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.user-search-form .search-btn:hover {
+    background: #0056b3;
+}
+
+/* User Table */
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+    background: #fff;
+}
+.user-table th, .user-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border: none;
+}
+.user-table th {
+    background-color: #1E90FF;
+    color: #fff;
+    font-weight: 600;
+}
+.user-table tr:nth-child(even) {
+    background: #f9fafb;
+}
+.user-table tr:hover {
+    background-color: #f1f1f1;
+}
+.user-table tr:last-child td {
+    border-bottom: none;
+}
+.user-table th a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: inherit;
+    cursor: pointer;
+}
+.user-table th a:hover {
+    text-decoration: underline;
+    color: #1E90FF;
+}
+
+/* Actions in Table */
+.user-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+}
+.user-actions form {
+    display: inline;
+    margin: 0;
+}
+.user-actions .view-button,
+.user-actions .edit-button,
+.user-actions .delete-button {
+    display: inline-block;
+    margin: 0;
+}
+
+/* Action Buttons */
+.view-button {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.view-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-button {
+    background-color: #ffc107;
+    color: #222;
+    padding: 8px 18px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.edit-button:hover {
+    background-color: #e0a800;
+    color: #fff;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* User Detail Card */
+.user-detail-card {
+    max-width: 700px;
+    margin: 40px auto 0 auto;
+    padding: 32px 28px 24px 28px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    margin-bottom: 3.5rem;
+}
+.user-detail-card h3 {
+    margin-bottom: 18px;
+    color: #1E90FF;
+    font-size: 2rem;
+    letter-spacing: 1px;
+}
+.user-detail-card .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.user-detail-card .label {
+    color: #888;
+    font-weight: bold;
+}
+.user-detail-card .value {
+    color: #222;
+}
+
+/* Form Styles (Scoped) */
+.user-list-card form,
+.user-edit-container form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px 20px;
+    align-items: center;
+}
+.user-list-card label,
+.user-edit-container label {
+    font-weight: bold;
+    text-align: right;
+}
+.user-list-card input,
+.user-list-card select,
+.user-list-card textarea,
+.user-edit-container input,
+.user-edit-container select,
+.user-edit-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.user-list-card input:focus,
+.user-list-card select:focus,
+.user-list-card textarea:focus,
+.user-edit-container input:focus,
+.user-edit-container select:focus,
+.user-edit-container textarea:focus {
+    border-color: #1E90FF;
+    outline: none;
+}
+
+/* Form Actions */
+.user-list-card .form-actions,
+.user-edit-container .form-actions {
+    grid-column: span 2;
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+.user-list-card .submit-btn,
+.user-edit-container .submit-btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.user-list-card .submit-btn:hover,
+.user-edit-container .submit-btn:hover {
+    background-color: #0056b3;
+}
+.user-list-card .btn,
+.user-edit-container .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+.user-list-card .btn-danger,
+.user-edit-container .btn-danger {
+    background: #d9534f;
+    color: #fff;
+}
+.user-list-card .btn-secondary,
+.user-edit-container .btn-secondary {
+    background: #6c757d;
+    color: #fff;
+}
+.user-list-card .btn:hover,
+.user-edit-container .btn:hover {
+    opacity: 0.9;
+}
+
+/* Error Message */
+.form-error {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
+}

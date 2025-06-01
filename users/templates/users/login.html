@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PFI - Login</title>
+    {% block css %}
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #F8F9FA;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 60px auto 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #333333;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #1E90FF;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    <div class="container">
+        <h2>PFI</h2>
+        {% if error %}
+            <div style="color: #dc3545; background: #ffeaea; border: 1px solid #dc3545; padding: 10px 16px; border-radius: 6px; margin-bottom: 18px; text-align: center;">
+                {{ error }}
+            </div>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Enter Username" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Enter Password" required>
+                
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

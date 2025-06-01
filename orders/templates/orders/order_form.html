@@ -1,0 +1,124 @@
+<!-- filepath: /Users/cossettealexisgabuya/Documents/Projects/pfi_orders/orders/templates/orders/order_form.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{% if action == "Edit" %}Edit Order{% else %}Create New Order{% endif %}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/order.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="order-edit-container">
+    <h1>
+        {% if action == "Edit" %}Edit Order{% else %}Create New Order{% endif %}
+        {% if order %}#{{ order.id }}{% endif %}
+    </h1>
+    <form method="POST" id="order-edit-form">
+        {% csrf_token %}
+        <div id="form-error" class="form-error"></div>
+        
+        <!-- Agent Selection -->
+        <label for="agent">Agent:</label>
+        <select id="agent" name="agent" {% if logged_in_agent %}readonly disabled{% endif %}>
+            <option value="" {% if not order and not logged_in_agent %}selected{% endif %}>Select an Agent</option>
+            {% for agent in agents %}
+            <option value="{{ agent.id }}"
+                {% if logged_in_agent and agent.id == logged_in_agent.id %}
+                    selected
+                {% elif order and agent.id == order.agent.id %}
+                    selected
+                {% endif %}
+            >{{ agent.username }}</option>
+            {% endfor %}
+        </select>
+        {% if logged_in_agent %}
+            <input type="hidden" name="agent" value="{{ logged_in_agent.id }}">
+        {% endif %}
+        
+        <!-- Status Selection -->
+        <label for="status">Status:</label>
+        <select id="status" name="status">
+            {% for status in statuses %}
+            <option value="{{ status.id }}"
+                {% if order and status.id == order.status.id %}
+                    selected
+                {% elif not order and status.name == "Pending" %}
+                    selected
+                {% endif %}
+            >{{ status.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <!-- Customer Selection -->
+        <label for="customer">Customer:</label>
+        <div class="customer-select-row">
+            <select id="customer" name="customer">
+                <option value="" selected>Select a Customer</option>
+                {% for customer in customers %}
+                <option value="{{ customer.id }}"
+                    {% if selected_customer_id and customer.id|stringformat:"s" == selected_customer_id|stringformat:"s" %}
+                        selected
+                    {% elif order and customer.id == order.customer.id %}
+                        selected
+                    {% endif %}
+                >{{ customer.name }}</option>
+                {% endfor %}
+            </select>
+            {% if role.can_add_edit_customer %}
+                <a href="{% url 'customer_add' %}?next={% if order %}order_edit:{{ order.id }}{% else %}order_create{% endif %}" title="Add a new customer" class="add-customer-btn">+</a>
+            {% endif %}
+        </div>
+        
+        <!-- Product Dropdown -->
+        <label for="products">Select Products:</label>
+        <select id="products" name="products">
+            <option value="" selected>Select a Product</option>
+            {% for product in products %}
+            <option value="{{ product.id }}" data-name="{{ product.name }}" data-price="{{ product.price }}">
+                {{ product.name }} (₱{{ product.price }})
+            </option>
+            {% endfor %}
+        </select>
+        
+        <!-- Selected Products -->
+        <label for="selected-products">Selected Products:</label>
+        <div id="selected-products">
+            <ul id="product-list"></ul>
+        </div>
+        
+        <!-- Total Amount -->
+        <label for="total_amount">Total Amount:</label>
+        <input type="number" id="total_amount" name="total_amount" step="0.01" min="0" readonly
+               value="{% if order %}{{ order.total_amount }}{% endif %}">
+        
+        <!-- Submit Button -->
+        <div class="form-actions">
+            <button type="submit">
+                {% if action == "Edit" %}Save Changes{% else %}Create Order{% endif %}
+            </button>
+            <a href="{% url 'order_list' %}" class="cancel-btn">Cancel</a>
+        </div>
+
+        <input type="hidden" id="form-products" name="products">
+        <input type="hidden" id="form-quantities" name="quantities">
+    </form>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+</div>
+
+{% if order %}
+<div id="order-edit-data"
+     data-products='[{% for op in order.order_products.all %}{"id":"{{ op.product.id }}","name":"{{ op.product.name|escapejs }}","price":{{ op.product.price }},"quantity":{{ op.quantity }}}{% if not forloop.last %},{% endif %}{% endfor %}]'>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/order.js' %}"></script>
+{% endblock %}

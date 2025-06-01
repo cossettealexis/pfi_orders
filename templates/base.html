@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}PFI{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    {% block css %}{% endblock %}
+</head>
+<body class="bg-gray-100">
+    {% include 'navbar.html' %}
+    <div class="layout-container">
+        {% include 'sidebar.html' %}
+        <main class="main-content flex justify-center items-start mt-20">
+            <div class="w-full max-w-4xl rounded-lg bg-white shadow-lg p-6">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+
+    </div>
+    <script src="{% static 'js/sidebar.js' %}"></script>
+    {% block js %}{% endblock %}
+</body>
+</html>

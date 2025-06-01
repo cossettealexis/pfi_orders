@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order List{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/order.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="order-list-header">
+    <h2>Order List</h2>
+    <a href="{% url 'order_create' %}" class="add-order-btn">+ Add New Order</a>
+    <form method="GET" class="order-search-form">
+        <!-- Status dropdown added here -->
+        <select name="status"
+            class="search-select px-3 py-2 rounded-md border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+            onchange="this.form.submit()">
+            <option value="">All Statuses</option>
+            {% for status in statuses %}
+                <option value="{{ status.name }}" {% if request.GET.status == status.name %}selected{% endif %}>
+                    {{ status.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <input type="text" name="search" placeholder="Search by customer or status" value="{{ request.GET.search }}" class="search-input">
+        <button type="submit" class="search-btn">Search</button>
+    </form>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>
+                <a href="?sort=id&dir={% if request.GET.sort == 'id' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                    Order ID
+                    {% if request.GET.sort == 'id' %}
+                        {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                    {% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="?sort=customer&dir={% if request.GET.sort == 'customer' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                    Customer
+                    {% if request.GET.sort == 'customer' %}
+                        {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                    {% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="?sort=agent&dir={% if request.GET.sort == 'agent' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                    Agent
+                    {% if request.GET.sort == 'agent' %}
+                        {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                    {% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="?sort=status&dir={% if request.GET.sort == 'status' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                    Status
+                    {% if request.GET.sort == 'status' %}
+                        {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                    {% endif %}
+                </a>
+            </th>
+            <th>Products</th>
+            <th>
+                <a href="?sort=total_amount&dir={% if request.GET.sort == 'total_amount' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                    Total Amount
+                    {% if request.GET.sort == 'total_amount' %}
+                        {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                    {% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="?sort=created_at&dir={% if request.GET.sort == 'created_at' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                    Created At
+                    {% if request.GET.sort == 'created_at' %}
+                        {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                    {% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="?sort=updated_at&dir={% if request.GET.sort == 'updated_at' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                    Updated At
+                    {% if request.GET.sort == 'updated_at' %}
+                        {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                    {% endif %}
+                </a>
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if orders %}
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer.name }}</td>
+                <td>{{ order.agent.username }}</td>
+                <td>{{ order.status.name }}</td>
+                <td>
+                    <ul>
+                        {% for order_product in order.order_products.all|slice:":3" %}
+                        <li>{{ order_product.product.name }} (x{{ order_product.quantity }})</li>
+                        {% endfor %}
+                        {% if order.order_products.count > 3 %}
+                        <li>... and {{ order.order_products.count|add:"-3" }} more</li>
+                        {% endif %}
+                    </ul>
+                </td>
+                <td>₱{{ order.total_amount }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.updated_at }}</td>
+                <td class="order-list-actions">
+                    <a href="{% url 'order_detail' order.id %}?next=order_list" class="view-button">View</a>
+                    <a href="{% url 'order_edit' order.id %}" class="edit-button">Edit</a>
+                    <form style="display: inline;">
+                        <button type="button" class="delete-button" onclick="openModal('{% url 'order_delete' order.id %}')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="9" style="text-align: center; color: #888; padding: 20px;">No records found</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+<!-- Modal Structure -->
+<div id="deleteModal" class="modal">
+    <div class="modal-content">
+        <h2>Confirm Delete</h2>
+        <p>Are you sure you want to delete this order?</p>
+        <div class="modal-actions">
+            <form id="deleteForm" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Yes</button>
+            </form>
+            <button type="button" class="btn btn-secondary" onclick="closeModal()">No</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/order.js' %}"></script>
+{% endblock %}

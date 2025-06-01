@@ -1,0 +1,26 @@
+<aside id="sidebar" class="sidebar">
+    <div class="sidebar-title">
+    </div>
+    <nav class="sidebar-nav">
+        <!-- Order Management (STAFF, AGENT) -->
+        <a href="{% url 'order_list' %}" style="padding-left: 20px;">Orders</a>
+        <a href="{% url 'customer_list' %}" style="padding-left: 20px;">Customers</a>
+
+        <!-- Product Management (STAFF only and ADMIN) -->
+        {% if request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser  %}
+            <a href="{% url 'product_list' %}" style="padding-left: 20px;">Products</a>
+        {% endif %}
+
+        <!-- User Management (ADMIN only) -->
+        {% if request.user.role == "ADMIN" or request.user.is_superuser  %}
+            <a href="{% url 'user_list' %}" style="padding-left: 20px;">Users</a>
+        {% endif %}
+
+        <!-- Data Management (ADMIN only) -->
+        {% if request.user.role == "ADMIN" or request.user.is_superuser %}
+            <a href="{% url 'region_list' %}" style="padding-left: 20px;">Regions</a>
+            <a href="{% url 'province_list' %}" style="padding-left: 20px;">Provinces</a>
+            <a href="{% url 'barangay_list' %}" style="padding-left: 20px;">Barangays</a>
+        {% endif %}
+    </nav>
+</aside>

@@ -1,0 +1,303 @@
+.customer-list-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+.customer-list-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 24px;
+}
+
+/* Header */
+.customer-list-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    gap: 12px;
+}
+.customer-list-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1E293b;
+}
+
+/* Add Customer Button */
+.add-customer-btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
+    white-space: nowrap;
+    margin-left: 16px;
+    margin-right: 16px;
+    display: inline-block;
+}
+.add-customer-btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+/* Search Form */
+.customer-search-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 0 auto;
+    flex-shrink: 1;
+    max-width: 400px;
+}
+.customer-search-form .search-input {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+.customer-search-form .search-btn {
+    background: #1E90FF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.customer-search-form .search-btn:hover {
+    background: #0056b3;
+}
+
+/* Customer Table */
+.customer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+    background: #fff;
+}
+.customer-table th, .customer-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border: none;
+}
+.customer-table th {
+    background-color: #1E90FF;
+    color: #fff;
+    font-weight: 600;
+}
+.customer-table tr:nth-child(even) {
+    background: #f9fafb;
+}
+.customer-table tr:hover {
+    background-color: #f1f1f1;
+}
+.customer-table tr:last-child td {
+    border-bottom: none;
+}
+.customer-table th a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: inherit;
+    cursor: pointer;
+}
+.customer-table th a:hover {
+    text-decoration: underline;
+    color: #1E90FF;
+}
+
+/* Detail/Edit Page Buttons */
+.customer-list-card .view-button {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: inline-block;
+}
+.customer-list-card .view-button:hover {
+    background-color: #0056b3;
+}
+.customer-list-card .edit-button {
+    background-color: #ffc107;
+    color: #222;
+    padding: 10px 22px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: inline-block;
+}
+.customer-list-card .edit-button:hover {
+    background-color: #e0a800;
+    color: #fff;
+}
+.customer-list-card .delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: inline-block;
+}
+.customer-list-card .delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Form Styles (Scoped) */
+.customer-list-card form,
+.customer-edit-container form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px 20px;
+    align-items: center;
+}
+.customer-list-card label,
+.customer-edit-container label {
+    font-weight: bold;
+    text-align: right;
+}
+.customer-list-card input,
+.customer-list-card select,
+.customer-list-card textarea,
+.customer-edit-container input,
+.customer-edit-container select,
+.customer-edit-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.customer-list-card input:focus,
+.customer-list-card select:focus,
+.customer-list-card textarea:focus,
+.customer-edit-container input:focus,
+.customer-edit-container select:focus,
+.customer-edit-container textarea:focus {
+    border-color: #1E90FF;
+    outline: none;
+}
+
+/* Form Actions */
+.customer-list-card .form-actions,
+.customer-edit-container .form-actions {
+    grid-column: span 2;
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+.customer-list-card .submit-btn,
+.customer-edit-container .submit-btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.customer-list-card .submit-btn:hover,
+.customer-edit-container .submit-btn:hover {
+    background-color: #0056b3;
+}
+.customer-list-card .btn,
+.customer-edit-container .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+.customer-list-card .btn-danger,
+.customer-edit-container .btn-danger {
+    background: #d9534f;
+    color: #fff;
+}
+.customer-list-card .btn-secondary,
+.customer-edit-container .btn-secondary {
+    background: #6c757d;
+    color: #fff;
+}
+.customer-list-card .btn:hover,
+.customer-edit-container .btn:hover {
+    opacity: 0.9;
+}
+
+/* Error Message */
+.form-error {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Modal Styles (Scoped) */
+.customer-list-card .modal,
+.customer-edit-container .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+.customer-list-card .modal-content,
+.customer-edit-container .modal-content {
+    background: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    min-width: 300px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.customer-list-card .modal-actions,
+.customer-edit-container .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+    margin-top: 1.5em;
+}
+.customer-list-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+}
+.customer-list-actions form {
+    display: inline;
+    margin: 0;
+}
+.customer-list-actions .view-button,
+.customer-list-actions .edit-button,
+.customer-list-actions .delete-button {
+    display: inline-block;
+    margin: 0;
+}

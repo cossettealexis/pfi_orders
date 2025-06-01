@@ -1,0 +1,193 @@
+/* Container and Card */
+.region-list-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+.region-list-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    gap: 12px;
+}
+.region-list-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1E293b;
+}
+.region-list-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 24px;
+}
+
+/* Table */
+.region-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+    background: #fff;
+}
+.region-table th, .region-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border: none;
+}
+.region-table th {
+    background-color: #1E90FF;
+    color: #fff;
+    font-weight: 600;
+}
+.region-table tr:nth-child(even) {
+    background: #f9fafb;
+}
+.region-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Add Region Button */
+.add-region-btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
+    white-space: nowrap;
+    margin-bottom: 18px;
+    display: inline-block;
+}
+.add-region-btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+/* Action Buttons */
+.region-actions {
+    display: flex;
+    gap: 8px;
+}
+.edit-button {
+    background-color: #ffc107;
+    color: #222;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+.edit-button:hover {
+    background-color: #e0a800;
+    color: #fff;
+}
+.delete-button {
+    background-color: #dc2626;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+.delete-button:hover {
+    background-color: #b91c1c;
+    color: #fff;
+}
+
+/* Form Container and Card */
+.region-form-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 32px 28px 24px 28px;
+    max-width: 500px;
+    margin: 40px auto;
+}
+
+.region-form-card h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #1E293b;
+}
+
+.region-form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.region-form-card label {
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.region-form-card input[type="text"],
+.region-form-card input[type="email"],
+.region-form-card select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.region-form-card .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.region-form-card .submit-btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.region-form-card .submit-btn:hover {
+    background-color: #0056b3;
+}
+
+.region-form-card .cancel-btn {
+    background-color: #dc2626;
+    color: #fff;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    display: inline-block;
+}
+
+.region-form-card .cancel-btn:hover {
+    background-color: #b91c1c;
+    color: #fff;
+}
+
+.form-error {
+    color: #dc2626;
+    margin-bottom: 10px;
+    text-align: center;
+}

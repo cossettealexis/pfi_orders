@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order Detail{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/order.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="order-detail-container">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <div class="order-detail-card card">
+        <h3>Order #{{ order.id }}</h3>
+        <div class="status-badge">{{ order.status.name }}</div>
+        <div class="row">
+            <span class="label">Customer:</span>
+            <span class="value">{{ order.customer.name }}</span>
+        </div>
+        <div class="row">
+            <span class="label">Created At:</span>
+            <span class="value">{{ order.created_at|date:"M d, Y H:i" }}</span>
+        </div>
+        <div class="row">
+            <span class="label">Total Amount:</span>
+            <span class="value">₱{{ order.total_amount }}</span>
+        </div>
+        <div class="products-section">
+            <h4>Products</h4>
+            <ul class="products-list">
+                {% for order_product in order.order_products.all %}
+                    <li>{{ order_product.product.name }} (x{{ order_product.quantity }})</li>
+                {% empty %}
+                    <li>No products in this order.</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="order-detail-actions">
+            <a href="{% url 'order_edit' order.id %}" class="edit-detail-button">Edit Order</a>
+            {% if request.GET.next == "order_history" %}
+                <a href="{% url 'order_history' %}" class="back-btn">Back to Order History</a>
+            {% else %}
+                <a href="{% url 'order_list' %}" class="back-btn">Back to Orders</a>
+            {% endif %}
+        </div>
+    </div> <!-- end of .order-detail-card -->
+    <h3 class="mt-20 text-xl font-semibold">Order History</h3>
+    <div class="order-history-section">
+        {% if order_history %}
+            <ul class="order-history-list">
+                {% for entry in order_history %}
+                    <li>
+                        <span class="history-date">{{ entry.timestamp|date:"M d, Y H:i" }}</span>
+                        <span class="history-user">{{ entry.user.get_full_name|default:entry.user.username }}</span>
+                        <span class="history-action">{{ entry.action }}</span>
+                        {% if entry.notes %}
+                            <span class="history-notes">({{ entry.notes }})</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="history-empty">No history available for this order.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/order.js' %}"></script>
+{% endblock %}

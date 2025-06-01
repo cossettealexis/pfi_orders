@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ action }} Barangay{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/core.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="region-form-card">
+    <h2>{{ action }} Barangay</h2>
+    <div id="form-error" class="form-error">
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    {{ error }}<br>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                {{ error }}<br>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        {% endfor %}
+        <div class="form-actions">
+            <button type="submit" class="submit-btn">
+                {% if action == "Edit" %}
+                    Save Changes
+                {% else %}
+                    Save
+                {% endif %}
+            </button>
+            <a href="{% url 'barangay_list' %}" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

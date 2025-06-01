@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ action }} Customer{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/customer.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="customer-list-container">
+    <div class="customer-list-card" style="max-width: 700px; margin: 40px auto;">
+        <h2 style="text-align:center; margin-bottom: 24px;">{{ action }} Customer</h2>
+        <div id="form-error" class="form-error" style="text-align:center; margin-bottom: 18px;">
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        {{ error }}<br>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    {{ error }}<br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <div class="form-errors">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {# Render only the non-location fields from the form #}
+            {% for field in form %}
+                {% if field.name not in 'region province barangay' %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                {% endif %}
+            {% endfor %}
+
+            <label for="id_region">Region:</label>
+            <select id="id_region" name="region">
+                <option value="">Select a Region</option>
+                {% for region in form.fields.region.queryset %}
+                    <option value="{{ region.id }}" {% if form.initial.region == region.id %}selected{% endif %}>{{ region.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="id_province">Province:</label>
+            <select id="id_province" name="province">
+                <option value="">Select a Province</option>
+                {% for province in form.fields.province.queryset %}
+                    <option value="{{ province.id }}"
+                        {% if customer and province.id == customer.province.id %}selected{% endif %}>
+                        {{ province.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="id_barangay">Barangay:</label>
+            <select id="id_barangay" name="barangay">
+                <option value="">Select a Barangay</option>
+                {% for barangay in form.fields.barangay.queryset %}
+                    <option value="{{ barangay.id }}"
+                        {% if customer and barangay.id == customer.barangay.id %}selected{% endif %}>
+                        {{ barangay.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <div class="form-actions" style="display: flex; justify-content: center; gap: 12px; margin-top: 28px;">
+                <button type="submit" class="submit-btn">
+                    {% if action == "Edit" %}
+                        Save Changes
+                    {% else %}
+                        Save
+                    {% endif %}
+                </button>
+                <a href="{{ next_url }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/customer.js' %}"></script>
+{% endblock %}
