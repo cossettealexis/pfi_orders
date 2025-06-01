@@ -4,6 +4,7 @@ from django.db.models import Q
 from .models import Customer
 from .forms import CustomerForm
 from django.urls import reverse
+from users.roles import get_user_role
 
 @login_required
 def customer_create(request):
@@ -32,8 +33,9 @@ def customer_create(request):
 @login_required
 def customer_edit(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
-    if request.user.role != 'AGENT' or customer.region not in request.user.regions.all():
-        return redirect('order_list')
+    role = get_user_role(request.user)
+    if not role.can_add_edit_customer(customer):
+        return redirect('customer_list')
     if request.method == 'POST':
         form = CustomerForm(request.POST, instance=customer, user=request.user)
         if form.is_valid():
@@ -49,9 +51,13 @@ def customer_edit(request, customer_id):
 
 @login_required
 def customer_list(request):
-    customers = Customer.objects.all()
-    if request.user.role == 'AGENT':
-        customers = customers.filter(region__in=request.user.regions.all())
+    role = get_user_role(request.user)
+    if role.can_view_all_customers():
+        customers = Customer.objects.all()
+    elif role.can_view_customers():
+        customers = Customer.objects.filter(region__in=request.user.regions.all())
+    else:
+        customers = Customer.objects.none()
 
     sort = request.GET.get('sort', 'created_at')
     direction = request.GET.get('dir', 'desc')
@@ -88,8 +94,8 @@ def customer_detail(request, pk):
 @login_required
 def customer_delete(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
-    # Only allow staff or superuser to delete
-    if not (request.user.is_staff or request.user.is_superuser or getattr(request.user, 'role', None) == 'STAFF'):
+    role = get_user_role(request.user)
+    if not role.can_add_edit_any_customer():
         return redirect('customer_list')
     if request.method == 'POST':
         customer.delete()

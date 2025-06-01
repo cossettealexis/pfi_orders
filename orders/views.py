@@ -10,23 +10,23 @@ from core import models
 from customers.models import Customer
 from products.models import Product
 from users.models import User
+from users.roles import AgentRole, get_user_role
 from .models import Order, OrderProduct, OrderStatus, OrderHistory
 from .forms import OrderForm
 
 @login_required
 def order_list(request):
+    role = get_user_role(request.user)
+    if role.can_view_all_orders():
+        orders = Order.objects.all()
+    elif role.can_view_orders():
+        orders = Order.objects.filter(agent=request.user)
+    else:
+        orders = Order.objects.none()
+
     search_query = request.GET.get('search', '')
     sort = request.GET.get('sort', 'created_at')
     dir = request.GET.get('dir', 'desc')
-
-    if request.user.is_superuser:
-        orders = Order.objects.all()
-    elif request.user.role == 'AGENT':
-        orders = Order.objects.filter(agent=request.user)
-    elif request.user.role == 'STAFF':
-        orders = Order.objects.all()
-    else:
-        orders = Order.objects.none()
 
     if search_query:
         orders = orders.filter(
@@ -127,10 +127,11 @@ def order_create(request):
 def order_edit(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     customer_id = request.GET.get('customer_id')
+    role = get_user_role(request.user)
 
     # Only allow agents to edit if order is pending
-    if request.user.role == 'AGENT':
-        if order.status.name != 'Pending':
+    if isinstance(role, AgentRole):
+        if not role.can_edit_cancel_order(order):
             messages.warning(request, "You can only edit orders that are still pending.")
             return redirect('order_detail', order_id=order.id)
         agents = User.objects.filter(id=request.user.id)
@@ -244,16 +245,18 @@ def order_edit(request, order_id):
 @login_required
 def order_delete(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+    # You may want to add a permission check here using role.can_edit_cancel_order(order)
     if request.method == 'POST':
         order.delete()
-        return redirect('order_list')  # Redirect to the order list after deletion
+        return redirect('order_list')
     return render(request, 'orders/order_confirm_delete.html', {'order': order})
 
 @login_required
 def order_history(request):
-    if request.user.role == 'AGENT':
+    role = get_user_role(request.user)
+    if role.can_view_orders():
         orders = Order.objects.filter(agent=request.user).order_by('-created_at')
-    elif request.user.role == 'STAFF' or request.user.is_superuser:
+    elif role.can_view_all_orders():
         orders = Order.objects.all().order_by('-created_at')
     else:
         orders = Order.objects.none()
@@ -261,7 +264,8 @@ def order_history(request):
 
 @login_required
 def accept_order(request, order_id):
-    if request.user.role != 'STAFF':
+    role = get_user_role(request.user)
+    if not role.can_update_order_status():
         return redirect('order_list')
     order = get_object_or_404(Order, id=order_id)
     order.status = OrderStatus.objects.get(name='Accepted')
