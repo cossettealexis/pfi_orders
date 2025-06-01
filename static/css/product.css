@@ -297,7 +297,6 @@
     background-color: #d11a2a;
 }
 
-/* Error Message */
 .form-error {
     color: red;
     margin-bottom: 10px;
@@ -355,7 +354,6 @@
     opacity: 0.9;
 }
 
-/* Style action buttons inside product-list-card (for product detail page) */
 .product-list-card .view-button {
     background-color: #1E90FF;
     color: #fff;

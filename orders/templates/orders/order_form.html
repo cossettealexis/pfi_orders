@@ -1,4 +1,3 @@
-<!-- filepath: /Users/cossettealexisgabuya/Documents/Projects/pfi_orders/orders/templates/orders/order_form.html -->
 {% extends "base.html" %}
 {% load static %}
 
@@ -18,7 +17,6 @@
         {% csrf_token %}
         <div id="form-error" class="form-error"></div>
         
-        <!-- Agent Selection -->
         <label for="agent">Agent:</label>
         <select id="agent" name="agent" {% if logged_in_agent %}readonly disabled{% endif %}>
             <option value="" {% if not order and not logged_in_agent %}selected{% endif %}>Select an Agent</option>
@@ -36,7 +34,6 @@
             <input type="hidden" name="agent" value="{{ logged_in_agent.id }}">
         {% endif %}
         
-        <!-- Status Selection -->
         <label for="status">Status:</label>
         <select id="status" name="status">
             {% for status in statuses %}
@@ -50,7 +47,6 @@
             {% endfor %}
         </select>
         
-        <!-- Customer Selection -->
         <label for="customer">Customer:</label>
         <div class="customer-select-row">
             <select id="customer" name="customer">
@@ -70,7 +66,6 @@
             {% endif %}
         </div>
         
-        <!-- Product Dropdown -->
         <label for="products">Select Products:</label>
         <select id="products" name="products">
             <option value="" selected>Select a Product</option>
@@ -81,18 +76,15 @@
             {% endfor %}
         </select>
         
-        <!-- Selected Products -->
         <label for="selected-products">Selected Products:</label>
         <div id="selected-products">
             <ul id="product-list"></ul>
         </div>
         
-        <!-- Total Amount -->
         <label for="total_amount">Total Amount:</label>
         <input type="number" id="total_amount" name="total_amount" step="0.01" min="0" readonly
                value="{% if order %}{{ order.total_amount }}{% endif %}">
         
-        <!-- Submit Button -->
         <div class="form-actions">
             <button type="submit">
                 {% if action == "Edit" %}Save Changes{% else %}Create Order{% endif %}

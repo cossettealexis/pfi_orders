@@ -8,9 +8,6 @@ staticfiles/
 # Node modules
 node_modules/
 
-# Tailwind generated CSS
-static/css/output.css
-
 # Logs
 .npm/_logs/
 
@@ -20,6 +17,8 @@ venv/
 # macOS system files
 .DS_Store
 
+instrucions.txt
+instrucion2.txt
 postcss.config.js
 package-lock.json
 package.json

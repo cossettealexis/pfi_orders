@@ -12,7 +12,6 @@
     <h2>Order List</h2>
     <a href="{% url 'order_create' %}" class="add-order-btn">+ Add New Order</a>
     <form method="GET" class="order-search-form">
-        <!-- Status dropdown added here -->
         <select name="status"
             class="search-select px-3 py-2 rounded-md border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
             onchange="this.form.submit()">
@@ -128,7 +127,6 @@
     </tbody>
 </table>
 
-<!-- Modal Structure -->
 <div id="deleteModal" class="modal">
     <div class="modal-content">
         <h2>Confirm Delete</h2>

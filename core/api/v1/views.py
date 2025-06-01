@@ -5,6 +5,11 @@ from .serializers import RegionSerializer, ProvinceSerializer, BarangaySerialize
 from .permissions import IsAdminOrReadOnly
 
 class RegionViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for handling Region CRUD operations.
+    Only admins can create, update, or delete. Agents and staff can list and retrieve.
+    Deleting sets is_active to False (soft delete).
+    """
     queryset = Region.objects.filter(is_active=True)
     serializer_class = RegionSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -16,6 +21,11 @@ class RegionViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ProvinceViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for handling Province CRUD operations.
+    Only admins can create, update, or delete. Agents and staff can list and retrieve.
+    Deleting sets is_active to False (soft delete).
+    """
     queryset = Province.objects.filter(is_active=True)
     serializer_class = ProvinceSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -27,6 +37,11 @@ class ProvinceViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class BarangayViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet for handling Barangay CRUD operations.
+    Only admins can create, update, or delete. Agents and staff can list and retrieve.
+    Deleting sets is_active to False (soft delete).
+    """
     queryset = Barangay.objects.filter(is_active=True)
     serializer_class = BarangaySerializer
     permission_classes = [IsAdminOrReadOnly]

@@ -2,6 +2,10 @@ from rest_framework import serializers
 from customers.models import Customer, Region, Province, Barangay
 
 class CustomerSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Customer model.
+    Includes validation to ensure province and barangay belong to the selected region/province.
+    """
     class Meta:
         model = Customer
         fields = [
@@ -15,6 +19,9 @@ class CustomerSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, data):
+        """
+        Ensure province belongs to region and barangay belongs to province.
+        """
         region = data.get('region')
         province = data.get('province')
         barangay = data.get('barangay')

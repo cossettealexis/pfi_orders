@@ -675,7 +675,6 @@ table td ul li {
     font-style: italic;
 }
 
-/* Make table header links look like normal text */
 th a {
     color: inherit;
     text-decoration: none;

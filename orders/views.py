@@ -16,6 +16,9 @@ from .forms import OrderForm
 
 @login_required
 def order_list(request):
+    """
+    Display a list of orders, filtered and sorted based on user role and query parameters.
+    """
     role = get_user_role(request.user)
     if role.can_view_all_orders():
         orders = Order.objects.all()
@@ -38,7 +41,6 @@ def order_list(request):
     if status:
         orders = orders.filter(status__name=status)
 
-    # Map sort keys to model fields
     sort_fields = {
         'id': 'id',
         'customer': 'customer__name',
@@ -58,6 +60,9 @@ def order_list(request):
 
 @login_required
 def order_detail(request, order_id):
+    """
+    Display the details and history of a specific order.
+    """
     order = get_object_or_404(Order, id=order_id)
     order_history = OrderHistory.objects.filter(order=order).order_by('-timestamp')
     return render(request, 'orders/order_detail.html', {
@@ -67,9 +72,12 @@ def order_detail(request, order_id):
 
 @login_required
 def order_create(request):
+    """
+    Handle creation of a new order, including validation for agent permissions and stock.
+    """
     customer_id = request.GET.get('customer_id')
 
-    # --- Apply agent/staff logic here ---
+    # Restrict agents to their own customers and limited statuses
     if request.user.role == 'AGENT':
         agents = User.objects.filter(id=request.user.id)
         logged_in_agent = request.user
@@ -81,7 +89,6 @@ def order_create(request):
         statuses = OrderStatus.objects.all()
         customers = Customer.objects.all()
     products = Product.objects.all()
-    # ------------------------------------
 
     role = get_user_role(request.user)
 
@@ -108,7 +115,6 @@ def order_create(request):
             if errors:
                 for error in errors:
                     messages.error(request, error)
-                # Re-render the form with errors
                 return render(request, 'orders/order_form.html', {
                     'form': form,
                     'agents': agents,
@@ -121,7 +127,7 @@ def order_create(request):
                     'role': role,
                 })
 
-            # If no errors, proceed to create/update order and adjust stock
+            # Create order products and update stock
             for product_id, qty in zip(product_ids, quantities):
                 product = Product.objects.get(id=product_id)
                 quantity = int(qty) if qty.isdigit() else 1
@@ -140,8 +146,6 @@ def order_create(request):
             )
 
             return redirect('order_list')
-        else:
-            print(form.errors)  # Debug output to inspect validation errors
     else:
         form = OrderForm()
 
@@ -159,6 +163,9 @@ def order_create(request):
 
 @login_required
 def order_edit(request, order_id):
+    """
+    Handle editing of an existing order, including product/quantity changes and stock adjustments.
+    """
     order = get_object_or_404(Order, id=order_id)
     customer_id = request.GET.get('customer_id')
     role = get_user_role(request.user)
@@ -184,9 +191,9 @@ def order_edit(request, order_id):
         form = OrderForm(request.POST, instance=order)
         if form.is_valid():
             changes = []
-            old_order = Order.objects.get(pk=order.pk)  # get current DB values
+            old_order = Order.objects.get(pk=order.pk)
 
-            # Compare fields you care about
+            # Track changes for history
             if old_order.status_id != int(form.cleaned_data['status'].id):
                 changes.append(f"Status: {old_order.status.name} → {form.cleaned_data['status'].name}")
             if old_order.customer_id != int(form.cleaned_data['customer'].id):
@@ -194,7 +201,6 @@ def order_edit(request, order_id):
             if old_order.agent_id != int(form.cleaned_data['agent'].id):
                 changes.append(f"Agent: {old_order.agent.username} → {form.cleaned_data['agent'].username}")
 
-            # Build old and new product dicts: {product_id: quantity}
             old_products = {op.product_id: op.quantity for op in old_order.order_products.all()}
             new_products = {}
             product_ids = request.POST.get('products', '').split(',')
@@ -203,7 +209,6 @@ def order_edit(request, order_id):
                 if product_id and qty:
                     new_products[int(product_id)] = int(qty)
 
-            # Find added, removed, and changed products
             product_changes = []
             for pid, qty in new_products.items():
                 if pid not in old_products:
@@ -224,21 +229,14 @@ def order_edit(request, order_id):
                 messages.info(request, "No changes detected. Nothing was updated.")
                 return redirect('order_detail', order_id=order.id)
 
-            # Save the order
             order = form.save(commit=False)
             order.agent = form.cleaned_data.get('agent')
             order.save()
 
-            # --- Handle products and quantities ---
-            product_ids = request.POST.get('products', '').split(',')
-            quantities = request.POST.get('quantities', '').split(',')
-
-            # Before removing existing order products in order_edit:
+            # Restore stock for removed/changed products before updating
             for op in order.order_products.all():
                 op.product.stock += op.quantity
                 op.product.save()
-
-            # Then remove and re-add as above, which will subtract the new quantities
             order.order_products.all().delete()
 
             total = 0
@@ -255,7 +253,6 @@ def order_edit(request, order_id):
             if errors:
                 for error in errors:
                     messages.error(request, error)
-                # Re-render the form with errors
                 return render(request, 'orders/order_form.html', {
                     'form': form,
                     'agents': agents,
@@ -268,16 +265,14 @@ def order_edit(request, order_id):
                     'role': role,
                 })
 
-            # If no errors, proceed to create/update order and adjust stock
+            # Create new order products and update stock
             for product_id, qty in zip(product_ids, quantities):
                 product = Product.objects.get(id=product_id)
                 quantity = int(qty) if qty.isdigit() else 1
                 OrderProduct.objects.create(order=order, product=product, quantity=quantity)
                 product.stock -= quantity
                 product.save()
-            # --- End handle products and quantities ---
 
-            # Save history with details
             OrderHistory.objects.create(
                 order=order,
                 user=request.user,
@@ -289,7 +284,6 @@ def order_edit(request, order_id):
     else:
         form = OrderForm(instance=order)
 
-    # Pass selected_customer_id to template
     return render(request, 'orders/order_form.html', {
         'order': order,
         'customers': customers,
@@ -304,6 +298,9 @@ def order_edit(request, order_id):
 
 @login_required
 def order_delete(request, order_id):
+    """
+    Handle deletion of an order.
+    """
     order = get_object_or_404(Order, id=order_id)
     # You may want to add a permission check here using role.can_edit_cancel_order(order)
     if request.method == 'POST':
@@ -313,6 +310,9 @@ def order_delete(request, order_id):
 
 @login_required
 def order_history(request):
+    """
+    Display a list of orders for the current user, ordered by creation date.
+    """
     role = get_user_role(request.user)
     if role.can_view_orders():
         orders = Order.objects.filter(agent=request.user).order_by('-created_at')
@@ -324,6 +324,9 @@ def order_history(request):
 
 @login_required
 def accept_order(request, order_id):
+    """
+    Allow staff/admin to accept an order (change status to 'Accepted').
+    """
     role = get_user_role(request.user)
     if not role.can_update_order_status():
         return redirect('order_list')
