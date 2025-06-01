@@ -1,777 +1,16 @@
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: auto;
-}
-th, td {
-    border: none !important;
-    padding: 12px;
-    text-align: left;
-}
-table th {
-    background-color: #1E90FF;
-    color: white;
-}
-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-table tr:hover {
-    background-color: #f1f1f1;
-}
-.actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    padding: 0;
-    border: none;
-    background: none;
-}
-.actions a, .actions form {
-    display: inline-block;
-    margin: 0 4px 0 0;
-    padding: 8px 12px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-    vertical-align: middle;
-}
-.actions a {
-    display: inline-block;
-    margin: 5px;
-    padding: 8px 12px;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-.view-button {
-    background-color: #007bff;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.view-button:hover {
-    background-color: #0056b3;
-}
-.edit-button {
-    background-color: #ffc107 !important;
-    color: black !important;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.edit-button:hover {
-    background-color: #e0a800 !important;
-    color: #fff !important;
-}
-
-/* For product detail page */
-.edit-detail-button {
-    background-color: #1E90FF;
-    color: #fff;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s;
-}
-.edit-detail-button:hover {
-    background-color: #0056b3;
-}
-.delete-button {
-    background-color: #dc3545;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    display: inline-flex;
-    align-items: center;
-    height: 100%;
-}
-.delete-button:hover {
-    background-color: #c82333;
-}
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    width: 400px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-.modal-content h2 {
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-    color: #333;
-}
-.modal-content p {
-    margin-bottom: 20px;
-    font-size: 1rem;
-    color: #555;
-}
-.modal-actions {
-    display: flex;
-    justify-content: space-around;
-}
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
-.btn-danger {
-    background-color: #dc3545;
-    color: white;
-}
-.btn-danger:hover {
-    background-color: #c82333;
-}
-.btn-secondary {
-    background-color: #6c757d;
-    color: white;
-}
-.btn-secondary:hover {
-    background-color: #5a6268;
-}
-table td ul {
-    list-style-type: disc;
-    padding-left: 20px;
-    margin: 0;
-}
-table td ul li {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 200px;
-    display: block;
-}
-
-/* --- product Detail Specific Styles --- */
-.product-detail-card {
-    max-width: 700px;
-    margin: 40px auto 0 auto;
-    padding: 32px 28px 24px 28px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    margin-bottom: 3.5rem; /* 56px, same as mt-14 in Tailwind */
-}
-.product-detail-card h3 {
-    margin-bottom: 18px;
-    color: #1E90FF;
-    font-size: 2rem;
-    letter-spacing: 1px;
-}
-.product-detail-card .row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 12px;
-}
-.status-badge {
-    display: inline-block;
-    padding: 6px 18px;
-    border-radius: 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: #1E90FF;
-    margin-bottom: 18px;
-}
-.actions {
-    margin-top: 24px;
-}
-.actions a,
-.actions .back-btn {
-    display: inline-block;
-    margin: 0 8px 0 0;
-    padding: 10px 22px;
-    background-color: #1E90FF;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-.actions a:hover,
-.actions .back-btn:hover {
-    background-color: #0056b3;
-}
-.back-btn {
-    margin-top: 20px;
-}
-.messages {
-    list-style-type: none;
-    padding: 0;
-    margin: 0 0 20px 0;
-}
-.messages li {
-    padding: 10px;
-    margin-bottom: 8px;
-    border-radius: 5px;
-}
-.messages .success {
-    background-color: #d4edda;
-    color: #155724;
-}
-.messages .error {
-    background-color: #f8d7da;
-    color: #721c24;
-}
-.messages .info {
-    background-color: #cce5ff;
-    color: #004085;
-}
-.messages .warning {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-.search-btn {
-    background-color: #1E90FF;
-    color: #fff;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
-}
-.search-btn:hover {
-    background-color: #0056b3;
-    color: #fff;
-}
-
-.search-input {
-    padding: 8px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 5px;
-    font-size: 1rem;
-    width: 100%;
-}
-
-.search-btn {
-    background: #1E90FF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 18px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.search-btn:hover {
-    background: #0056b3;
-}
-
-/* Form Actions */
-.form-actions {
-    grid-column: span 2;
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 20px;
-}
-
-.form-actions button[type="submit"] {
-    min-width: 140px;
-    height: 44px;
-    background: linear-gradient(90deg, #1E90FF 60%, #2563eb 100%);
-    color: #fff;
-    padding: 0 28px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-    box-shadow: 0 2px 8px rgba(30,144,255,0.08);
-    outline: none;
-}
-
-.form-actions button[type="submit"]:hover,
-.form-actions button[type="submit"]:focus {
-    background: linear-gradient(90deg, #2563eb 60%, #1E90FF 100%);
-    box-shadow: 0 4px 16px rgba(30,144,255,0.18);
-    transform: translateY(-2px) scale(1.04);
-}
-
-.form-actions .cancel-btn {
-    min-width: 100px;
-    height: 44px;
-    background: #f3f4f6;
-    color: #1E293b;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 500;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(30,144,255,0.04);
-    margin-left: 0;
-    outline: none;
-}
-
-.form-actions .cancel-btn:hover,
-.form-actions .cancel-btn:focus {
-    background: #e5e7eb;
-    color: #1E90FF;
-    box-shadow: 0 4px 12px rgba(30,144,255,0.10);
-    transform: translateY(-2px) scale(1.04);
-}
-
-/* Product List */
-#product-list {
-    list-style-type: none;
-    padding: 0;
-}
-#product-list li {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 10px;
-    gap: 8px;
-}
-#product-list li span {
-    flex: 1;
-}
-.product-qty-input {
-    width: 60px;
-    margin-left: 8px;
-    margin-right: 8px;
-}
-.remove-product-btn {
-    margin-left: 4px;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-.remove-product-btn:hover {
-    background-color: #cc0000;
-}
-
-/* Error Message */
-.form-error {
-    color: red;
-    margin-bottom: 10px;
-    grid-column: 1 / -1;
-}
-
-/* Customer select row */
-.customer-select-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.customer-select-row select {
-    flex: 1 1 0;
-    min-width: 0;
-}
-
-/* Style all select and input fields consistently */
-.product-edit-container select,
-.product-edit-container input[type="text"],
-.product-edit-container input[type="number"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 5px;
-    font-size: 1rem;
-    background: #fff;
-    color: #222;
-    box-sizing: border-box;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-}
-
-.product-edit-container select:focus,
-.product-edit-container input[type="text"]:focus,
-.product-edit-container input[type="number"]:focus {
-    border-color: #1E90FF;
-    box-shadow: 0 0 0 2px rgba(30,144,255,0.12);
-}
-
-/* Improved Add Customer (+) Button */
-.add-customer-btn {
-    margin-left: 8px;
-    flex-shrink: 0;
-    height: 38px;
-    width: 38px;
-    border-radius: 50%;
-    background: #1E90FF;
-    color: #fff;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    border: none;
-    box-shadow: 0 2px 6px rgba(30,144,255,0.10);
-    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-    cursor: pointer;
-    outline: none;
-}
-.add-customer-btn:hover,
-.add-customer-btn:focus {
-    background: #0056b3;
-    box-shadow: 0 4px 12px rgba(30,144,255,0.18);
-    transform: translateY(-2px) scale(1.08);
-}
-
-/* Make table header links look like normal text */
-th a {
-    color: inherit;
-    text-decoration: none;
-    font-weight: inherit;
-    cursor: pointer;
-}
-th a:hover {
-    text-decoration: underline;
-    color: #1E90FF;
-}
-.view-button,
-.edit-button,
-.delete-button {
-    padding: 10px 22px;
-    font-size: 1rem;
-    min-width: 50px;
-    border-radius: 5px;
-    border: none;
-    text-decoration: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s;
-}
-
-h2 {
-    text-align: center;
-    color: #333333;
-    margin-bottom: 20px;
-}
-form {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 15px 20px;
-    align-items: center;
-}
-label {
-    font-weight: bold;
-    text-align: right;
-}
-input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-input:focus, select:focus, textarea:focus {
-    border-color: #1E90FF;
-    outline: none;
-}
-.form-actions {
-    grid-column: span 2;
-    text-align: center;
-    margin-top: 20px;
-}
-button, .cancel-btn {
-    display: inline-block;
-    background-color: #1E90FF;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    text-decoration: none;
-    margin-left: 10px;
-    transition: background-color 0.3s;
-}
-button:hover, .cancel-btn:hover {
-    background-color: #0056b3;
-}
-.cancel-btn {
-    background-color: #ff4d4d;
-}
-.cancel-btn:hover {
-    background-color: #d11a2a;
-}
-.customer-list-container {
+.user-list-container {
     max-width: 1000px;
     margin: 40px auto;
     padding: 0 16px;
 }
-
-.customer-list-card {
+.user-list-card {
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     padding: 24px;
 }
 
-.customer-table {
-    width: 100%;
-    border-collapse: separate !important;
-    border-spacing: 0 !important;
-    margin-top: 0;
-    background: #fff;
-}
-
-/* Remove all borders from table, rows, headers, and cells */
-.customer-table,
-.customer-table * {
-    border: none !important;
-    box-shadow: none !important;
-}
-
-/* Optional: Remove outline on focus for a cleaner look */
-.customer-table th:focus,
-.customer-table td:focus {
-    outline: none !important;
-}
-
-.customer-table th, .customer-table td {
-    padding: 12px 10px;
-    text-align: left;
-    border: none !important;   /* <-- Add this line */
-}
-
-/* Remove border from table header if present */
-.customer-table th {
-    background-color: #1E90FF !important;
-    color: #fff !important;
-    font-weight: 600;
-    padding: 12px 10px;
-    border-bottom: none !important;  /* <-- Add this line */
-    text-align: left;
-}
-
-.customer-table tr:nth-child(even) {
-    background: #f9fafb;
-}
-
-.customer-table tr:last-child td {
-    border-bottom: none;
-}
-
-.order-list-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-    gap: 12px;
-}
-
-.order-list-header h2 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #1E293b;
-}
-
-.order-search-form {
-    display: flex;
-    gap: 8px;
-    flex: 1 1 300px;
-    max-width: 400px;
-}
-
-.search-input {
-    padding: 8px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 5px;
-    font-size: 1rem;
-    width: 100%;
-}
-
-.search-btn {
-    background: #1E90FF;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 18px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-.search-btn:hover {
-    background: #0056b3;
-}
-
-/* Add Customer button: blue, matches order list */
-.add-order-btn {
-    background-color: #1E90FF !important;
-    color: #fff !important;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: background-color 0.2s;
-    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
-    white-space: nowrap;
-    margin-left: 16px;
-    margin-right: 16px;
-}
-.add-order-btn:hover {
-    background-color: #0056b3 !important;
-    color: #fff !important;
-}
-
-.order-list-actions {
-    display: flex;
-    gap: 8px;
-}
-
-.view-button, .edit-button, .delete-button {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 5px;
-    font-size: 0.98rem;
-    font-weight: 500;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-}
-.view-button {
-    background-color: #1E90FF !important;
-    color: #fff !important;
-}
-.view-button:hover {
-    background-color: #0056b3 !important;
-    color: #fff !important;
-}
-.edit-button {
-    background-color: #ffc107 !important;
-    color: #222 !important;
-}
-.edit-button:hover {
-    background-color: #e0a800 !important;
-    color: #fff !important;
-}
-.delete-button {
-    background-color: #dc2626 !important; /* Red */
-    color: #fff !important;
-    border: none;
-    border-radius: 5px;
-    padding: 6px 14px;
-    font-size: 0.98rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-}
-.delete-button:hover {
-    background-color: #b91c1c !important; /* Darker red */
-    color: #fff !important;
-}
-.form-row {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 18px;
-    gap: 16px;
-}
-.form-row label {
-    min-width: 120px;
-    padding-top: 6px;
-    font-weight: 500;
-}
-.form-input-group {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-.field-error {
-    color: #d32f2f;
-    font-size: 0.95em;
-    margin-top: 2px;
-    min-height: 18px;
-}
-
-/* Add this to customer.css */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0; top: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-}
-.modal-content {
-    background: #fff;
-    padding: 2em;
-    border-radius: 8px;
-    min-width: 300px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-}
-.btn {
-    padding: 0.5em 1.5em;
-    border: none;
-    border-radius: 4px;
-    font-size: 1em;
-    cursor: pointer;
-}
-.btn-danger {
-    background: #d9534f;
-    color: #fff;
-}
-.btn-secondary {
-    background: #6c757d;
-    color: #fff;
-}
-.btn:hover {
-    opacity: 0.9;
-}
-.modal-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 0;
-    margin-top: 1.5em;
-}
+/* Header */
 .user-list-header {
     display: flex;
     flex-wrap: wrap;
@@ -786,17 +25,60 @@ button:hover, .cancel-btn:hover {
     font-weight: 600;
     color: #1E293b;
 }
-.user-list-container {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 0 16px;
+
+/* Add User Button */
+.add-user-btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
+    white-space: nowrap;
+    margin-left: 16px;
+    margin-right: 16px;
+    display: inline-block;
 }
-.user-list-card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    padding: 24px;
+.add-user-btn:hover {
+    background-color: #0056b3;
+    color: #fff;
 }
+
+/* Search Form */
+.user-search-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 0 auto;
+    flex-shrink: 1;
+    max-width: 400px;
+}
+.user-search-form .search-input {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+}
+.user-search-form .search-btn {
+    background: #1E90FF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.user-search-form .search-btn:hover {
+    background: #0056b3;
+}
+
+/* User Table */
 .user-table {
     width: 100%;
     border-collapse: collapse;
@@ -819,26 +101,205 @@ button:hover, .cancel-btn:hover {
 .user-table tr:hover {
     background-color: #f1f1f1;
 }
-.add-user-btn {
-    background-color: #1E90FF;
-    color: #fff;
-    padding: 10px 22px;
-    border: none;
-    border-radius: 5px;
+.user-table tr:last-child td {
+    border-bottom: none;
+}
+.user-table th a {
+    color: inherit;
     text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: background-color 0.2s;
-    box-shadow: 0 2px 6px rgba(30,144,255,0.08);
-    white-space: nowrap;
-    margin-bottom: 18px;
-    display: inline-block;
+    font-weight: inherit;
+    cursor: pointer;
 }
-.add-user-btn:hover {
-    background-color: #0056b3;
-    color: #fff;
+.user-table th a:hover {
+    text-decoration: underline;
+    color: #1E90FF;
 }
+
+/* Actions in Table */
 .user-actions {
     display: flex;
     gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+}
+.user-actions form {
+    display: inline;
+    margin: 0;
+}
+.user-actions .view-button,
+.user-actions .edit-button,
+.user-actions .delete-button {
+    display: inline-block;
+    margin: 0;
+}
+
+/* Action Buttons */
+.view-button {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.view-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-button {
+    background-color: #ffc107;
+    color: #222;
+    padding: 8px 18px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.edit-button:hover {
+    background-color: #e0a800;
+    color: #fff;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* User Detail Card */
+.user-detail-card {
+    max-width: 700px;
+    margin: 40px auto 0 auto;
+    padding: 32px 28px 24px 28px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    margin-bottom: 3.5rem;
+}
+.user-detail-card h3 {
+    margin-bottom: 18px;
+    color: #1E90FF;
+    font-size: 2rem;
+    letter-spacing: 1px;
+}
+.user-detail-card .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.user-detail-card .label {
+    color: #888;
+    font-weight: bold;
+}
+.user-detail-card .value {
+    color: #222;
+}
+
+/* Form Styles (Scoped) */
+.user-list-card form,
+.user-edit-container form {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px 20px;
+    align-items: center;
+}
+.user-list-card label,
+.user-edit-container label {
+    font-weight: bold;
+    text-align: right;
+}
+.user-list-card input,
+.user-list-card select,
+.user-list-card textarea,
+.user-edit-container input,
+.user-edit-container select,
+.user-edit-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.user-list-card input:focus,
+.user-list-card select:focus,
+.user-list-card textarea:focus,
+.user-edit-container input:focus,
+.user-edit-container select:focus,
+.user-edit-container textarea:focus {
+    border-color: #1E90FF;
+    outline: none;
+}
+
+/* Form Actions */
+.user-list-card .form-actions,
+.user-edit-container .form-actions {
+    grid-column: span 2;
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+.user-list-card .submit-btn,
+.user-edit-container .submit-btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.user-list-card .submit-btn:hover,
+.user-edit-container .submit-btn:hover {
+    background-color: #0056b3;
+}
+.user-list-card .btn,
+.user-edit-container .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+.user-list-card .btn-danger,
+.user-edit-container .btn-danger {
+    background: #d9534f;
+    color: #fff;
+}
+.user-list-card .btn-secondary,
+.user-edit-container .btn-secondary {
+    background: #6c757d;
+    color: #fff;
+}
+.user-list-card .btn:hover,
+.user-edit-container .btn:hover {
+    opacity: 0.9;
+}
+
+/* Error Message */
+.form-error {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
 }

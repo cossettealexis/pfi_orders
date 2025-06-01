@@ -30,14 +30,30 @@ def logout_view(request):
 
 @login_required
 def dashboard(request):
-    total_orders = Order.objects.count()  # Total number of orders
-    pending_orders = Order.objects.filter(status__name='Pending').count()  # Orders with 'Pending' status
-    accepted_orders = Order.objects.filter(status__name='Accepted').count()  # Orders with 'Accepted' status
+    role = get_user_role(request.user)
+
+    # Use the helper to check if the user is an agent
+    if hasattr(role, "name") and role.name == "AGENT":
+        orders = Order.objects.filter(agent=request.user)
+    else:
+        orders = Order.objects.all()
 
     context = {
-        'total_orders': total_orders,
-        'pending_orders': pending_orders,
-        'accepted_orders': accepted_orders,
+        'total_orders': orders.count(),
+        'pending_orders': orders.filter(status__name='Pending').count(),
+        'accepted_orders': orders.filter(status__name='Accepted').count(),
+        'cancelled_orders': orders.filter(status__name='Cancelled').count(),
+        'delivered_orders': orders.filter(status__name='Delivered').count(),
+        'rejected_orders': orders.filter(status__name='Rejected').count(),
+        'dispatched_orders': orders.filter(status__name='Dispatched').count(),
+        'orders_by_status': {
+            'Pending': orders.filter(status__name='Pending'),
+            'Accepted': orders.filter(status__name='Accepted'),
+            'Cancelled': orders.filter(status__name='Cancelled'),
+            'Delivered': orders.filter(status__name='Delivered'),
+            'Rejected': orders.filter(status__name='Rejected'),
+            'Dispatched': orders.filter(status__name='Dispatched'),
+        }
     }
     return render(request, 'users/dashboard.html', context)
 
@@ -64,7 +80,7 @@ def user_list(request):
         sort = 'username'
     if dir == 'desc':
         sort = '-' + sort
-    users = users.order_by(sort)
+    users = users.order_by('username')
 
     return render(request, 'users/user_list.html', {'users': users})
 

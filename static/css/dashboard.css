@@ -9,26 +9,93 @@
     margin: auto;
     padding: 20px;
 }
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+.dashboard-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 16px;
 }
-.card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+
+.dashboard-title {
     text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: #1E293b;
+    letter-spacing: 1px;
+}
+.grid {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;   /* allow cards to wrap to next row */
+    margin-top: 32px;
+}
+
+.card {
+    flex: 1 1 220px;
+    min-width: 220px;
+    max-width: 320px;
+    background: linear-gradient(135deg, #e0f0ff 0%, #f8fbff 100%);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(30,144,255,0.10);
+    padding: 36px 28px;
+    text-align: center;
+    transition: transform 0.18s, box-shadow 0.18s;
+    border: 1px solid #e3eaf3;
+    position: relative;
+    overflow: hidden;
+}
+.card:hover {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 8px 32px rgba(30,144,255,0.16);
 }
 .card h3 {
-    margin-bottom: 10px;
-    color: #333333;
+    font-size: 1.15rem;
+    color: #1E90FF;
+    margin-bottom: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 .card p {
-    font-size: 18px;
-    color: #555555;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #1E293b;
+    margin: 0;
+    letter-spacing: 1px;
 }
+
+/* Card status colors */
+.card h3,
+.card .status-link {
+    transition: color 0.2s;
+}
+
+.card:nth-child(2) h3, /* Pending */
+.card:nth-child(2) .status-link {
+    color: #ffc107;
+}
+.card:nth-child(3) h3, /* Accepted */
+.card:nth-child(3) .status-link {
+    color: #22c55e;
+}
+.card:nth-child(4) h3, /* Cancelled */
+.card:nth-child(4) .status-link {
+    color: #dc3545;
+}
+.card:nth-child(5) h3, /* Delivered */
+.card:nth-child(5) .status-link {
+    color: #1E90FF;
+}
+.card:nth-child(6) h3, /* Rejected */
+.card:nth-child(6) .status-link {
+    color: #a83232;
+}
+.card:nth-child(7) h3, /* Dispatched */
+.card:nth-child(7) .status-link {
+    color: #6f42c1;
+}
+
 .actions a {
     display: inline-block;
     margin: 10px;
@@ -41,4 +108,79 @@
 }
 .actions a:hover {
     background-color: #0056b3;
+}
+.modal-content {
+    background: #fff;
+    padding: 2em;
+    border-radius: 14px;
+    min-width: 900px;      /* much wider modal */
+    max-width: 1200px;     /* allow up to 1200px */
+    width: 90vw;           /* responsive width */
+    margin: 40px auto;
+    box-shadow: 0 8px 32px rgba(30,144,255,0.16);
+    position: relative;
+    overflow-x: auto;
+}
+
+/* Make the order list wrap into columns if there are many orders */
+.modal-content ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 32px;
+    padding: 0;
+    margin: 24px 0 0 0;
+    list-style: none;
+    justify-content: flex-start;
+}
+
+.modal-content ul li {
+    flex: 1 1 220px;
+    min-width: 220px;
+    max-width: 320px;
+    background: #f6f8fa;
+    border-radius: 6px;
+    padding: 12px 18px;
+    margin: 0;
+    box-shadow: 0 1px 4px rgba(30,144,255,0.06);
+    font-size: 1rem;
+    color: #222;
+    word-break: break-word;
+}
+
+/* Modal header/status color */
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+#modal-pending .modal-content h2 { color: #ffc107; }
+#modal-accepted .modal-content h2 { color: #22c55e; }
+#modal-cancelled .modal-content h2 { color: #dc3545; }
+#modal-delivered .modal-content h2 { color: #1E90FF; }
+#modal-rejected .modal-content h2 { color: #a83232; }
+#modal-dispatched .modal-content h2 { color: #6f42c1; }
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    flex: 1 1 220px;
+    min-width: 220px;
+    max-width: 320px;
+}
+.card-link:focus .card,
+.card-link:hover .card {
+    transform: translateY(-6px) scale(1.04);
+    box-shadow: 0 8px 32px rgba(30,144,255,0.16);
+}
+
+@media (max-width: 950px) {
+    .modal-content {
+        min-width: 0;
+        width: 98vw;
+        max-width: 98vw;
+        padding: 1em;
+    }
 }

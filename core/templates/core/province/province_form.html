@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ action }} Region{% endblock %}
+{% block title %}{{ action }} Province{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/core.css' %}">
@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="region-form-card">
-    <h2>{{ action }} Region</h2>
+    <h2>{{ action }} Province</h2>
     <div id="form-error" class="form-error">
         {% if form.errors %}
             {% for field in form %}
@@ -24,10 +24,6 @@
     </div>
     <form method="post">
         {% csrf_token %}
-        {% if next %}
-            <input type="hidden" name="next" value="{{ next }}">
-        {% endif %}
-
         {% for field in form %}
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             {{ field }}
@@ -40,7 +36,7 @@
                     Save
                 {% endif %}
             </button>
-            <a href="{% url 'region_list' %}" class="cancel-btn">Cancel</a>
+            <a href="{% url 'province_list' %}" class="cancel-btn">Cancel</a>
         </div>
     </form>
 </div>

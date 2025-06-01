@@ -53,10 +53,12 @@ def customer_edit(request, customer_id):
             return redirect('customer_list')
     else:
         form = CustomerForm(instance=customer, user=request.user)
+    next_url = request.GET.get('next') or reverse('customer_list')
     return render(request, 'customers/customer_form.html', {
         'form': form,
-        'action': 'Edit',
         'customer': customer,
+        'action': 'Edit',
+        'next_url': next_url,
     })
 
 @login_required

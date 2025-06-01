@@ -34,6 +34,10 @@ def order_list(request):
             Q(status__name__icontains=search_query)
         )
 
+    status = request.GET.get('status')
+    if status:
+        orders = orders.filter(status__name=status)
+
     # Map sort keys to model fields
     sort_fields = {
         'id': 'id',

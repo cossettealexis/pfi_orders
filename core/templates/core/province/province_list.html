@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Province List{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/core.css' %}">
+{% endblock %}
+{% block content %}
+<div class="region-list-container">
+    <div class="region-list-header">
+        <h2>Province List</h2>
+        <a href="{% url 'province_add' %}" class="add-region-btn">+ Add Province</a>
+    </div>
+    <div class="region-list-card">
+        <table class="region-table">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sort=id&dir={% if request.GET.sort == 'id' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                            ID
+                            {% if request.GET.sort == 'id' %}
+                                {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=name&dir={% if request.GET.sort == 'name' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                            Name
+                            {% if request.GET.sort == 'name' %}
+                                {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=region__name&dir={% if request.GET.sort == 'region__name' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                            Region
+                            {% if request.GET.sort == 'region__name' %}
+                                {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=is_active&dir={% if request.GET.sort == 'is_active' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                            Active
+                            {% if request.GET.sort == 'is_active' %}
+                                {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for province in provinces %}
+                <tr>
+                    <td>{{ province.id }}</td>
+                    <td>{{ province.name }}</td>
+                    <td>{{ province.region.name }}</td>
+                    <td>
+                        {% if province.is_active %}
+                            <span style="color: #198754; font-weight: 500;">Yes</span>
+                        {% else %}
+                            <span style="color: #dc3545; font-weight: 500;">No</span>
+                        {% endif %}
+                    </td>
+                    <td class="region-actions">
+                        <a href="{% url 'province_edit' province.id %}" class="edit-button">Edit</a>
+                        <form method="post" action="{% url 'province_delete' province.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center" style="color: #888; padding: 24px;">No provinces found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
