@@ -2,6 +2,10 @@ from django.db import models
 from core.models import Barangay, Province, Region
 
 class Customer(models.Model):
+    """
+    Model representing a customer.
+    Includes references to region, province, and barangay for address details.
+    """
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=15, blank=True, null=True)

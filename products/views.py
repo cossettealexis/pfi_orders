@@ -7,11 +7,14 @@ from users.roles import get_user_role
 
 @login_required
 def product_list(request):
+    """
+    Display a list of products with optional search and sorting.
+    Only users with product management permissions can access.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_products():
         return redirect('dashboard')
 
-    # Search
     search_query = request.GET.get('search', '').strip()
     products = Product.objects.all()
     if search_query:
@@ -20,7 +23,6 @@ def product_list(request):
             Q(sku__icontains=search_query)
         )
 
-    # Sorting
     sort = request.GET.get('sort', 'name')
     dir_ = request.GET.get('dir', 'asc')
     if sort not in ['name', 'sku', 'description', 'price', 'stock']:
@@ -33,6 +35,10 @@ def product_list(request):
 
 @login_required
 def product_add(request):
+    """
+    Handle creation of a new product.
+    Only users with product management permissions can add products.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_products():
         return redirect('dashboard')
@@ -47,6 +53,10 @@ def product_add(request):
 
 @login_required
 def product_edit(request, pk):
+    """
+    Handle editing of an existing product.
+    Only users with product management permissions can edit products.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_products():
         return redirect('dashboard')
@@ -62,6 +72,10 @@ def product_edit(request, pk):
 
 @login_required
 def product_delete(request, pk):
+    """
+    Handle deletion of a product.
+    Only users with product management permissions can delete products.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_products():
         return redirect('dashboard')
@@ -69,11 +83,15 @@ def product_delete(request, pk):
     if request.method == 'POST':
         product.delete()
         return redirect('product_list')
-    # No confirmation page, just redirect
+    # Redirect to detail if not POST (no confirmation page)
     return redirect('product_detail', pk=pk)
 
 @login_required
 def product_detail(request, pk):
+    """
+    Display the details of a specific product.
+    Only users with product management permissions can view details.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_products():
         return redirect('dashboard')

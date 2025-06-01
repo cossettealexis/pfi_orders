@@ -3,6 +3,10 @@ from .models import Customer, Province, Barangay
 from users.roles import get_user_role
 
 class CustomerForm(forms.ModelForm):
+    """
+    Form for creating and updating Customer instances.
+    Limits region choices for agents to their assigned regions.
+    """
     class Meta:
         model = Customer
         fields = ['name', 'email', 'phone', 'region', 'province', 'barangay']
@@ -19,6 +23,6 @@ class CustomerForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if user:
             role = get_user_role(user)
-            # Only show agent's regions if user is agent
+            # Only show agent's regions if user is agent and not allowed to view all customers
             if hasattr(role, 'can_view_customers') and role.can_view_customers() and not role.can_view_all_customers():
                 self.fields['region'].queryset = user.regions.all()

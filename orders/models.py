@@ -5,6 +5,9 @@ from users.models import User
 from django.conf import settings
 
 class OrderStatus(models.Model):
+    """
+    Model representing possible statuses for an order (e.g., Pending, Accepted, Delivered).
+    """
     name = models.CharField(max_length=50, unique=True)
 
     class Meta:
@@ -17,6 +20,9 @@ class OrderStatus(models.Model):
 
 
 class Order(models.Model):
+    """
+    Model representing a customer order.
+    """
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     agent = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.ForeignKey(OrderStatus, on_delete=models.SET_NULL, null=True)  # Status of the order
@@ -34,6 +40,9 @@ class Order(models.Model):
 
 
 class OrderProduct(models.Model):
+    """
+    Model representing a product and its quantity within an order.
+    """
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
@@ -48,6 +57,9 @@ class OrderProduct(models.Model):
 
 
 class OrderHistory(models.Model):
+    """
+    Model representing the history of actions performed on an order.
+    """
     order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='history')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     action = models.CharField(max_length=255)

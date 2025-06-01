@@ -9,28 +9,33 @@ from .forms import UserForm
 from users.roles import get_user_role
 
 def login_view(request):
+    """
+    Handle user login. Authenticates and logs in user, redirects to dashboard on success.
+    """
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        print(f"Username: {username}, Password: {password}")  # Debug output
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            print(f"Authenticated User: {user}")  # Debug output
             login(request, user)
-            return redirect('dashboard')  # Redirect to dashboard after login
+            return redirect('dashboard')
         else:
-            print("Authentication Failed")  # Debug output
             return render(request, 'users/login.html', {'error': 'Invalid username or password'})
     return render(request, 'users/login.html')
 
 @login_required
 def logout_view(request):
+    """
+    Log out the current user and redirect to login page.
+    """
     logout(request)
-    return redirect('user_login')  # Redirect to login page after logout
+    return redirect('user_login')
 
 @login_required
 def dashboard(request):
-
+    """
+    Display dashboard with order statistics based on user role.
+    """
     if request.user.role == "AGENT":
         orders = Order.objects.filter(agent=request.user)
     else:
@@ -57,13 +62,15 @@ def dashboard(request):
 
 @login_required
 def user_list(request):
+    """
+    Display a list of users with search and sorting. Only accessible to users with user management permissions.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_users():
         return redirect('dashboard')
 
     users = User.objects.all()
 
-    # --- Searching ---
     search_query = request.GET.get('search', '').strip()
     if search_query:
         users = users.filter(
@@ -71,7 +78,6 @@ def user_list(request):
             Q(email__icontains=search_query)
         )
 
-    # --- Sorting ---
     sort = request.GET.get('sort', 'username')
     dir = request.GET.get('dir', 'asc')
     if sort not in ['username', 'email', 'role', 'is_active']:
@@ -84,6 +90,9 @@ def user_list(request):
 
 @login_required
 def user_add(request):
+    """
+    Handle creation of a new user. Only accessible to users with user management permissions.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_users():
         return redirect('dashboard')
@@ -95,7 +104,6 @@ def user_add(request):
             if raw_password:
                 user.set_password(raw_password)
             else:
-                # Set a random unusable password if not provided
                 user.set_unusable_password()
             user.save()
             form.save_m2m()
@@ -106,6 +114,9 @@ def user_add(request):
 
 @login_required
 def user_edit(request, pk):
+    """
+    Handle editing of an existing user. Only accessible to users with user management permissions.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_users():
         return redirect('dashboard')
@@ -121,6 +132,9 @@ def user_edit(request, pk):
 
 @login_required
 def user_delete(request, pk):
+    """
+    Soft delete a user by setting is_active to False. Only accessible to users with user management permissions.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_users():
         return redirect('dashboard')
@@ -133,6 +147,9 @@ def user_delete(request, pk):
 
 @login_required
 def user_detail(request, pk):
+    """
+    Display the details of a specific user. Only accessible to users with user management permissions.
+    """
     role = get_user_role(request.user)
     if not role.can_manage_users():
         return redirect('dashboard')

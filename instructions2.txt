@@ -46,3 +46,6 @@ In Practice:
 Agents focus on their own sales pipeline and customers.
 Staff are the back-office team, handling fulfillment, customer support, and data management.
 Admins are the system owners, managing users, permissions, and all data.
+
+
+fix docstring/ add docstring / remove debugging statements / add comment only to important or lines that needs to be takenote / remove unnecessary commetns

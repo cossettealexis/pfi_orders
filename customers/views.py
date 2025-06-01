@@ -8,6 +8,10 @@ from users.roles import get_user_role
 
 @login_required
 def customer_create(request):
+    """
+    Handle creation of a new customer.
+    Supports redirecting to order creation/edit if coming from those flows.
+    """
     next_param = request.GET.get('next') or request.POST.get('next')
     if next_param == 'order_create':
         next_url = reverse('order_create')
@@ -21,7 +25,7 @@ def customer_create(request):
         form = CustomerForm(request.POST, user=request.user)
         if form.is_valid():
             customer = form.save(commit=False)
-            customer.region = request.user.regions.first()
+            customer.region = request.user.regions.first()  # Assign first region for agent
             customer.save()
             if next_param == 'order_create':
                 return redirect(f"{reverse('order_create')}?customer_id={customer.id}")
@@ -42,6 +46,10 @@ def customer_create(request):
 
 @login_required
 def customer_edit(request, customer_id):
+    """
+    Handle editing of an existing customer.
+    Only users with permission can edit.
+    """
     customer = get_object_or_404(Customer, id=customer_id)
     role = get_user_role(request.user)
     if not role.can_add_edit_customer(customer):
@@ -63,6 +71,9 @@ def customer_edit(request, customer_id):
 
 @login_required
 def customer_list(request):
+    """
+    Display a list of customers, filtered by user role, search, and sorting.
+    """
     role = get_user_role(request.user)
     if role.can_view_all_customers():
         customers = Customer.objects.all()
@@ -84,7 +95,7 @@ def customer_list(request):
     sort_field = sort_map.get(sort, 'created_at')
     order_by = sort_field if direction == 'asc' else f'-{sort_field}'
 
-    # Apply search filter (now includes address fields)
+    # Apply search filter
     if search:
         customers = customers.filter(
             Q(name__icontains=search) |
@@ -100,11 +111,17 @@ def customer_list(request):
 
 @login_required
 def customer_detail(request, pk):
+    """
+    Display the details of a specific customer.
+    """
     customer = get_object_or_404(Customer, id=pk)
     return render(request, 'customers/customer_detail.html', {'customer': customer})
 
 @login_required
 def customer_delete(request, customer_id):
+    """
+    Handle deletion of a customer. Only users with permission can delete.
+    """
     customer = get_object_or_404(Customer, id=customer_id)
     role = get_user_role(request.user)
     if not role.can_add_edit_any_customer():
