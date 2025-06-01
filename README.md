@@ -8,10 +8,10 @@ A Django-based order management system for agents, staff, and admins.
 
 ### Prerequisites
 
-- Python 3.8+
+- Python latest lts
 - pip
 - virtualenv (recommended)
-- PostgreSQL (or SQLite for testing)
+- PostgreSQL 
 - Node.js & npm (for frontend assets, optional)
 - Git
 
@@ -52,8 +52,8 @@ pip install -r requirements.txt
 
 ### 5. Set Up the Database
 
-- Create a PostgreSQL database and user (or use SQLite for testing).
-- Update your `DATABASES` setting in `settings.py` or `.env`.
+- Create a PostgreSQL database and user.
+- Update your `.env`.
 
 ---
 
@@ -87,34 +87,31 @@ python manage.py loaddata initial_data.json
 python manage.py runserver
 ```
 
-Visit [http://127.0.0.1:8000/](http://127.0.0.1:8000/) in your browser.
-
 ---
 
-### 10. (Optional) Build Frontend Assets
+### 10. (Optional) Build Frontend Assets (Tailwind CSS)
 
-If you have custom JS/CSS and use npm:
+If you are using Tailwind CSS (recommended for this project):
 
-```sh
-cd static
-npm install
-npm run build
-```
+1. Make sure you have `Node.js` and `npm` installed.
+2. Install frontend dependencies:
 
----
+    ```sh
+    cd static
+    npm install
+    ```
 
-### 11. Access the Admin Panel
+3. Build Tailwind CSS for development:
 
-Visit [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) and log in with your superuser credentials.
+    ```sh
+    npx tailwindcss -i ./src/input.css -o ./css/output.css --watch
+    ```
 
----
+    Or for production (minified):
 
-### 12. Running Tests
-
-```sh
-python manage.py test
-```
-
+    ```sh
+    npx tailwindcss -i ./src/input.css -o ./css/output.css --minify
+    ```
 ---
 
 ### Troubleshooting
