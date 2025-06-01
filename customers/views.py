@@ -8,17 +8,25 @@ from users.roles import get_user_role
 
 @login_required
 def customer_create(request):
-    next_url = request.GET.get('next') or request.POST.get('next')
+    next_param = request.GET.get('next') or request.POST.get('next')
+    if next_param == 'order_create':
+        next_url = reverse('order_create')
+    elif next_param and next_param.startswith('order_edit:'):
+        order_id = next_param.split(':')[1]
+        next_url = reverse('order_edit', args=[order_id])
+    else:
+        next_url = reverse('customer_list')
+
     if request.method == 'POST':
         form = CustomerForm(request.POST, user=request.user)
         if form.is_valid():
             customer = form.save(commit=False)
             customer.region = request.user.regions.first()
             customer.save()
-            if next_url == 'order_create':
+            if next_param == 'order_create':
                 return redirect(f"{reverse('order_create')}?customer_id={customer.id}")
-            elif next_url and next_url.startswith('order_edit:'):
-                order_id = next_url.split(':')[1]
+            elif next_param and next_param.startswith('order_edit:'):
+                order_id = next_param.split(':')[1]
                 return redirect(f"{reverse('order_edit', args=[order_id])}?customer_id={customer.id}")
             else:
                 return redirect('customer_list')
@@ -27,7 +35,9 @@ def customer_create(request):
     return render(request, 'customers/customer_form.html', {
         'form': form,
         'action': 'Add',
-        'next': next_url,
+        'next': next_param,
+        'next_url': next_url,
+        'customer_list_url': reverse('customer_list'),
     })
 
 @login_required

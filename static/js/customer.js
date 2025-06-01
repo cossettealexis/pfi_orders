@@ -1,3 +1,24 @@
+// --- Modal functions: must be global ---
+function openCustomerModal(deleteUrl) {
+    const modal = document.getElementById('customer-delete-modal');
+    const deleteForm = document.getElementById('customer-delete-form');
+    deleteForm.action = deleteUrl;
+    modal.style.display = 'flex';
+}
+function closeCustomerModal() {
+    var modal = document.getElementById('customer-delete-modal');
+    var form = document.getElementById('customer-delete-form');
+    if (modal) modal.style.display = 'none';
+    if (form) form.action = '';
+}
+window.onclick = function(event) {
+    var modal = document.getElementById('customer-delete-modal');
+    if (event.target == modal) {
+        closeCustomerModal();
+    }
+};
+
+// --- Form validation and dynamic select logic ---
 document.addEventListener('DOMContentLoaded', function() {
     var regionSelect = document.getElementById('id_region');
     var provinceSelect = document.getElementById('id_province');
@@ -42,7 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    const form = document.querySelector('form');
+    // Only validate on the customer add/edit form, not the modal
+    const form = document.querySelector('form[action=""]') || document.querySelector('form:not(#customer-delete-form)');
     if (!form) return;
 
     form.addEventListener('submit', function(e) {

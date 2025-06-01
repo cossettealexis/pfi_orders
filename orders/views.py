@@ -112,6 +112,7 @@ def order_create(request):
     products = Product.objects.all()
     # ------------------------------------
 
+    role = get_user_role(request.user)
     return render(request, 'orders/order_form.html', {
         'form': form,
         'agents': agents,
@@ -121,6 +122,7 @@ def order_create(request):
         'logged_in_agent': logged_in_agent,
         'action': 'Add',
         'selected_customer_id': customer_id,
+        'role': role,
     })
 
 @login_required
@@ -240,6 +242,7 @@ def order_edit(request, order_id):
         'statuses': statuses,
         'logged_in_agent': logged_in_agent,
         'action': 'Edit',
+        'role': role,
     })
 
 @login_required

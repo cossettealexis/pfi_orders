@@ -244,3 +244,46 @@ button:hover, .cancel-btn:hover {
     margin-top: 2px;
     min-height: 18px;
 }
+
+/* Add this to customer.css */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background: #fff;
+    padding: 2em;
+    border-radius: 8px;
+    min-width: 300px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.btn {
+    padding: 0.5em 1.5em;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+}
+.btn-danger {
+    background: #d9534f;
+    color: #fff;
+}
+.btn-secondary {
+    background: #6c757d;
+    color: #fff;
+}
+.btn:hover {
+    opacity: 0.9;
+}
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+    margin-top: 1.5em;
+}

@@ -21,6 +21,7 @@
         <!-- Agent Selection -->
         <label for="agent">Agent:</label>
         <select id="agent" name="agent" {% if logged_in_agent %}readonly disabled{% endif %}>
+            <option value="" {% if not order and not logged_in_agent %}selected{% endif %}>Select an Agent</option>
             {% for agent in agents %}
             <option value="{{ agent.id }}"
                 {% if logged_in_agent and agent.id == logged_in_agent.id %}
@@ -64,7 +65,7 @@
                 >{{ customer.name }}</option>
                 {% endfor %}
             </select>
-            {% if request.user.role == "AGENT" %}
+            {% if role.can_add_edit_customer %}
                 <a href="{% url 'customer_add' %}?next={% if order %}order_edit:{{ order.id }}{% else %}order_create{% endif %}" title="Add a new customer" class="add-customer-btn">+</a>
             {% endif %}
         </div>
