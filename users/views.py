@@ -26,18 +26,16 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('login')  # Redirect to login page after logout
+    return redirect('user_login')  # Redirect to login page after logout
 
 @login_required
 def dashboard(request):
-    role = get_user_role(request.user)
 
-    # Use the helper to check if the user is an agent
-    if hasattr(role, "name") and role.name == "AGENT":
+    if request.user.role == "AGENT":
         orders = Order.objects.filter(agent=request.user)
     else:
         orders = Order.objects.all()
-
+        
     context = {
         'total_orders': orders.count(),
         'pending_orders': orders.filter(status__name='Pending').count(),

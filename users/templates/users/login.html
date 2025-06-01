@@ -4,7 +4,8 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Management - Login</title>
+    <title>PFI - Login</title>
+    {% block css %}
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -14,7 +15,7 @@
         }
         .container {
             max-width: 400px;
-            margin: auto;
+            margin: 60px auto 0 auto;
             padding: 20px;
             background-color: white;
             border-radius: 8px;
@@ -53,10 +54,17 @@
             background-color: #0056b3;
         }
     </style>
+    {% endblock %}
 </head>
 <body>
+    {% block content %}
     <div class="container">
-        <h2>Order Management</h2>
+        <h2>PFI</h2>
+        {% if error %}
+            <div style="color: #dc3545; background: #ffeaea; border: 1px solid #dc3545; padding: 10px 16px; border-radius: 6px; margin-bottom: 18px; text-align: center;">
+                {{ error }}
+            </div>
+        {% endif %}
         <form method="POST">
             {% csrf_token %}
             <label for="username">Username</label>
@@ -68,5 +76,6 @@
             <button type="submit">Login</button>
         </form>
     </div>
+    {% endblock %}
 </body>
 </html>

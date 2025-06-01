@@ -1,0 +1,822 @@
+{
+	"info": {
+		"_postman_id": "5bcb4969-6233-483e-b2b4-bf4bf474401a",
+		"name": "PFI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28917379"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Obtain JWT Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"pm.test(\"Response has the required fields - refresh and access\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData).to.have.property('refresh');",
+									"    pm.expect(responseData).to.have.property('access');",
+									"});",
+									"",
+									"pm.test(\"Refresh and access fields are non-empty strings\", function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.refresh).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Refresh field should not be empty\");",
+									"    pm.expect(responseData.access).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access field should not be empty\");",
+									"});",
+									"",
+									"// Set the \"authentication\" variable to \"Bearer <access_token>\"",
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    if (json.access) {",
+									"        pm.environment.set(\"authentication\", \"Bearer \" + json.access);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"cossette-admin\",\n  \"password\": \"Alliance@12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/token/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get List of Orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/v1/orders/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/orders/39"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"agent\": 2,\n  \"customer\": 1,\n  \"status\": 1,\n  \"order_products\": [\n        {\n            \"product\": 4,\n            \"quantity\": 1\n        }\n    ],\n  \"total_amount\": 100.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/orders/"
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer\": 1,\n  \"status\": 2\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/orders/59/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/orders/59/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Get List of Customers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/v1/customers/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/customers/3"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Amec Corp\",\n  \"email\": \"contact@amaec.com\",\n  \"phone\": \"1234567890\",\n  \"region\": 10,\n  \"province\": 39,\n  \"barangay\": 802\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/customers/"
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"phone\": \"1234567890\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/customers/24/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/customers/24/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get List of Products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/v1/products/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/products/3"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Chicken\",\n    \"description\": \"Chicken\",\n    \"price\": \"100.00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/products/"
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Chicken\",\n    \"description\": \"Chicken\",\n    \"price\": \"100.00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/products/3/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/products/7/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get List of Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/v1/users/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/users/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"api-user\",\n    \"email\": \"api@fpi.com\",\n    \"password\": \"Alliance@12345\",\n    \"role\": \"ADMIN\",\n    \"is_active\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/users/"
+					},
+					"response": []
+				},
+				{
+					"name": "Patch User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"api-user\",\n    \"email\": \"api@fpi.com\",\n    \"password\": \"Alliance@12345\",\n    \"role\": \"ADMIN\",\n    \"is_active\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/users/11/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/users/11/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Regions",
+			"item": [
+				{
+					"name": "Get List of Regions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/v1/regions/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Region Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/regions/3"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Region",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\",\n    \"is_active\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/regions/"
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Region",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Chicken\",\n    \"description\": \"Chicken\",\n    \"price\": \"100.00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/regions/3/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Region",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/regions/3/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Provinces",
+			"item": [
+				{
+					"name": "Get List of Province",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/v1/provinces/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Province Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/provinces/3"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Province",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\",\n    \"region\": 3,\n    \"is_active\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/provinces/"
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Province",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test\",\n    \"region\": 3,\n    \"is_active\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/provinces/593/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Province",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/provinces/593/"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Barangays",
+			"item": [
+				{
+					"name": "Get List of Barangay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:8000/api/v1/regions/"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Barangay Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/barangays/3"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Barangay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Bangbangar\",\n    \"province\": 2,\n    \"is_active\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/barangays/"
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Barangay",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 3,\n    \"name\": \"Bangbangar\",\n    \"province\": 2,\n    \"is_active\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/v1/barangays/3/"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Region",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{authorization}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8000/api/v1/barangays/3/"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "authorization",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4ODA2MjI2LCJpYXQiOjE3NDg4MDU5MjYsImp0aSI6ImQ4MWVkZjg3Y2MyMjQ2ZGE5MzcyMmMwNGJjYmQzOWQ3IiwidXNlcl9pZCI6Mn0.0qvtsrTlxFm4zXmM4MlxZAW-qrNPQy_PneLauZe1nLI",
+			"type": "default"
+		}
+	]
+}
