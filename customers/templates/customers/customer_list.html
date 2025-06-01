@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Customer List{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/customer.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="customer-list-container">
+    <div class="order-list-header">
+        <h2>Customer List</h2>
+        <a href="{% url 'customer_add' %}" class="add-order-btn" title="Add Customer">+ Add Customer</a>
+        <form method="GET" class="order-search-form">
+            <input type="text" name="search" placeholder="Search by name, email, or phone" value="{{ request.GET.search }}" class="search-input">
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+    <div class="customer-list-card">
+        <table class="customer-table">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sort=name&dir={% if request.GET.sort == 'name' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                            Name
+                            {% if request.GET.sort == 'name' %}
+                                {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=email&dir={% if request.GET.sort == 'email' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                            Email
+                            {% if request.GET.sort == 'email' %}
+                                {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=phone&dir={% if request.GET.sort == 'phone' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                            Phone
+                            {% if request.GET.sort == 'phone' %}
+                                {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sort=address&dir={% if request.GET.sort == 'address' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                            Address
+                            {% if request.GET.sort == 'address' %}
+                                {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if customers %}
+                    {% for customer in customers %}
+                    <tr>
+                        <td>{{ customer.name }}</td>
+                        <td>{{ customer.email }}</td>
+                        <td>
+                            {{ customer.phone|default:"-" }}
+                        </td>
+                        <td>
+                            {{ customer.barangay.name }}, {{ customer.province.name }}, {{ customer.region.name }}
+                        </td>
+                        <td class="order-list-actions">
+                            <a href="{% url 'customer_detail' customer.id %}" class="view-button">View</a>
+                            <a href="{% url 'customer_edit' customer.id %}" class="edit-button">Edit</a>
+                            {% if request.user.is_staff or request.user.is_superuser or request.user.role == "STAFF" %}
+                            <form action="{% url 'customer_delete' customer.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #888; padding: 20px;">No customers found</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

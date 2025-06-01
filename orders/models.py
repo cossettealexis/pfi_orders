@@ -2,6 +2,7 @@ from django.db import models
 from customers.models import Customer
 from products.models import Product
 from users.models import User
+from django.conf import settings
 
 class OrderStatus(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -44,3 +45,17 @@ class OrderProduct(models.Model):
 
     def __str__(self):
         return f"{self.product.name} (x{self.quantity}) in Order #{self.order.id}"
+
+
+class OrderHistory(models.Model):
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, related_name='history')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    action = models.CharField(max_length=255)
+    notes = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-timestamp']
+
+    def __str__(self):
+        return f"{self.order} - {self.action} by {self.user} at {self.timestamp}"

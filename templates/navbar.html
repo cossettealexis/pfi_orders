@@ -1,15 +1,7 @@
 <!-- filepath: /Users/cossettealexisgabuya/Documents/Projects/pfi_orders/templates/navbar.html -->
-<nav class="bg-primary text-white p-4 flex justify-between items-center shadow-md">
-    <div class="text-2xl font-bold">
-        <a href="{% url 'dashboard' %}" class="hover:underline">Order Management</a>
+<nav id="main-navbar" class="main-navbar">
+    <div class="navbar-left">
+        <button id="sidebar-toggle" class="sidebar-toggle">&#9776;</button>
     </div>
-    <div class="flex space-x-4">
-        <a href="{% url 'order_list' %}" class="hover:underline">Orders</a>
-        <a href="{% url 'order_create' %}" class="hover:underline">Create Order</a>
-        <a href="{% url 'order_history' %}" class="hover:underline">Order History</a>
-        <a href="{% url 'logout' %}" class="hover:underline">Logout</a>
-        {% if request.user.role == "AGENT" %}
-            <a href="{% url 'customer_add' %}" class="hover:underline">Add Customer</a>
-        {% endif %}
-    </div>
+    <a href="{% url 'logout' %}" class="logout-link">Logout</a>
 </nav>

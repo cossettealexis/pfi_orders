@@ -1,20 +1,29 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from .models import Customer
 from .forms import CustomerForm
 
 @login_required
 def customer_create(request):
+    next_url = request.GET.get('next') or request.POST.get('next')
     if request.method == 'POST':
         form = CustomerForm(request.POST, user=request.user)
         if form.is_valid():
             customer = form.save(commit=False)
             customer.region = request.user.regions.first()  # or let agent pick from their regions
             customer.save()
-            return redirect('order_create')
+            if next_url == 'order_create':
+                return redirect('order_create')
+            else:
+                return redirect('customer_list')
     else:
         form = CustomerForm(user=request.user)
-    return render(request, 'customers/customer_form.html', {'form': form, 'action': 'Add'})
+    return render(request, 'customers/customer_form.html', {
+        'form': form,
+        'action': 'Add',
+        'next': next_url,
+    })
 
 @login_required
 def customer_edit(request, customer_id):
@@ -22,10 +31,65 @@ def customer_edit(request, customer_id):
     if request.user.role != 'AGENT' or customer.region not in request.user.regions.all():
         return redirect('order_list')
     if request.method == 'POST':
-        form = CustomerForm(request.POST, instance=customer)
+        form = CustomerForm(request.POST, instance=customer, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('order_create')
+            return redirect('customer_list')
     else:
-        form = CustomerForm(instance=customer)
-    return render(request, 'customers/customer_form.html', {'form': form, 'action': 'Edit'})
+        form = CustomerForm(instance=customer, user=request.user)
+    return render(request, 'customers/customer_form.html', {
+        'form': form,
+        'action': 'Edit',
+        'customer': customer,
+    })
+
+def customer_list(request):
+    user = request.user
+    sort = request.GET.get('sort', 'created_at')
+    direction = request.GET.get('dir', 'desc')
+    search = request.GET.get('search', '').strip()
+    sort_map = {
+        'name': 'name',
+        'email': 'email',
+        'phone': 'phone',
+        'created_at': 'created_at',
+        'address': 'barangay__name',
+    }
+    sort_field = sort_map.get(sort, 'created_at')
+    order_by = sort_field if direction == 'asc' else f'-{sort_field}'
+
+    # Base queryset
+    if hasattr(user, 'role') and user.role == 'AGENT':
+        customers = Customer.objects.filter(region__in=user.regions.all())
+    else:
+        customers = Customer.objects.all()
+
+    # Apply search filter (now includes address fields)
+    if search:
+        customers = customers.filter(
+            Q(name__icontains=search) |
+            Q(email__icontains=search) |
+            Q(phone__icontains=search) |
+            Q(barangay__name__icontains=search) |
+            Q(province__name__icontains=search) |
+            Q(region__name__icontains=search)
+        )
+
+    customers = customers.order_by(order_by)
+    return render(request, 'customers/customer_list.html', {'customers': customers})
+
+@login_required
+def customer_detail(request, pk):
+    customer = get_object_or_404(Customer, id=pk)
+    return render(request, 'customers/customer_detail.html', {'customer': customer})
+
+@login_required
+def customer_delete(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    # Only allow staff or superuser to delete
+    if not (request.user.is_staff or request.user.is_superuser or getattr(request.user, 'role', None) == 'STAFF'):
+        return redirect('customer_list')
+    if request.method == 'POST':
+        customer.delete()
+        return redirect('customer_list')
+    return render(request, 'customers/customer_confirm_delete.html', {'customer': customer})

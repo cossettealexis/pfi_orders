@@ -1,0 +1,249 @@
+Django Case Study / Test Project:
+Order Management for Philippine Foods Inc.
+👋 Welcome to the Test Project
+At Simple Data Tools (SDT), our work centers on rapid development, clear communication, and
+a partner-first approach. We work with organizations in emerging markets that focus on the
+triple bottom line, including initiatives related to climate, sustainability, food systems, youth
+empowerment, women’s rights, and democracy. Many of our partners are growing quickly but
+often lack full clarity on their technical requirements. As the lead developer, your job is to ask
+the right questions, propose practical solutions, and collaborate closely with the partner to
+iterate quickly until the app meets their needs. At SDT, every team member — including
+leadership — is both a full-stack developer and client-facing.
+In this test project, you’ll be provided with an opportunity to experience what projects look and
+feel like on a day-to-day basis. The below is a realistic simulation of how our projects usually
+start. You'll act as the technical lead at SDT. Your “client” will be Philippine Foods Inc. (PFI), a
+growing food distribution company expanding into Luzon and now looking to digitize their order
+management workflows. Remember: our business model is based on a very small team that is
+focused on very, very, very fast delivery, by balancing exceptional technical skills and good
+communication / client support.
+Project Overview
+Build a lightweight Django web application to manage sales orders for Philippine Foods Inc.,
+with the goal of launching a test version by the end of the week.
+Core Technologies
+• Backend: Django (latest LTS)
+• Frontend: Django templates + built-in template engine (no React/Vue required)
+• Authentication: Django’s built-in user system, basic auth
+• API: REST API with JWT auth (for CRM/ERP integration)
+• Database: PostgreSQL
+Note: Our business model prioritizes simple tech that solves problems and has a strong ROI,
+not the latest buzzwords or framework trends. We often use Django because it is fast, simple,
+secure, easy to integrate with data science libraries, and because LLM’s write near perfect
+Django code. A successful test project will prioritize functionality, stability, security, and speed.
+You are absolutely encouraged to use LLMs to help write your code, and because of that, we
+would expect your code to be at or above a senior developer level in terms of structure and
+quality.
+Project Background
+Philippine Foods Inc. (PFI) operates across several value chains -- poultry, pork, and beef. Each
+has a unique set of products and SKUs. Their sales team consists of field Agents who:
+• Meet new leads
+• Convert leads into customers
+• Help customers place and track orders
+PFI is now expanding into Luzon, and the CEO wants to launch a new order management app
+to support this rollout. The goal is to start with a minimal but functional system and evolve it
+rapidly with feedback.
+The below conversation is how the project for one of our partners typically begins. You’ll notice
+our core values are reflected throughout the conversation. Specifically, we are always kind,
+helpful, excited for new challenges, and a true partner – helping our partner companies to feel
+like technology is simple, low overhead, and driving their business forward. We always
+emphasize and abide by the “Simple Data Tools Way” of building technology (start simple, focus
+on business impact). You'll continue the conversation from here:
+Matt [PFI]:
+Hey, I was talking with the CEO this morning and we are thinking it’s probably the right time to
+roll out a new app for order management since we are expanding into Luzon next month. It will
+need to integrate with our CRM and ERP.
+Cossette [SDT]:
+Great! No problem at all – we’ve developed a lot of order tools before, and I agree the timing is
+right, since many of the other apps we’ve built together are more stable. This is also something
+where we can start simple with the first version and grow it from there – just like we like it…the
+Simple Data Tools Way that we know works well.
+Matt [PFI]:
+Excellent. I’m not sure what requirements we’ll need. I know we’ll need agents to see their
+customers for their sales region and then place orders.
+Cossette [SDT]:
+Yep, for sure. And they’ll probably need to see the status of each order and order history since
+customers are always calling them to ask. Maybe not in the first version, but later we can also
+add dashboards and KPIs so agents can see their sales totals.
+Matt [PFI]:
+Yea…good call. Actually, now that I think about it, there will need to be a version the agents use
+on mobile for placing the orders, then we’ll need the office staff to have a web version for
+making sure orders are fulfilled.
+Cossette [SDT]:
+Absolutely no problem at all. Let me frame out some of the basic setup we’ll need and I’ll follow
+up this afternoon. Very much looking forward to this one… I think we can get something out for
+testing by the end of this week.
+A few notes before you begin:
+• We always use Django for the backend. Since this is a fast-turnaround project, there’s
+no need for React, Vue, or any frontend framework — just stick with standard Django
+templates and the built-in template engine. Likewise, we will not build a mobile app as
+part of this test project. Just make sure the Django templates are set up to be mobile
+friendly (we typically use Tailwind).
+• We don’t use the Django admin panel. Instead, we build our own admin and internal
+management views as part of the app itself.
+• You can use Django’s standard authentication system for this test (e.g. login/logout,
+session-based or basic auth).
+• The app will eventually need to integrate with PFI’s CRM and ERP, so an API should be
+available, ideally using JWT for authentication.
+• Throughout the project, feel free to ask any questions you need to clarify functionality or
+requirements — that’s exactly how we work with real partners.
+• Lastly, make sure the app is set up cleanly and documented so that any other developer
+can clone the repo, install dependencies, and run the project without needing to ask you
+for help.
+What to Submit
+• Your full Django project (via GitHub or zip)
+• At least one demo video of:
+o What you built
+o Assumptions you made
+o What you’d do next if this were a real project
+o Any questions you’d ask PFI as part of the next steps
+Note: we use demo videos *a lot* in our projects as an async and efficient mechanism for
+comms. Most developers on our team are filming multiple demo videos per day to show
+progress, illustrate decision making, and lay out tradeoffs or next steps.
+Tips for Success
+• Keep it real: this is not about fancy design or pixel-perfect CSS. Focus on usability and
+workflow. Most of our apps have basic designs (often black and white color palettes) and
+we never use preexisting templates with bloated CSS code. Any app we make just
+needs to be intuitive and functional.
+• Prioritize communication: if something’s unclear, frame questions clearly and ask until
+things are understood. As part of this test project, I will be intentionally acting like one of
+our typical partners, responding in ways they often communicate. In many cases, you
+will feel like I am being intentionally confusing or that I change my mind a lot. This is a
+very normal part of our projects and our ability to navigate different communication styles
+is part of why the work we do is so valuable J.
+• Work fast, work clean: clear code structure and basic documentation goes a long way.
+Our Core Values
+Below is a summary of our core values. We live and die by these values in every interaction,
+every meeting, every partner project. If these align with you, you’ll feel right at home, and you
+will be a great fit.
+Create Real Value
+• Solve meaningful problems with practical, real-world impact.
+• Deliver fast, high-quality results that exceed expectations.
+• Avoid fluff — focus on clarity, long-term thinking, and mutual wins.
+Relentless Innovation
+• Question assumptions and push boundaries without fear.
+• Move fast, experiment boldly, and own your mistakes.
+• Keep learning, growing, and reaching for what’s next.
+Inspire Others
+• Lead with purpose, passion, and positive energy.
+• Help others grow and believe in what's possible.
+• Give intentionally and contribute to something greater than yourself.
+Be Authentic
+• Always act with honesty, integrity, and alignment.
+• Embrace your uniqueness and welcome diverse views.
+• Stay grounded in who you are — no masks, no pretending.
+Humbition
+• Combine humility with ambition to lead effectively and learn constantly.
+• Own your mistakes, support your team, and step up when needed.
+• Give your best, let go of outcomes, and stay open to new perspectives.
+
+
+
+0:15) Okay, hello, hi, how are you? (0:19) Hi, good evening. (0:22) Yeah, good evening. (0:23) Okay, first off, I am never late to meetings, (0:27) so I'm really, really sorry.
+(0:30) It's okay. (0:31) Not that I need excuses, (0:32) but it was a really good investor friend of ours (0:37) put me in touch with another investor, (0:41) and it was one of these things (0:41) where it was scheduled for 30 minutes, (0:43) but it was clear this was like a really fast turnaround (0:47) scope of work that was gonna need to be put together. (0:50) So it's one of those when there's like a position of power, (0:52) it's really hard to be like, (0:53) I'm so sorry, I have to go and jump off the call, (0:58) because I was a little bit not the powerful one.
+(1:02) So anyway, thank you, thank you. (1:04) But anyway, at the work that we do in Simple Data Tools, (1:07) we're like never late for meetings ever, (1:09) like never late for standups, never late for meetings. (1:12) So thank you for your flexibility on this one.
+(1:15) And I'll make sure it doesn't happen again. (1:20) Okay, so you've had a chance to, (1:23) there's two things I wanted to cover with you today. (1:26) The first was to try to nail down something (1:29) in terms of a contract.
+(1:32) I had a couple of follow-up questions for you as well, (1:35) because I looked at your profile in relation to the contract. (1:40) And then the second thing I wanted to cover (1:42) was just to get your questions answered in real time. (1:47) Again, more like a simulation (1:48) now that you've seen like the test project.
+(1:51) And I wanted to talk a little bit more with you (1:54) about why the project is structured like that. (1:57) And how, again, how it kind of reflects (1:59) what we do as a company. (2:01) So I will take you through that just a little bit.
+(2:03) And all of this is designed, (2:05) if you're still interested in this work, (2:07) all of this is designed to set you up (2:09) for success within this. (2:13) So the first thing is I noticed on your profile, (2:17) you've made a substantial amount of money (2:23) as a freelancer, quite a bit. (2:27) And so I wanted to find out a little bit, (2:30) one, congrats, that's awesome, very good.
+(2:34) But I wanted to find out a little bit more (2:37) at a deeper level, (2:38) kind of what your longer term intentions are. (2:44) Is it to continue to be freelancing long-term (2:48) or would you ever be interested in coming (2:52) and working on a team like for a company? (2:56) And any answer is fine. (2:57) I just need to try to sort of understand (2:59) where you're at long-term, (3:01) because it'll help with the rest of the conversation.
+(3:04) Yeah, right now my goal is to have really (3:09) a long-term project. (3:12) I am also okay with acquisition, (3:15) like really hard in a company. (3:19) Okay, okay, got it.
+(3:21) But you've been freelancing for two years or so, (3:25) is that right? (3:26) Yeah. (3:26) And how did you begin with freelancing? (3:30) Did you just say, I'm tired of my big girl job? (3:35) That's what I did. (3:36) I just quit my big real job.
+(3:39) And then according to my family, (3:41) I've been unemployed since, (3:44) even though I'm actually doing quite a bit of work, right? (3:46) But I just said, I don't quit my job, (3:48) I wanna do different things. (3:50) How did your freelancing start? (3:54) Yeah, the real reason is in my previous corporate company, (4:00) that I work on as a full-time developer, (4:04) the salary is a bit low compared to freelancing. (4:09) So that's why I decided to simultaneously (4:14) do full-time employment and freelance employment.
+(4:18) And just recently, last January, 2025, (4:22) I decided to have a full-time freelance employment. (4:26) That's why I'm looking for a long-term project. (4:30) Okay, got it.
+(4:31) Okay, and then so you, (4:35) are you doing the work yourself? (4:39) It's you individually, right? (4:40) It's not like you getting the work (4:43) and then giving it to other people, right? (4:46) Yes. (4:47) Okay. (4:48) Most of my projects is structured like that.
+(4:51) But I mean, it's you. (4:53) So sometimes we run into circumstances (4:54) where like we may hire you as a freelancer, (4:58) but it's actually your two cousins (5:00) and then their brothers or their friends (5:03) that are doing the work. (5:06) It's actually you sitting down writing the code.
+(5:10) Ah, yes. (5:10) Yeah, I can say, (5:12) I can't really trust another person to do my job. (5:15) That is the simple data tools way.
+(5:17) I like that, taking initiative. (5:19) Okay. (5:19) All right.
+(5:20) Very good. (5:20) Very cool. (5:21) So what my concern is, (5:24) which I forgot to mention from before, (5:27) is that we have a fixed budget for these test projects.
+(5:32) And so the hourly rate is actually quite low. (5:35) We usually actually put people at $7 an hour, (5:38) which is way less than your profile rate. (5:41) And so my concern is that I don't wanna write you a contract.
+(5:45) If you're interested in doing the test project, (5:48) I don't wanna write you a contract at a rate (5:50) that's much lower than what you've been getting (5:53) on your profile. (6:00) Because then, I don't know, (6:01) but if you're trying to build your profile, (6:05) somebody might see, okay, cool. (6:06) She worked for $20 an hour.
+(6:08) She worked for $15 an hour. (6:09) And then cool, she worked for this little project for seven. (6:13) I'll send her an offer for five, right? (6:15) I don't know if that's how it works.
+(6:17) But one of the things I'm trying, (6:19) one thing we always do with these test projects, (6:24) so it doesn't matter if you're good or you're bad, (6:27) I always give everyone five stars on the test project (6:33) because maybe you weren't a good fit for us. (6:36) Like maybe you weren't good enough skills (6:38) or maybe you didn't have the right personality. (6:40) But at a minimum, I want you to leave (6:43) with a stronger profile than when you started.
+(6:46) And so part of that is, (6:47) is you'll always get another five star review, (6:51) even if we determine you're not a good fit, right? (6:54) So anyway, so you'll always benefit (6:56) by doing a test project with us, (6:58) but I don't want to hurt your profile in other ways. (7:02) So the other option that I have (7:03) is I can send you a fixed price contract (7:06) and we agree on kind of the number of hours (7:09) that it will take. (7:10) And then that way that people don't know (7:13) what your actual hourly rate is, if that makes sense.
+(7:17) Oh, okay. (7:18) I'm fine with that. (7:19) Okay.
+(7:20) Is that better? (7:22) Is that- (7:22) Yes. (7:23) Yeah, I'm fine with fixed price. (7:25) Okay.
+(7:25) That's like a, (7:26) so we can just do like some type of fixed price. (7:28) It's a little different because it doesn't allow us that, (7:32) the hourly is actually better (7:33) because not only do you end up making more money overall, (7:37) but it can end up being a little bit more dynamic. (7:40) So I may need to adjust your scope just a little bit (7:45) because with the hourly, (7:46) we can really get into kind of a simulation, (7:49) like exactly like how we work, (7:52) but with fixed price, (7:52) we'll limit it to just a little bit more (7:55) of a near term scope and then a smaller number of hours.
+(7:58) Okay. (8:00) That makes sense. (8:01) Okay.
+(8:02) So let me try to figure out first what that looks like, (8:06) but let's get your questions answered first (8:09) so I can get all of this dialed in. (8:11) Okay. (8:13) Okay.
+(8:17) Let me find, (8:18) let me open up your questions here really quick. (8:21) Okay. (8:21) Okay.
+(8:21) I've got to go scroll way up. (8:26) Okay. (8:26) You sent me a couple of questions.
+(8:29) Excellent. (8:30) Now, remember, (8:30) you read the test case study, right? (8:34) Yes. (8:35) Okay.
+(8:36) And I am, (8:38) I'm going to respond though, (8:39) as if I'm a non-tech executive at the, (8:44) what did we call our fictitious company? (8:46) PFI, right? (8:48) Philippine Foods Incorporated. (8:49) Yes. (8:51) Yeah.
+(8:51) I'll show you an example kind of (8:53) of what our projects look like, (8:54) but let me just answer your questions here. (8:57) So since, (8:58) so I'm not going to answer, (8:59) I'm going to not answer from a tech perspective. (9:01) I'll answer as if I'm an executive leading operations.
+(9:05) So you said, (9:06) since we're expanding into Luzon, (9:08) are we only focusing on Luzon customers and agents (9:10) for the first version? (9:13) No, we would want the app to work across all locations (9:20) because we may not even roll this out to Luzon at first. (9:24) I just know that once we roll it out to Luzon, (9:27) we're going to need, (9:28) we're going to need to have tech behind it. (9:30) Like we're not going to be able to manage it (9:31) without technology.
+(9:34) How do we define regions within Luzon by province, (9:38) by city, (9:38) or by another structure? (9:40) So we follow a, (9:42) we follow the typical structure with the like province, (9:46) the regions, (9:47) the province, (9:47) the barangays. (9:49) And so we will try to stick to the kind of official (9:52) barangays and the province and the regions, (9:57) which makes it a lot easier. (9:59) With that, (10:00) you'll need to find a list on the internet though, (10:04) of what those actually look like.
+(10:06) Will all agents only see customers in their assigned regions (10:09) or should they see customers from other areas too? (10:12) So that's a really good question. (10:15) Our agents should only see their own customers (10:18) within the region that they have been assigned. (10:22) But what's interesting, (10:24) and I'll give you a little tip, (10:25) is our agents are sometimes assigned (10:29) to more than one region.
+(10:31) So most agents are just assigned to one region, (10:34) but sometimes an agent may have two, (10:37) if they're really good, (10:38) or the region is smaller, (10:40) or if they've been at the company for a long time. (10:44) Does that make sense? (10:46) Okay. (10:47) All right.
+(10:48) Can agents add new customers? (10:50) Absolutely. (10:51) Edit customer details? (10:52) Absolutely. (10:53) Yes.
+(10:53) Yes. (10:54) For both of those. (10:55) Should there be role-based access? (10:57) Agents only place orders.
+(10:59) Office staff can update the statuses. (11:01) Absolutely. (11:02) Exactly.
+(11:03) So what happens is, (11:04) is that the agents will place the orders (11:07) and then the back office staff will mark them as accepted. (11:11) Then they'll mark them as dispatched. (11:13) Then they'll mark them as delivered.
+(11:16) That make sense? (11:18) Okay. (11:19) So you have pending, fulfilled, canceled, and delivered. (11:22) Great call.
+(11:23) Pending would be when it first comes in. (11:26) Accepted or approved is when it's been reviewed. (11:30) Then it would be dispatched.
+(11:32) Then it would be delivered. (11:34) And once it's delivered, it's fulfilled. (11:36) And I think that's a great idea to have canceled.
+(11:39) That's fantastic as well. (11:40) Because we may reject or cancel an order. (11:44) Can agents modify or cancel orders after they are placed? (11:49) Agents can modify an order if it's still been pending.
+(11:53) But once it's accepted, (11:55) once it's been accepted, (11:59) at that point it may be dispatched or whatever (12:02) so they can't edit and change it from there. (12:04) But if it's still pending, they can cancel it, (12:06) they can change the details, (12:08) anything like that within that status. (12:10) Okay? (12:11) Okay.
+(12:13) All right. (12:13) Any other questions? (12:16) Project-wise, I think that's all the questions I've had. (12:21) But I have a question about, (12:25) does you have a scoring system (12:29) to identify the success of this test project? (12:37) We do not.
+(12:38) Okay. (12:39) I'm gonna show you what we're getting (12:41) at the heart of right now. (12:44) So I am less concerned about your code (12:52) because with LLMs and artificial intelligence now, right? (12:57) As I outlined in the test project, (12:59) I would expect me and I would expect you (13:02) to be writing essentially senior developer level code.
+(13:07) Right? (13:07) Because LLMs can really write Django code (13:11) really, really well. (13:12) Yeah? (13:13) And almost that it like, (13:16) chat GPT almost does the next step. (13:19) It's like you build out a view (13:20) and they're like, do you want me to build out the template? (13:22) And I'm like, yes.
+(13:23) And then they're like, now that you have the template, (13:25) do you want me to build out the form? (13:28) And I'm like, yes. (13:30) Right? (13:30) Now that you've built out the form, (13:31) do you want me to add this to the admin panel? (13:34) Yes. (13:35) Like, thank you.
+(13:36) Thank you. (13:36) Thank you. (13:37) Right? (13:37) I mean, it's wild.
+(13:39) Right? (13:40) And so anyway, so that's great. (13:43) But what we're looking for are two things. (13:47) Do you fit really well with our core values? (13:51) Are you excited, passionate about tech? (13:54) Do you like to think through problems (13:55) and come up with really good ideas? (13:57) Right? (13:58) And then we're looking for, (13:59) if you're able to operate in the environment (14:03) that we operate in, (14:04) which is what I want to give you some previews into.
+(14:09) And so the success or the failure is just, (14:13) does this look like something you want to do long-term? (14:16) Does it look like something you can do, (14:18) whatever, long-term? (14:20) And let me give you just a quick example (14:21) of what our life looks like on a daily basis. (14:25) Okay? (14:27) I'm going to share my screen. (14:29) All right? (14:29) Okay.
+(14:31) Okay. (14:31) All right. (14:33) So remember, as you probably read from our thing, (14:36) our business model has to do with being a really small team (14:40) that is very elite, exceptional delivery, (14:44) very, very fast.
+(14:46) Okay? (14:46) And so this is an example, actually, truthfully, (14:49) this is an example from yesterday (14:51) from a company that we onboarded just one week ago. (14:56) Okay? (14:56) So this is a company, very high impact fish farm (15:01) that's within Kenya, that's working with a lot of farmers. (15:04) You can see here that this was yesterday.
+(15:06) We started building their app on Friday of last week. (15:12) Okay? (15:12) This was yesterday, which was Tuesday. (15:16) And today we deployed the first version of the app.
+(15:20) They're doing training and they're doing data collection. (15:22) Now, this example here that we're looking at (15:25) is going to be for AppSheet. (15:27) So it's a low code, no code builder tool.
+(15:31) But what you're going to see is the dynamics (15:33) of how we actually do requirements. (15:35) And it's the reason that we have the test project (15:38) set up in the way that it is. (15:40) Okay? (15:41) So one of the contacts who does operations at the company (15:45) said, can we add an expected delivery date field (15:48) to the order? (15:50) The delivery date field could be a range.
+(15:52) It could be the same day. (15:53) It may be the next day. (15:55) Made a comment about the geolocation, (15:59) like province, region, barangay type of hierarchy.
+(16:03) And then also said, (16:04) it's not clear to me how the delivery flow is set up. (16:08) I can see the delivery status report, (16:09) but I don't see the delivery module. (16:11) And then also here's some legacy data.
+(16:13) Okay? (16:14) All sent over WhatsApp. (16:15) And again, this came in at 11.35 a.m. yesterday morning. (16:20) Right? (16:21) So 11.35 a.m. Philippines time yesterday morning.
+(16:24) So I respond back, absolutely. (16:26) Super easy to build the date field. (16:28) I'll also follow up with the delivery workflow.
+(16:32) And along with that, add in geo-coordinates. (16:35) So this is an example of how requirements often come to us. (16:39) We have an initial version of the app.
+(16:41) They're on it. (16:42) They're playing with it. (16:43) And they're like, ah, let's add delivery date.
+(16:45) Ah, let's add geo-coordinates. (16:46) Let's add this. (16:47) Right? (16:48) And we're like, absolutely.
+(16:49) Excellent. (16:50) And what you'll see is, (16:51) what you'll see here within the screen somewhere is, (16:55) I'll add this in and follow up this afternoon. (16:58) Because this is how we operate.
+(17:00) Right? (17:01) And so what I'm also going to do though in this case, (17:04) which is a different from the dynamic (17:05) that you may be used to, (17:08) is a lot of times technology providers will say, (17:11) tell me what to build and I'll go build it. (17:15) But we don't operate like that at all. (17:17) The way we operate is, (17:19) let me show you some really cool ideas (17:22) for what you can build.
+(17:23) We're already always trying to think ahead (17:27) of what they're going to need (17:28) from a business perspective to scale, (17:30) from an analytics perspective, (17:32) from a workflow perspective, (17:34) from an optimization perspective. (17:36) And by the way, you're already doing that. (17:39) Your question about agents being assigned to regions, (17:43) very, very, very insightful, very, very good.
+(17:47) Right? (17:47) That's the kind of thing that we want to try to get ahead of (17:50) is like, wait a minute. (17:51) Okay? (17:51) And so here's an example of me saying, (17:54) this is kind of an idea of what we can build, (17:56) giving them ideas for things (17:58) that they can put in their head. (17:59) And then again, emphasizing, (18:02) I'll follow back up this afternoon (18:03) once the changes are implemented, (18:04) but keep sending over ideas as you review, no limits.
+(18:08) Because this is what we actually want people to do (18:11) because watch what happens on the next screen. (18:13) The CEO and the operations person (18:17) start going back and forth (18:19) to discuss their own requirements. (18:22) So it would be the equivalent of something like this.
+(18:24) Let's say you're the developer at Simple Data Tools (18:27) and I'm the CEO at PFI, right? (18:32) And then there's David who does operations. (18:36) And you said, (18:37) do we need to have customers assigned or agents, (18:41) customers shown for an agent (18:43) for regions they're assigned to? (18:46) What actually happens on a day-to-day basis with us (18:49) is I, if I'm the CEO of PFI, (18:51) I would be like, David, (18:53) our agents are assigned to regions, right? (18:56) And then David would say, yes. (18:59) And actually they're sometimes assigned (19:01) to more than one region.
+(19:03) And then I would be like, oh, okay, well, wait a minute. (19:06) Then we need to make sure that this app (19:08) is going to assign agents to regions (19:11) and allow us to assign more than one agent to a region. (19:15) And so what you're actually seeing on the screen, (19:18) which is the dynamic that we want to create (19:21) is they're improving their operations (19:26) and they're discussing their requirements in real time.
+(19:29) And as the requirements are evolving, (19:31) we're building alongside it, right? (19:34) And so apps come together really quickly. (19:36) And so I gave, now this is another example (19:38) where we're not just saying, (19:42) tell me what to build and I'll build it. (19:43) We're giving suggestions.
+(19:45) We're saying, okay, well, we could keep it like this, (19:47) but I think what we'll do is we'll have it auto-populate (19:50) and then we'll do X, Y, and Z. (19:52) And this is gonna be a really good path forward (19:53) for you for the first version, right? (19:55) And then of course, later that night, as expected, (19:59) which is afternoon East Africa time, (20:02) I said, I'll follow up with a demo video (20:05) over viewing the changes, which I sent below this. (20:08) And then we pushed out a bunch of new changes, (20:10) added segments, added customer types, (20:13) added geo-coordinates, cleaned up the geo-levels (20:15) and a bunch of stuff. (20:16) And these updates float out today.
+(20:19) This morning, more updates float out. (20:22) Later this afternoon, more updates from Eulika, (20:26) a different developer, float out. (20:27) And this is how we're actually like building apps (20:30) or whatever, yeah? (20:31) And so that's the reason why, (20:33) that gives you an idea of what it looks like (20:35) on a day-to-day basis, (20:37) but that's the reason why there's no right or wrong answer (20:42) in this test project, right? (20:44) What we wanna see is that if you're given (20:47) a very open-ended project, (20:49) which is build an order tool, right? (20:52) Are you gonna ask the right questions (20:53) that would allow us to build really fast (20:56) without requirements or excessive documentation (20:59) and go from zero to an app in just a few days.
+(21:03) Does that make sense? (21:05) Yeah. (21:07) So based on the requirements that we had discussed (21:11) and all the questions that was answered, (21:14) I plan to deliver the test project (21:17) in three focus development days (21:21) plus I need a one-day buffer. (21:26) So you need four.
+Is that okay with you? (21:28) You need four days. (21:30) Sure, sure, sure, sure, sure. (21:34) So you need four days.
+(21:37) So you need 32 hours, yes? (21:42) That's right. (21:43) Okay, 32 hours to complete the test project, yeah? (21:50) Okay, that sounds good. (21:52) Now you can ask me, (21:54) obviously you can ask me questions throughout, right? (21:57) Throughout the project.
+(22:00) But if we, again, 32 times budget, (22:05) if I give you a budget of $250, (22:09) can you do it for that, right? (22:12) For this? (22:14) Yeah, sure. (22:15) Okay. I'm okay with it.
+(22:16) I'm not trying to go super low on you. (22:19) We actually treat people really, really fairly. (22:21) It's just that I have to put this, (22:22) I have a budget for testing people (22:27) and getting them in the door.
+(22:28) So if I send you just flat rate 250 Django app for orders, (22:32) right, you can get it done. (22:35) Does that work? (22:36) Yeah. (22:37) Okay, good.
+(22:38) We're actually, one of the reasons (22:41) if this ends up working out long-term, (22:44) one of the things is we're very, very big (22:47) on paying above market rates (22:51) for people who are full-time and long-term. (22:54) And so the good thing is, (22:56) for most people who have been freelancing, (23:00) they say, well, there's no point in me freelancing anymore (23:02) because I can work full-time on this, (23:05) on a lot of really interesting projects, (23:07) and I'm gonna make more than I would have been (23:09) if I was freelancing. (23:11) So it's good.
+(23:12) So I don't want to give you the impression (23:13) that we're looking for cheap offshore labor (23:17) or anything like that. (23:18) It's not like that. (23:19) I just need to get it within a budget of our test projects.
+(23:23) Okay. (23:23) I totally understand that. (23:25) Yeah.
+Okay, good. (23:25) All right. (23:27) Okay, so I can send that to you right away, (23:30) but what I'm trying to get you from this example, (23:34) I can't tell if you're shy or if you're nervous (23:38) or something like that, (23:41) but don't overthink this and don't, (23:45) it doesn't have to be so formal, right? (23:48) Like it doesn't have to be like, thank you, Sir Matt.
+(23:51) Here's my questions, 15 questions. (23:53) Like if you're building, right? (23:54) And you're like, just like you saw by chat, (23:57) if I was building and I was like, wait, hi, quick question. (24:03) Do we ever have agents map to more than one region, right? (24:07) And then they're gonna follow back up (24:08) and they're gonna be like, yeah, that happens sometimes.
+(24:10) I'm like, cool, thank you. (24:11) And then keep building, right? (24:13) So use it as a dynamic experience (24:18) because that's exactly what it would be (24:20) if we were building tools for partners (24:23) or we were building internal tools, okay? (24:26) Not sure. (24:27) So don't be shy or don't feel intimidated, (24:33) I guess, if that works.
+(24:36) Yeah, along the way, I might have additional questions. (24:40) So I'll ping you in the chat. (24:42) You, wait, along the way, (24:44) you should have additional questions (24:46) and absolutely ping me in the chat (24:48) and I'll respond back to keep you moving.
+(24:52) That sounds good. (24:55) What time are you usually online? (24:59) I am online from 7 a.m. until 11 p.m. Philippines time (25:08) every day, including Saturday and Sunday. (25:12) Oh, okay.
+(25:13) There is no time. (25:14) That's quite. (25:15) There is no time that you will.
+(25:18) Okay. (25:19) Yeah, yeah. (25:21) Okay, how are you feeling overall? (25:24) Are you feeling good? (25:27) Yep, I am feeling excited with this new project.
+(25:31) It's like a new example project for me. (25:36) Usually my projects before were related to (25:44) like Pixel Perfect CSS or something like that. (25:48) We don't do that.
+(25:49) Yeah, it's just focusing really on the functionality. (25:54) So I think it really suits to my values. (25:59) I want it to be suited to your values.
+(26:03) I want you also to know, okay, (26:08) that I'm leaving this one open-ended. (26:10) But when you build real projects for us, (26:13) you start with a template, (26:16) like you start with a Django template project (26:18) where like 90% of the stuff's already built. (26:22) API is already there.
+(26:24) Login screen's already there. (26:25) Authentication's already there. (26:27) Model's already there, whatever, right? (26:30) And as you probably read in the documentation, (26:33) but I'll share my screen.
+(26:35) Where is it? (26:36) Every single app that we build looks like this. (26:42) Every single app. (26:45) We don't do anything with the interface (26:48) because we build simple data tools that solve problems.
+(26:53) And what we found is that the businesses that we work for, (26:55) they don't care if it's black, if it's blue, (26:58) if it's green, if it's white, they don't care. (27:01) The only thing they care about is that it works (27:04) and it's fast, right? (27:07) Works fast and cheap. (27:08) So if you're somebody, for me personally, (27:11) and maybe we do have these same values, (27:13) for me personally, I don't have time (27:15) to sit around and try to center a div (27:16) on a screen for five hours.
+(27:18) I don't have time for that. (27:20) And thankfully, ChatGPT is really good (27:23) at Tailwind and Bootstrap. (27:24) So most of the time it can do it for us good enough.
+(27:27) What we focus on, which is what you wanna focus on here (27:30) in this project, is building a really cool order tool (27:33) that a business could use. (27:35) That's it. (27:36) That's all you need to focus on.
+(27:38) So I'm not gonna judge you based on design. (27:43) The only design that we do is enough to make it (27:47) understandable and intuitive to the user. (27:50) And that's it.
+(27:51) That's all. (27:53) Yeah, that's great. (27:54) Easy.
+(27:55) Okay. (27:56) And how are you... (27:57) One last question again, not to, (27:59) since we're at 30 minutes, (28:00) but how are you feeling about our core values as a company? (28:04) They are very important to us. (28:06) Do they align with you? (28:09) Yeah, absolutely.
+(28:15) I'm sorry. (28:16) Did you say something? (28:18) That's all. (28:19) I just wanted to know.
+(28:20) Yeah. (28:21) For me, I really resonate with SDT's core values, (28:26) especially the emphasis on fast delivery (28:29) and clear communication, (28:31) especially the practicality of the solutions. (28:36) Yeah.
+(28:36) Good. (28:37) Okay. (28:39) Excellent.
+(28:40) Go forth. (28:41) I'm sending you a contract now. (28:42) Okay? (28:43) I am here.
+(28:44) I'm here to support. (28:47) Okay? (28:48) You don't have to prove anything. (28:51) If you have a question, I'm here to support.
+(28:53) Pretend like I'm your manager or your colleague (28:56) or your teammate throughout this process. (28:58) Okay? (28:59) Don't be shy. (29:00) No stupid questions.
+(29:02) No silly, like, inquiries. (29:05) Okay? (29:06) Okay. (29:07) Yeah, that's good.
+(29:08) All right, cool. (29:09) Because this is also a chance for you to get used to me (29:11) and understand what it's like to work with me as well. (29:14) Okay? (29:17) Yeah, thank you.
+(29:18) All right, let me know if you need anything (29:20) and have a good evening. (29:23) Okay, see you. (29:24) See you, bye.

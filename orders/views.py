@@ -3,19 +3,20 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.contrib import messages
 from datetime import date
+from django.db.models import F, Q
 
 from core import models
 from customers.models import Customer
 from products.models import Product
 from users.models import User
-from .models import Order, OrderProduct, OrderStatus
+from .models import Order, OrderProduct, OrderStatus, OrderHistory
 from .forms import OrderForm
 
 @login_required
 def order_list(request):
     search_query = request.GET.get('search', '')
-    print(f"User Role: {request.user.role}")  # Debug output
-    print(f"Is Superuser: {request.user.is_superuser}")  # Debug output
+    sort = request.GET.get('sort', 'created_at')
+    dir = request.GET.get('dir', 'desc')
 
     if request.user.is_superuser:
         orders = Order.objects.all()
@@ -27,19 +28,36 @@ def order_list(request):
         orders = Order.objects.none()
 
     if search_query:
-        orders = orders.filter(customer__name__icontains=search_query)
+        orders = orders.filter(
+            Q(customer__name__icontains=search_query) |
+            Q(status__name__icontains=search_query)
+        )
 
-    # Order by descending created date
-    orders = orders.order_by('-created_at')
+    # Map sort keys to model fields
+    sort_fields = {
+        'id': 'id',
+        'customer': 'customer__name',
+        'agent': 'agent__username',
+        'status': 'status__name',
+        'total': 'total_amount',
+        'created_at': 'created_at',
+        'updated_at': 'updated_at',
+    }
+    sort_field = sort_fields.get(sort, 'created_at')
+    if dir == 'desc':
+        sort_field = '-' + sort_field
 
-    print(f"Orders QuerySet: {orders}")  # Debug output
-
+    orders = orders.order_by(sort_field)
     return render(request, 'orders/order_list.html', {'orders': orders})
 
 @login_required
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    return render(request, 'orders/order_detail.html', {'order': order})
+    order_history = OrderHistory.objects.filter(order=order).order_by('-timestamp')
+    return render(request, 'orders/order_detail.html', {
+        'order': order,
+        'order_history': order_history,
+    })
 
 @login_required
 def order_create(request):
@@ -85,13 +103,14 @@ def order_create(request):
     products = Product.objects.all()
     # ------------------------------------
 
-    return render(request, 'orders/order_create.html', {
+    return render(request, 'orders/order_form.html', {
         'form': form,
         'agents': agents,
         'customers': customers,
         'products': products,
         'statuses': statuses,
         'logged_in_agent': logged_in_agent,
+        'action': 'Add',
     })
 
 @login_required
@@ -149,13 +168,15 @@ def order_edit(request, order_id):
     else:
         form = OrderForm(instance=order)
 
-    return render(request, 'orders/order_edit.html', {
+    return render(request, 'orders/order_form.html', {
+        'form': form,
         'order': order,
         'agents': agents,
         'customers': customers,
-        'statuses': statuses,
         'products': products,
+        'statuses': statuses,
         'logged_in_agent': logged_in_agent,
+        'action': 'Edit',
     })
 
 @login_required

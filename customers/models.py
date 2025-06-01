@@ -8,6 +8,8 @@ class Customer(models.Model):
     barangay = models.ForeignKey(Barangay, on_delete=models.SET_NULL, null=True, related_name='customers')
     province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True, related_name='customers')
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, related_name='customers')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'customer'

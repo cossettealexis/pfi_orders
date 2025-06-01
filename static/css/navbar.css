@@ -1,0 +1,30 @@
+.main-navbar {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 10;
+}
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+.sidebar-toggle {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    margin-right: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.logout-link {
+    margin-left: auto;
+    color: #1E90FF;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
