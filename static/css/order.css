@@ -100,6 +100,9 @@ table tr:hover {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 .delete-button:hover {
     background-color: #c82333;
@@ -670,4 +673,31 @@ table td ul li {
 .history-empty {
     color: #888;
     font-style: italic;
+}
+
+/* Make table header links look like normal text */
+th a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: inherit;
+    cursor: pointer;
+}
+th a:hover {
+    text-decoration: underline;
+    color: #1E90FF;
+}
+.view-button,
+.edit-button,
+.delete-button {
+    padding: 10px 22px;
+    font-size: 1rem;
+    min-width: 50px;
+    border-radius: 5px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
 }

@@ -1,27 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}PFI{% endblock %}</title>
-    {% load static %}
-    <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     {% block css %}{% endblock %}
 </head>
-<body>
-    <div style="display: flex; min-height: 100vh;">
+<body class="bg-gray-100">
+    {% include 'navbar.html' %}
+    <div class="layout-container">
         {% include 'sidebar.html' %}
-        <div style="flex: 1;">
-            {% include 'navbar.html' %}
-            <div class="container">
+        <main class="main-content flex justify-center items-start mt-20">
+            <div class="w-full max-w-4xl rounded-lg bg-white shadow-lg p-6">
                 {% block content %}{% endblock %}
             </div>
-        </div>
+        </main>
+
     </div>
-    {% block js %}
     <script src="{% static 'js/sidebar.js' %}"></script>
-    <script src="{% static 'js/navbar.js' %}"></script>
-    {% endblock %}
+    {% block js %}{% endblock %}
 </body>
 </html>

@@ -23,8 +23,20 @@
     align-items: center;
 }
 .logout-link {
-    margin-left: auto;
+    padding: 8px 18px;
+    font-size: 1em;
+    border-radius: 6px;
+    background: #f7f9fb;
     color: #1E90FF;
     text-decoration: none;
-    font-size: 1.1rem;
+    border: none;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+    margin-left: 16px;
+    display: inline-block;
+}
+
+.logout-link:hover {
+    background: #e6f0fa;
+    color: #0d6efd;
 }

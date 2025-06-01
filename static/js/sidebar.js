@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('sidebar-toggle');
     const sidebar = document.getElementById('sidebar');
-    const toggle = document.getElementById('sidebar-toggle');
-    if (sidebar && toggle) {
-        toggle.addEventListener('click', function() {
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function() {
             sidebar.classList.toggle('collapsed');
         });
     }

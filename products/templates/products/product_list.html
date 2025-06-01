@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Product List{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="product-list-header flex flex-wrap items-center justify-between mb-4 gap-3">
+    <h2 class="text-2xl font-semibold text-gray-800">Product List</h2>
+    <a href="{% url 'product_add' %}" class="add-product-btn bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded shadow font-medium transition">+ Add Product</a>
+    <form method="GET" class="product-search-form flex items-center gap-2 ml-auto">
+        <input type="text" name="search" placeholder="Search by name or SKU" value="{{ request.GET.search }}" class="search-input border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <button type="submit" class="search-btn bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">Search</button>
+    </form>
+</div>
+<div class="product-list-card bg-white rounded-lg shadow p-4">
+    <table class="product-table w-full border-collapse">
+        <thead>
+            <tr class="bg-blue-500 text-white">
+                <th class="py-2 px-4 text-left">
+                    <a href="?sort=name&dir={% if request.GET.sort == 'name' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                        Name
+                        {% if request.GET.sort == 'name' %}
+                            {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th class="py-2 px-4 text-left">
+                    <a href="?sort=sku&dir={% if request.GET.sort == 'sku' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                        SKU
+                        {% if request.GET.sort == 'sku' %}
+                            {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th class="py-2 px-4 text-left">
+                    <a href="?sort=description&dir={% if request.GET.sort == 'description' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                        Description
+                        {% if request.GET.sort == 'description' %}
+                            {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th class="py-2 px-4 text-left">
+                    <a href="?sort=price&dir={% if request.GET.sort == 'price' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                        Price
+                        {% if request.GET.sort == 'price' %}
+                            {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th class="py-2 px-4 text-left">
+                    <a href="?sort=stock&dir={% if request.GET.sort == 'stock' and request.GET.dir == 'asc' %}desc{% else %}asc{% endif %}">
+                        Stock
+                        {% if request.GET.sort == 'stock' %}
+                            {% if request.GET.dir == 'asc' %}▲{% else %}▼{% endif %}
+                        {% endif %}
+                    </a>
+                </th>
+                <th class="py-2 px-4 text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr class="hover:bg-blue-50 transition">
+                <td class="py-2 px-4">{{ product.name }}</td>
+                <td class="py-2 px-4">{{ product.sku }}</td>
+                <td class="py-2 px-4">{{ product.description|truncatechars:60 }}</td>
+                <td class="py-2 px-4">₱{{ product.price }}</td>
+                <td class="py-2 px-4">{{ product.stock }}</td>
+                <td class="py-2 px-4 product-list-actions flex gap-2">
+                    <a href="{% url 'product_detail' product.pk %}" class="view-button bg-blue-400 hover:bg-blue-500 text-white px-3 py-1 rounded transition">View</a>
+                    <a href="{% url 'product_edit' product.pk %}" class="edit-button bg-yellow-400 hover:bg-yellow-500 text-black px-3 py-1 rounded transition">Edit</a>
+                    <form method="post" action="{% url 'product_delete' product.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center text-gray-400 py-6">No products found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

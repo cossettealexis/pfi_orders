@@ -1,9 +1,26 @@
 <aside id="sidebar" class="sidebar">
     <div class="sidebar-title">
-        <a href="{% url 'dashboard' %}">PFI</a>
     </div>
     <nav class="sidebar-nav">
-        <a href="{% url 'order_list' %}">Orders</a>
-        <a href="{% url 'customer_list' %}">Customers</a>
+        <!-- Order Management (STAFF, AGENT) -->
+        <a href="{% url 'order_list' %}" style="padding-left: 20px;">Orders</a>
+        <a href="{% url 'customer_list' %}" style="padding-left: 20px;">Customers</a>
+
+        <!-- Product Management (STAFF only) -->
+        {% if request.user.role == "STAFF" or request.user.role == "ADMIN" %}
+            <a href="{% url 'product_list' %}" style="padding-left: 20px;">Products</a>
+        {% endif %}
+
+        <!-- User Management (ADMIN only) -->
+        {% if request.user.role == "ADMIN" %}
+            <a href="{% url 'user_list' %}" style="padding-left: 20px;">Users</a>
+        {% endif %}
+
+        <!-- Data Management (ADMIN only) -->
+        {% comment %} {% if request.user.role == "ADMIN" %}
+            <a href="{% url 'region_list' %}" style="padding-left: 20px;">Regions</a>
+            <a href="{% url 'province_list' %}" style="padding-left: 20px;">Provinces</a>
+            <a href="{% url 'barangay_list' %}" style="padding-left: 20px;">Barangays</a>
+        {% endif %} {% endcomment %}
     </nav>
 </aside>

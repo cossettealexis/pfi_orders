@@ -63,6 +63,23 @@ def order_detail(request, order_id):
 @login_required
 def order_create(request):
     customer_id = request.GET.get('customer_id')
+
+    # --- Apply agent/staff logic here ---
+    if request.user.role == 'AGENT':
+        agents = User.objects.filter(id=request.user.id)
+        logged_in_agent = request.user
+        statuses = OrderStatus.objects.filter(name__in=['Pending', 'Cancelled'])
+        customers = Customer.objects.filter(region__in=request.user.regions.all())
+    else:
+        agents = User.objects.filter(role='AGENT')
+        logged_in_agent = None
+        statuses = OrderStatus.objects.all()
+        customers = Customer.objects.all()
+    products = Product.objects.all()
+    # ------------------------------------
+
+    role = get_user_role(request.user)
+
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
@@ -73,14 +90,39 @@ def order_create(request):
             product_ids = request.POST.get('products', '').split(',')
             quantities = request.POST.get('quantities', '').split(',')
             total = 0
+            errors = []
             for product_id, qty in zip(product_ids, quantities):
                 try:
                     product = Product.objects.get(id=product_id)
                     quantity = int(qty) if qty.isdigit() else 1
-                    OrderProduct.objects.create(order=order, product=product, quantity=quantity)
-                    total += product.price * quantity
+                    if quantity > product.stock:
+                        errors.append(f"Not enough stock for {product.name} (Available: {product.stock})")
                 except Product.DoesNotExist:
-                    print(f"Product with ID {product_id} does not exist.")
+                    errors.append(f"Product with ID {product_id} does not exist.")
+
+            if errors:
+                for error in errors:
+                    messages.error(request, error)
+                # Re-render the form with errors
+                return render(request, 'orders/order_form.html', {
+                    'form': form,
+                    'agents': agents,
+                    'customers': customers,
+                    'products': products,
+                    'statuses': statuses,
+                    'logged_in_agent': logged_in_agent,
+                    'action': 'Add' if request.method == 'POST' else 'Edit',
+                    'selected_customer_id': customer_id,
+                    'role': role,
+                })
+
+            # If no errors, proceed to create/update order and adjust stock
+            for product_id, qty in zip(product_ids, quantities):
+                product = Product.objects.get(id=product_id)
+                quantity = int(qty) if qty.isdigit() else 1
+                OrderProduct.objects.create(order=order, product=product, quantity=quantity)
+                product.stock -= quantity
+                product.save()
 
             order.total_amount = total
             order.save()
@@ -98,21 +140,6 @@ def order_create(request):
     else:
         form = OrderForm()
 
-    # --- Apply agent/staff logic here ---
-    if request.user.role == 'AGENT':
-        agents = User.objects.filter(id=request.user.id)
-        logged_in_agent = request.user
-        statuses = OrderStatus.objects.filter(name__in=['Pending', 'Cancelled'])
-        customers = Customer.objects.filter(region__in=request.user.regions.all())
-    else:
-        agents = User.objects.filter(role='AGENT')
-        logged_in_agent = None
-        statuses = OrderStatus.objects.all()
-        customers = Customer.objects.all()
-    products = Product.objects.all()
-    # ------------------------------------
-
-    role = get_user_role(request.user)
     return render(request, 'orders/order_form.html', {
         'form': form,
         'agents': agents,
@@ -201,23 +228,48 @@ def order_edit(request, order_id):
             product_ids = request.POST.get('products', '').split(',')
             quantities = request.POST.get('quantities', '').split(',')
 
-            # Remove existing order products
+            # Before removing existing order products in order_edit:
+            for op in order.order_products.all():
+                op.product.stock += op.quantity
+                op.product.save()
+
+            # Then remove and re-add as above, which will subtract the new quantities
             order.order_products.all().delete()
 
             total = 0
+            errors = []
             for product_id, qty in zip(product_ids, quantities):
-                if not product_id or not qty:
-                    continue
                 try:
                     product = Product.objects.get(id=product_id)
                     quantity = int(qty) if qty.isdigit() else 1
-                    OrderProduct.objects.create(order=order, product=product, quantity=quantity)
-                    total += product.price * quantity
+                    if quantity > product.stock:
+                        errors.append(f"Not enough stock for {product.name} (Available: {product.stock}, Requested: {quantity})")
                 except Product.DoesNotExist:
-                    continue
+                    errors.append(f"Product with ID {product_id} does not exist.")
 
-            order.total_amount = total
-            order.save()
+            if errors:
+                for error in errors:
+                    messages.error(request, error)
+                # Re-render the form with errors
+                return render(request, 'orders/order_form.html', {
+                    'form': form,
+                    'agents': agents,
+                    'customers': customers,
+                    'products': products,
+                    'statuses': statuses,
+                    'logged_in_agent': logged_in_agent,
+                    'action': 'Add' if request.method == 'POST' else 'Edit',
+                    'selected_customer_id': customer_id,
+                    'role': role,
+                })
+
+            # If no errors, proceed to create/update order and adjust stock
+            for product_id, qty in zip(product_ids, quantities):
+                product = Product.objects.get(id=product_id)
+                quantity = int(qty) if qty.isdigit() else 1
+                OrderProduct.objects.create(order=order, product=product, quantity=quantity)
+                product.stock -= quantity
+                product.save()
             # --- End handle products and quantities ---
 
             # Save history with details
