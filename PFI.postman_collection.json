@@ -70,7 +70,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"username\": \"cossette-admin\",\n  \"password\": \"Alliance@12345\"\n}",
+							"raw": "{\n  \"username\": \"cossette-admin\",\n  \"password\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
