@@ -73,7 +73,7 @@ python manage.py createsuperuser
 
 ---
 
-### 8. (Optional) Load Initial Data
+### 8. Load Initial Data
 
 ```sh
 python manage.py loaddata initial_data.json
