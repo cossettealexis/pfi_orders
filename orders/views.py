@@ -108,7 +108,9 @@ def order_create(request):
                     product = Product.objects.get(id=product_id)
                     quantity = int(qty) if qty.isdigit() else 1
                     if quantity > product.stock:
-                        errors.append(f"Not enough stock for {product.name} (Available: {product.stock})")
+                        errors.append(f"Not enough stock for {product.name} (Available: {product.stock}, Requested: {quantity})")
+                    else:
+                        total += product.price * quantity
                 except Product.DoesNotExist:
                     errors.append(f"Product with ID {product_id} does not exist.")
 
@@ -247,6 +249,8 @@ def order_edit(request, order_id):
                     quantity = int(qty) if qty.isdigit() else 1
                     if quantity > product.stock:
                         errors.append(f"Not enough stock for {product.name} (Available: {product.stock}, Requested: {quantity})")
+                    else:
+                        total += product.price * quantity
                 except Product.DoesNotExist:
                     errors.append(f"Product with ID {product_id} does not exist.")
 
@@ -272,6 +276,9 @@ def order_edit(request, order_id):
                 OrderProduct.objects.create(order=order, product=product, quantity=quantity)
                 product.stock -= quantity
                 product.save()
+
+            order.total_amount = total
+            order.save()
 
             OrderHistory.objects.create(
                 order=order,

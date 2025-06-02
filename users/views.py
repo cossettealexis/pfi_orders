@@ -36,6 +36,7 @@ def dashboard(request):
     """
     Display dashboard with order statistics based on user role.
     """
+    role = get_user_role(request.user)
     if request.user.role == "AGENT":
         orders = Order.objects.filter(agent=request.user)
     else:
@@ -84,7 +85,7 @@ def user_list(request):
         sort = 'username'
     if dir == 'desc':
         sort = '-' + sort
-    users = users.order_by('username')
+    users = users.order_by(sort)
 
     return render(request, 'users/user_list.html', {'users': users})
 

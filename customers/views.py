@@ -11,7 +11,12 @@ def customer_create(request):
     """
     Handle creation of a new customer.
     Supports redirecting to order creation/edit if coming from those flows.
+    Only users with permission can create.
     """
+    role = get_user_role(request.user)
+    if not role.can_add_edit_customer(None):
+        return redirect('customer_list')
+
     next_param = request.GET.get('next') or request.POST.get('next')
     if next_param == 'order_create':
         next_url = reverse('order_create')
@@ -73,8 +78,11 @@ def customer_edit(request, customer_id):
 def customer_list(request):
     """
     Display a list of customers, filtered by user role, search, and sorting.
+    Only users with permission can view.
     """
     role = get_user_role(request.user)
+    if not (role.can_view_all_customers() or role.can_view_customers()):
+        return redirect('dashboard')
     if role.can_view_all_customers():
         customers = Customer.objects.all()
     elif role.can_view_customers():
@@ -113,8 +121,12 @@ def customer_list(request):
 def customer_detail(request, pk):
     """
     Display the details of a specific customer.
+    Only users with permission can view.
     """
     customer = get_object_or_404(Customer, id=pk)
+    role = get_user_role(request.user)
+    if not (role.can_view_all_customers() or role.can_view_customers()):
+        return redirect('dashboard')
     return render(request, 'customers/customer_detail.html', {'customer': customer})
 
 @login_required

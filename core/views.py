@@ -3,6 +3,7 @@ from .models import Province, Barangay, Region
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import RegionForm, BarangayForm, ProvinceForm
+from users.roles import get_user_role
 
 def get_provinces(request):
     """
@@ -24,7 +25,11 @@ def get_barangays(request):
 def region_list(request):
     """
     Displays a list of regions, with optional sorting.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     sort = request.GET.get('sort', 'name')
     dir = request.GET.get('dir', 'asc')
     allowed_sorts = ['id', 'name', 'is_active']
@@ -38,7 +43,11 @@ def region_list(request):
 def region_add(request):
     """
     Handles creation of a new region.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     if request.method == 'POST':
         form = RegionForm(request.POST)
         if form.is_valid():
@@ -52,7 +61,11 @@ def region_add(request):
 def region_edit(request, pk):
     """
     Handles editing of an existing region.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     region = get_object_or_404(Region, pk=pk)
     if request.method == 'POST':
         form = RegionForm(request.POST, instance=region)
@@ -67,7 +80,11 @@ def region_edit(request, pk):
 def region_delete(request, pk):
     """
     Soft deletes a region by setting is_active to False.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     region = get_object_or_404(Region, pk=pk)
     if request.method == 'POST':
         region.is_active = False
@@ -78,7 +95,11 @@ def region_delete(request, pk):
 def barangay_list(request):
     """
     Displays a list of barangays, with optional sorting.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     sort = request.GET.get('sort', 'name')
     dir = request.GET.get('dir', 'asc')
     allowed_sorts = ['id', 'name', 'province__name', 'is_active']
@@ -92,7 +113,11 @@ def barangay_list(request):
 def barangay_add(request):
     """
     Handles creation of a new barangay.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     if request.method == 'POST':
         form = BarangayForm(request.POST)
         if form.is_valid():
@@ -106,7 +131,11 @@ def barangay_add(request):
 def barangay_edit(request, pk):
     """
     Handles editing of an existing barangay.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     barangay = get_object_or_404(Barangay, pk=pk)
     if request.method == 'POST':
         form = BarangayForm(request.POST, instance=barangay)
@@ -121,7 +150,11 @@ def barangay_edit(request, pk):
 def barangay_delete(request, pk):
     """
     Soft deletes a barangay by setting is_active to False.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     barangay = get_object_or_404(Barangay, pk=pk)
     if request.method == 'POST':
         barangay.is_active = False
@@ -132,7 +165,11 @@ def barangay_delete(request, pk):
 def province_list(request):
     """
     Displays a list of provinces, with optional sorting.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     sort = request.GET.get('sort', 'name')
     dir = request.GET.get('dir', 'asc')
     allowed_sorts = ['id', 'name', 'region__name', 'is_active']
@@ -146,7 +183,11 @@ def province_list(request):
 def province_add(request):
     """
     Handles creation of a new province.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     if request.method == 'POST':
         form = ProvinceForm(request.POST)
         if form.is_valid():
@@ -160,7 +201,11 @@ def province_add(request):
 def province_edit(request, pk):
     """
     Handles editing of an existing province.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     province = get_object_or_404(Province, pk=pk)
     if request.method == 'POST':
         form = ProvinceForm(request.POST, instance=province)
@@ -175,7 +220,11 @@ def province_edit(request, pk):
 def province_delete(request, pk):
     """
     Soft deletes a province by setting is_active to False.
+    Only staff and admin can access.
     """
+    role = get_user_role(request.user)
+    if not (role and (request.user.role == "STAFF" or request.user.role == "ADMIN" or request.user.is_superuser)):
+        return redirect('dashboard')
     province = get_object_or_404(Province, pk=pk)
     if request.method == 'POST':
         province.is_active = False
