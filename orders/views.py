@@ -309,7 +309,6 @@ def order_delete(request, order_id):
     Handle deletion of an order.
     """
     order = get_object_or_404(Order, id=order_id)
-    # You may want to add a permission check here using role.can_edit_cancel_order(order)
     if request.method == 'POST':
         order.delete()
         return redirect('order_list')
